@@ -9,6 +9,12 @@ use the docker: https://github.com/Dfam-consortium/TETools
 BuildDatabase -name Cleaner_wrasse jordan-the2300-mb-hirise-ht8d1__08-26-2021__hic_output.fasta
 nohup RepeatModeler -database Cleaner_wrasse -pa 20 -LTRStruct >& RepeatModeler.run.out &
 ```
+**RepeatModeler output:**  
+temporary files: RM_16.WedSep11334412021/  
+After the successful completion of run, two files are generated:  
+Cleaner_wrasse-families.fa   # consensus sequences  of Transposable Elements (TEs) familes
+Cleaner_wrasse-families.stk # Seed alignment
+***
 3. Run RepeatMasker  
 ```bash
 RepeatMasker -lib Cleaner_wrasse-families.fa jordan-the2300-mb-hirise-ht8d1__08-26-2021__hic_output.fasta
