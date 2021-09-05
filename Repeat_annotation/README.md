@@ -17,5 +17,5 @@ Cleaner_wrasse-families.stk # Seed alignment
 ***
 3. Run RepeatMasker  
 ```bash
-RepeatMasker -lib Cleaner_wrasse-families.fa jordan-the2300-mb-hirise-ht8d1__08-26-2021__hic_output.fasta
+RepeatMasker -lib Cleaner_wrasse-families.fa -pa 20 jordan-the2300-mb-hirise-ht8d1__08-26-2021__hic_output.fasta
 ```
