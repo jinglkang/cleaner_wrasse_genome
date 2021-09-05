@@ -10,4 +10,4 @@
 **purged.fa**                   # 256 scaffolds  
 
 ## Final scaffolded fasta file
-**jordan-the2300-mb-hirise-ht8d1__08-26-2021__hic_output.fasta**          # 57 scaffolds  
+**jordan-the2300-mb-hirise-ht8d1__08-26-2021__hic_output.fasta**          # 57 scaffolds ; about 723 M (23,649,530 bp)
