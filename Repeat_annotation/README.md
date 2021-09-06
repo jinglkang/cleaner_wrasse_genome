@@ -22,7 +22,7 @@ RepeatMasker -lib Cleaner_wrasse-families.fa -pa 20 jordan-the2300-mb-hirise-ht8
 ```
 results: ~/genome/Repeat_annotation  
 Cleaner_wrasse_hardmasked.fasta; Cleaner_wrasse_hardmasked.fasta.out; Cleaner_wrasse_hardmasked.fasta.tbl  
-#### 3.2 soft mask: -lcambig
+#### 3.2 Soft mask: -lcambig
 Outputs ambiguous DNA transposon fragments using a lower case name. All other repeats are listed in upper case. Ambiguous fragments  match multiple repeat elements and can only be called based on flanking repeat information.  
 ```bash
 RepeatMasker -lib Cleaner_wrasse-families.fa -lcambig  -pa 20 jordan-the2300-mb-hirise-ht8d1__08-26-2021__hic_output.fasta
