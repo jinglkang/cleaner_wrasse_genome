@@ -2,8 +2,8 @@ Repeat_Annotation
 -----------------
 use the docker: https://github.com/Dfam-consortium/TETools  
 ## RepeatModeler
-1. create a database for RepeatModeler  
-2. Run RepeatModeler  
+### 1. create a database for RepeatModeler  
+### 2. Run RepeatModeler  
 ```bash
 ./dfam-tetools.sh 
 BuildDatabase -name Cleaner_wrasse jordan-the2300-mb-hirise-ht8d1__08-26-2021__hic_output.fasta
@@ -15,7 +15,15 @@ After the successful completion of run, two files are generated:
 Cleaner_wrasse-families.fa   # consensus sequences  of  Elements (TEs) familes  
 Cleaner_wrasse-families.stk # Seed alignment
 ***
-3. Run RepeatMasker  
+### 3. Run RepeatMasker 
+#### 3.1 Hard mask: replace a repeat to an "N" 
 ```bash
 RepeatMasker -lib Cleaner_wrasse-families.fa -pa 20 jordan-the2300-mb-hirise-ht8d1__08-26-2021__hic_output.fasta
+```
+results: ~/genome/Repeat_annotation  
+Cleaner_wrasse_hardmasked.fasta; Cleaner_wrasse_hardmasked.fasta.out; Cleaner_wrasse_hardmasked.fasta.tbl  
+#### 3.2 soft mask: -lcambig
+Outputs ambiguous DNA transposon fragments using a lower case name. All other repeats are listed in upper case. Ambiguous fragments  match multiple repeat elements and can only be called based on flanking repeat information.  
+```bash
+RepeatMasker -lib Cleaner_wrasse-families.fa -lcambig  -pa 20 jordan-the2300-mb-hirise-ht8d1__08-26-2021__hic_output.fasta
 ```
