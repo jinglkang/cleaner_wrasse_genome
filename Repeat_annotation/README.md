@@ -34,7 +34,9 @@ The summary file: Cleaner_wrasse_masked.fasta.tbl
 ```bash
 rmOutToGFF3.pl Cleaner_wrasse_masked.fasta.out >Cleaner_wrasse_masked.fasta.out.gff3
 ```
+result: Cleaner_wrasse_masked.fasta.out.gff3  
 #### 3.5 Build detailed summary of RepeatMasker with output
 ```bash
 buildSummary.pl -genome jordan-the2300-mb-hirise-ht8d1__08-26-2021__hic_output.fasta.fai.tsv -useAbsoluteGenomeSize Cleaner_wrasse_masked.fasta.out >Cleaner_wrasse_masked.out.detailed
 ```
+result: Cleaner_wrasse_masked.out.detailed  
