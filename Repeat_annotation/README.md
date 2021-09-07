@@ -30,3 +30,7 @@ result: ~/genome/Repeat_annotation/Cleaner_wrasse_softmasked.fasta
 #### 3.3 The other output
 The annotation file: Cleaner_wrasse_masked.fasta.out  
 The summary file: Cleaner_wrasse_masked.fasta.tbl  
+#### 3.4 convert RepeatMasker output to gff3 format
+```bash
+rmOutToGFF3.pl Cleaner_wrasse_masked.fasta.out >Cleaner_wrasse_masked.fasta.out.gff3
+```
