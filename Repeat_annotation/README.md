@@ -20,10 +20,13 @@ Cleaner_wrasse-families.stk # Seed alignment
 ```bash
 RepeatMasker -lib Cleaner_wrasse-families.fa -pa 20 jordan-the2300-mb-hirise-ht8d1__08-26-2021__hic_output.fasta
 ```
-results: ~/genome/Repeat_annotation  
-Cleaner_wrasse_hardmasked.fasta; Cleaner_wrasse_hardmasked.fasta.out; Cleaner_wrasse_hardmasked.fasta.tbl  
+results: ~/genome/Repeat_annotation/Cleaner_wrasse_hardmasked.fasta    
 #### 3.2 Soft mask: -lcambig
 Outputs ambiguous DNA transposon fragments using a lower case name. All other repeats are listed in upper case. Ambiguous fragments  match multiple repeat elements and can only be called based on flanking repeat information.  
-```bash
+```
 RepeatMasker -lib Cleaner_wrasse-families.fa -pa 20 -xsmall jordan-the2300-mb-hirise-ht8d1__08-26-2021__hic_output.fasta
 ```
+result: ~/genome/Repeat_annotation/Cleaner_wrasse_softmasked.fasta  
+#### 3.3 The other output
+The annotation file: Cleaner_wrasse_masked.fasta.out  
+The summary file: Cleaner_wrasse_masked.fasta.tbl  
