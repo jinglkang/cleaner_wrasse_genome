@@ -9,7 +9,7 @@ hisat2-build -f Cleaner_wrasse_hardmasked_ChaHeader.fasta Cleaner_wrasse
 ### b. Align RNA-seq to genome (~/genome/Gene_annotation/RNA-seq)
 ```bash
 mkdir RNA-align
-
+perl Hisat2_align_bam.pl
 ```
 
 ***
