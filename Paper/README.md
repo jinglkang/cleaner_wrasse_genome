@@ -7,8 +7,8 @@ Welcome to UPLOAD to this directory!
 ### 1. Species in Labridae which have genome
 |**Species**|**Cleaner_behavior_category**|**Lineage**|
 |:---:|:---:|:---:|
-|*Symphodus melops* (corkwing wrasse)|<small>Facultative Cleaner|Eupercaria; Labriformes; Labridae; Symphodus; Symphodus melops</small>|
-|*Labrus bergylta* (ballan wrasse)|Facultative Cleaner|Eupercaria; Labriformes; Labridae; Labrus; Labrus bergylta|
+|*<mark>Symphodus melops<mark>* (corkwing wrasse)|Facultative Cleaner|Eupercaria; Labriformes; Labridae; Symphodus; Symphodus melops|
+|*Labrus bergylta* (ballan wrasse)|Facultative Cleaner|Eupercaria; Labriformes; Labridae; Labrus; *Labrus bergylta*|
 |*Thalassoma bifasciatum* (bluehead)|Juvenile Cleaner|Eupercaria; Labriformes; Labridae; Thalassoma; Thalassoma bifasciatum|
 |*Cheilinus undulatus* (humphead wrasse)||Eupercaria; Labriformes; Labridae; Cheilinus; Cheilinus undulatus|
 |*Notolabrus celidotus* (New Zealand spotty)||Eupercaria; Labriformes; Labridae; Notolabrus; Notolabrus celidotus|
