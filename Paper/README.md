@@ -14,7 +14,7 @@ Interesting Paper will be showed here
 |*Notolabrus celidotus* (New Zealand spotty)||Notolabrus; *Notolabrus celidotus*|
 |*Labroides dimidiatus* (bluestreak cleaner wrasse)|Obligate Cleaner|Labroides; *Labroides dimidiatus*|
 *********************
-### 2. Species as the outgroup (other familly)
+### 2. Species as the outgroup (other familly) having a genome
 **Vertebrata; Euteleostomi; Actinopterygii; Neopterygii; Teleostei; Neoteleostei; Acanthomorphata;**
 |**Species**|**Cleaner_behavior_category**|**Lineage**|
 |:---:|:---:|:---:|
