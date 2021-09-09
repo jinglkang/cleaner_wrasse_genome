@@ -1,6 +1,5 @@
 Gene_annotation
 ---------------
-# BRAKER
 ## 1. Mapping RNA-seq data to hardmasked genome fasta (Cleaner_wrasse_hardmasked_ChaHeader.fasta)
 ### a. Build the index of reference genome (~/genome/Gene_annotation/)
 ```bash
@@ -25,8 +24,12 @@ working directory:  ~/genome/Gene_annotation
 --outfile=./GenePrediction_Augustus_Cleaner_wrasse.gff3 \
 Cleaner_wrasse_hardmasked_ChaHeader.fasta
 ```
+***
+# BRAKER
 ## 1. genome file only
 --esmode: In this mode, run GeneMark-ES (genome sequence only) and train AUGUSTUS on long genes predicted by GeneMark-ES. Final predictions are ab initio.  
 ```bash
 braker.pl --softmasking --species Labroides_dimidiatus --esmode --cores 20 --genome=Cleaner_wrasse_softmasked_ChaHeader.fasta
 ```
+## 2. Using OrthoDB as basis for protein.fa
+prepare the input OrthoDB proteins  
