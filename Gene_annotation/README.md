@@ -27,6 +27,7 @@ Cleaner_wrasse_hardmasked_ChaHeader.fasta
 ***
 # BRAKER
 ## 1. genome file only
+### run BRAKER first time
 --esmode: In this mode, run GeneMark-ES (genome sequence only) and train AUGUSTUS on long genes predicted by GeneMark-ES. Final predictions are ab initio.  
 ```bash
 braker.pl --softmasking --species Labroides_dimidiatus --esmode --cores 20 --genome=Cleaner_wrasse_softmasked_ChaHeader.fasta
@@ -39,6 +40,7 @@ braker.pl --softmasking --species Labroides_dimidiatus --esmode --cores 20 --gen
 |braker.gtf|The union of augustus.ab_initio.gtf and genemark.gtf|
 ***
 ## 2. Using OrthoDB as basis for protein.fa to predict genes
+### run BRAKER second time
 ### prepare the input OrthoDB proteins  
 **download Vertebrata proteins**: ~/genome/Gene_annotation  
 ```bash
@@ -48,4 +50,13 @@ wget https://v100.orthodb.org/download/odb10_vertebrata_fasta.tar.gz
 tar xvf odb10_vertebrata_fasta.tar.gz
 cat vertebrate/Rawdata/* >proteins.fasta
 ```
-### run BRAKER second time
+### run BRAKER
+```bash
+braker.pl --softmasking --AUGUSTUS_ab_initio --makehub --gff3 \
+--species Labroides_dimidiatus_2 \
+--cores 20 \
+--genome=Cleaner_wrasse_softmasked_ChaHeader.fasta \
+--prot_seq=OrthoDB_Vertebrata/proteins.fasta 
+--workingdir ./braker_2 
+--email jlkang@hku.hk
+```
