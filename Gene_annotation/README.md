@@ -38,8 +38,8 @@ braker.pl --softmasking --species Labroides_dimidiatus --esmode --cores 20 --gen
 |GeneMark-ES/genemark.gtf|Genes predicted by GeneMark-EX predictions|
 |braker.gtf|The union of augustus.ab_initio.gtf and genemark.gtf|
 ***
-## 2. Using OrthoDB as basis for protein.fa
-prepare the input OrthoDB proteins  
+## 2. Using OrthoDB as basis for protein.fa to predict genes
+### prepare the input OrthoDB proteins  
 **download Vertebrata proteins**: ~/genome/Gene_annotation  
 ```bash
 mkdir OrthoDB_Vertebrata
@@ -48,3 +48,4 @@ wget https://v100.orthodb.org/download/odb10_vertebrata_fasta.tar.gz
 tar xvf odb10_vertebrata_fasta.tar.gz
 cat vertebrate/Rawdata/* >proteins.fasta
 ```
+### run BRAKER second time
