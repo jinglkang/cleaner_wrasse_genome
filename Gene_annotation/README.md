@@ -58,8 +58,8 @@ braker.pl --softmasking --AUGUSTUS_ab_initio --makehub --gff3 \
 --species Labroides_dimidiatus_2 \
 --cores 20 \
 --genome=Cleaner_wrasse_softmasked_ChaHeader.fasta \
---prot_seq=OrthoDB_Vertebrata/proteins.fasta 
---workingdir ./braker_2 
+--prot_seq=OrthoDB_Vertebrata/proteins.fasta\
+--workingdir ./braker_2\
 --email jlkang@hku.hk
 ```
 **Result files:** ~/genome/Gene_annotation/braker_2  
