@@ -9,7 +9,9 @@ hisat2-build -f Cleaner_wrasse_hardmasked_ChaHeader.fasta Cleaner_wrasse
 ```bash
 mkdir RNA-align
 perl Hisat2_align_bam.pl
+for txt in *.txt;do echo -e "$txt\c"; grep 'overall alignment rate' $txt|perl -alne 'print "\t$F[0]"';done >RNA_overall_align_rate.txt
 ```
+**Overall alignment rate**: RNA_overall_align_rate.txt (mean rate: 77.14%)
 ***
 ## 2. ab-initio gene pridiction
 ### 2.1 Augustus
