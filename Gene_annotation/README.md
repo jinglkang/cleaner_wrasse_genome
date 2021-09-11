@@ -60,3 +60,8 @@ braker.pl --softmasking --AUGUSTUS_ab_initio --makehub --gff3 \
 --workingdir ./braker_2 
 --email jlkang@hku.hk
 ```
+**Result files:** ~/genome/Gene_annotation/braker_2  
+***
+## 3. Using RNA-seq data to predict genes
+### run BRAKER third time
+
