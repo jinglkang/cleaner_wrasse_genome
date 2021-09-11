@@ -88,4 +88,3 @@ LD8MB.txt	76.97%
 LD9FB.txt	76.30%
 LD9HB.txt	76.92%
 LD9MB.txt	81.35%
-RNA_overall_align_rate.txt
