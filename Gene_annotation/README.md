@@ -66,4 +66,13 @@ braker.pl --softmasking --AUGUSTUS_ab_initio --makehub --gff3 \
 ***
 ## 3. Using RNA-seq data to predict genes
 ### run BRAKER third time
-
+```bash
+braker.pl --softmasking --AUGUSTUS_ab_initio --makehub --gff3 \
+--UTR=on \
+--species Labroides_dimidiatus_3 \
+--cores 20 \
+--bam=LD10FB.sorted.bam,LD10HB.sorted.bam,LD10MB.sorted.bam,LD11FB.sorted.bam,LD11HB.sorted.bam,LD11MB.sorted.bam,LD12FB.sorted.bam,LD12HB.sorted.bam,LD12MB.sorted.bam,LD13FB.sorted.bam,LD13HB.sorted.bam,LD13MB.sorted.bam,LD14FB.sorted.bam,LD14HB.sorted.bam,LD14MB.sorted.bam,LD15FB.sorted.bam,LD15HB.sorted.bam,LD15MB.sorted.bam,LD16FB.sorted.bam,LD16HB.sorted.bam,LD16MB.sorted.bam,LD17FB.sorted.bam,LD17HB.sorted.bam,LD17MB.sorted.bam,LD18FB.sorted.bam,LD18HB.sorted.bam,LD18MB.sorted.bam,LD19FB.sorted.bam,LD19HB.sorted.bam,LD19MB.sorted.bam,LD1FB.sorted.bam,LD1HB.sorted.bam,LD1MB.sorted.bam,LD20FB.sorted.bam,LD20HB.sorted.bam,LD20MB.sorted.bam,LD21FB.sorted.bam,LD21HB.sorted.bam,LD21MB.sorted.bam,LD22FB.sorted.bam,LD22HB.sorted.bam,LD22MB.sorted.bam,LD23FB.sorted.bam,LD23HB.sorted.bam,LD23MB.sorted.bam,LD24FB.sorted.bam,LD24HB.sorted.bam,LD24MB.sorted.bam,LD25FB.sorted.bam,LD25HB.sorted.bam,LD25MB.sorted.bam,LD26FB.sorted.bam,LD26HB.sorted.bam,LD26MB.sorted.bam,LD27FB.sorted.bam,LD27HB.sorted.bam,LD27MB.sorted.bam,LD28FB.sorted.bam,LD28HB.sorted.bam,LD28MB.sorted.bam,LD29FB.sorted.bam,LD29HB.sorted.bam,LD29MB.sorted.bam,LD2FB.sorted.bam,LD2HB.sorted.bam,LD2MB.sorted.bam,LD30FB.sorted.bam,LD30HB.sorted.bam,LD30MB.sorted.bam,LD3FB.sorted.bam,LD3HB.sorted.bam,LD3MB.sorted.bam,LD4FB.sorted.bam,LD4HB.sorted.bam,LD4MB.sorted.bam,LD5FB.sorted.bam,LD5HB.sorted.bam,LD5MB.sorted.bam,LD6FB.sorted.bam,LD6HB.sorted.bam,LD6MB.sorted.bam,LD7FB.sorted.bam,LD7HB.sorted.bam,LD7MB.sorted.bam,LD8FB.sorted.bam,LD8HB.sorted.bam,LD8MB.sorted.bam,LD9FB.sorted.bam,LD9HB.sorted.bam,LD9MB.sorted.bam \
+--genome=Cleaner_wrasse_softmasked_ChaHeader.fasta \
+--workingdir ./braker_3 \
+--email jlkang@hku.hk
+```
