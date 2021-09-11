@@ -1,0 +1,6 @@
+hub hub_Lab
+shortLabel hub_Lab
+longLabel Labroides_dimidiatus_2
+genomesFile genomes.txt
+email jlkang@hku.hk
+descriptionUrl aboutHub.html
