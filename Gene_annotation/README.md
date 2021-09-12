@@ -63,7 +63,14 @@ braker.pl --softmasking --AUGUSTUS_ab_initio --makehub --gff3 \
 --workingdir ./braker_2\
 --email jlkang@hku.hk
 ```
-**Result files:** ~/genome/Gene_annotation/braker_2  
+**Result files:** ~/genome/Gene_annotation/braker_2   
+|**File Name**|**Gene Nub**|
+|:---:|:---:|
+|augustus.ab_initio.gtf; augustus.ab_initio.aa; augustus.ab_initio.codingseq|38521|
+|augustus.hints.aa; augustus.hints.codingseq|39671|
+|augustus.hints.gtf; braker.gtf|37023|
+|GeneMark-EP/genemark.gtf|39159|
+|GeneMark-ES/genemark.gtf|40061|
 ***
 ## 3. Using RNA-seq data to predict genes
 ### run BRAKER third time
