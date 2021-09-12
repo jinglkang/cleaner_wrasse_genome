@@ -26,6 +26,7 @@ working directory:  ~/genome/Gene_annotation
 --outfile=./GenePrediction_Augustus_Cleaner_wrasse.gff3 \
 Cleaner_wrasse_hardmasked_ChaHeader.fasta
 ```
+**Result**: GenePrediction_Augustus_Cleaner_wrasse.gff3  
 ***
 # BRAKER
 ## 1. genome file only
