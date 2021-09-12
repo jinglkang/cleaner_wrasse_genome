@@ -76,3 +76,7 @@ braker.pl --softmasking --AUGUSTUS_ab_initio --makehub --gff3 \
 --workingdir ./braker_3 \
 --email jlkang@hku.hk
 ```
+**error in the running of bin2hint2: core dumped** (because i installed Augustus twice time (whole SNORLAX and my own account))
+replace "/home/kang1234/software/Augustus/bin/bam2hints" to "usr/bin/bam2hint2"
+in "**~/.bashrc**" 
+"**export AUGUSTUS_BIN_PATH=/home/kang1234/software/Augustus/bin/**" change to "**export AUGUSTUS_BIN_PATH=/usr/bin**"  
