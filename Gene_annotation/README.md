@@ -77,14 +77,14 @@ braker.pl --softmasking --AUGUSTUS_ab_initio --makehub --gff3 \
 --workingdir ./braker_3 \
 --email jlkang@hku.hk
 ```
-**error in the running of bin2hint2: core dumped** 
+**error1:** in the running of bin2hint2: core dumped 
 (because i installed Augustus twice time (whole SNORLAX and my own account))  
 replace "/home/kang1234/software/Augustus/bin/bam2hints" to "usr/bin/bam2hint2"  
 in "**~/.bashrc**"  
 **export AUGUSTUS_BIN_PATH=/home/kang1234/software/Augustus/bin/** change to 
 **export AUGUSTUS_BIN_PATH=/usr/bin**
 
-**error before training AUGUSTUS**
+**error2** before training AUGUSTUS
 change the AUGUSTUS_BIN_PATH to "export AUGUSTUS_BIN_PATH=/home/kang1234/software/Augustus/bin/"  
 ```bash
 braker.pl --softmasking --AUGUSTUS_ab_initio --makehub --gff3 \
@@ -98,3 +98,5 @@ braker.pl --softmasking --AUGUSTUS_ab_initio --makehub --gff3 \
 --hints ~/genome/Gene_annotation/braker_3/hintsfile.gff \
 --geneMarkGtf ~/genome/Gene_annotation/braker_3/GeneMark-ET/genemark.gtf
 ```
+**How to fix error1 and error2**  
+copy the **bam2hint** in "/usr/bin" to "/home/kang1234/software/Augustus/bin/"  
