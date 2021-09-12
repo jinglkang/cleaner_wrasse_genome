@@ -36,11 +36,14 @@ Cleaner_wrasse_hardmasked_ChaHeader.fasta
 braker.pl --softmasking --species Labroides_dimidiatus --esmode --cores 20 --genome=Cleaner_wrasse_softmasked_ChaHeader.fasta
 ```
 **Result files:**~/genome/Gene_annotation/braker  
-|**File Name**|**File Description**|
-|:---:|:---:|
-|augustus.ab_initio.gtf|Genes predicted by Augustus in *ab initio* mode in gtf-format (--esmode or --AUGUSTUS_ab_initio)|
-|GeneMark-ES/genemark.gtf|Genes predicted by GeneMark-EX predictions|
-|braker.gtf|The union of augustus.ab_initio.gtf and genemark.gtf|
+```bash
+less braker.gtf|perl -alne 'print $F[-1] if $F[2] eq "gene" && $F[1] eq "AUGUSTUS"; if ($F[2] eq "gene" && $F[1] eq "GeneMark.hmm3"){($ge)=$_=~/gene_id\s+\"(.*?)\"/;print $ge}'|sort -u|wc -l
+```
+|**File Name**|**File Description**|**Gene Nb**|
+|:---:|:---:|:---:|
+|augustus.ab_initio.gtf|Genes predicted by Augustus in *ab initio* mode in gtf-format (--esmode or --AUGUSTUS_ab_initio)|36730|
+|GeneMark-ES/genemark.gtf|Genes predicted by GeneMark-EX predictions|40061|
+|braker.gtf|The union of augustus.ab_initio.gtf and genemark.gtf|70575 (AUGUSTUS: 36730; GeneMark.hmm3: 33845)|
 ***
 ## 2. Using OrthoDB as basis for protein.fa to predict genes
 ### run BRAKER second time
