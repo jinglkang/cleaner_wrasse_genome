@@ -136,6 +136,7 @@ braker.pl --softmasking --AUGUSTUS_ab_initio --makehub --gff3 \
 --species Labroides_dimidiatus_5 \
 --cores 20 \
 --bam=RNA-seq/RNA-align/LD10FB.sorted.bam,RNA-seq/RNA-align/LD10HB.sorted.bam \
+--genome=Cleaner_wrasse_softmasked_ChaHeader.fasta \
 --workingdir ./braker_5 \
 --verbosity=4 \
 --email jlkang@hku.hk
