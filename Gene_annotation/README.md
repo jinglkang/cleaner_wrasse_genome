@@ -137,7 +137,7 @@ braker.pl --softmasking --AUGUSTUS_ab_initio --makehub --gff3 \
 --cores 20 \
 --bam=RNA-seq/RNA-align/LD10FB.sorted.bam,RNA-seq/RNA-align/LD10HB.sorted.bam \
 --workingdir ./braker_5 \
---verbsity=4 \
+--verbosity=4 \
 --email jlkang@hku.hk
 ```
 
