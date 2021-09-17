@@ -127,4 +127,6 @@ detail error parts occured in **samtools sort**:
 [bam_sort_core] merging from 2622 files and 19 in-memory blocks...  
 [E::hts_open_format] Failed to open file /home/kang1234/genome/Gene_annotation/braker_4/merged.s.bam.tmp.1020.bam  
 samtools sort: fail to open "/home/kang1234/genome/Gene_annotation/braker_4/merged.s.bam.tmp.1020.bam": Too many open files  
+**solved**: with -m 2G when run **samtoos sort** 
+
 
