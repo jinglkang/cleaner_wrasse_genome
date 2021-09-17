@@ -129,4 +129,17 @@ detail error parts occured in **samtools sort**:
 samtools sort: fail to open "/home/kang1234/genome/Gene_annotation/braker_4/merged.s.bam.tmp.1020.bam": Too many open files  
 **solved**: with -m 2G when run **samtoos sort** 
 
+**Run with only two bam files to get the command for the continue of last running in braker_4  
+```bash
+braker.pl --softmasking --AUGUSTUS_ab_initio --makehub --gff3 \
+--UTR=on \
+--species Labroides_dimidiatus_5 \
+--cores 20 \
+--bam=RNA-seq/RNA-align/LD10FB.sorted.bam,RNA-seq/RNA-align/LD10HB.sorted.bam \
+--workingdir ./braker_5 \
+--verbsity=4
+--email jlkang@hku.hk
+```
+
+
 
