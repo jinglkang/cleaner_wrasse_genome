@@ -111,7 +111,9 @@ braker.pl --softmasking --AUGUSTUS_ab_initio --makehub --gff3 \
 **How to fix error1 and error2**  
 copy the **bam2hint** in "/usr/bin" to "/home/kang1234/software/Augustus/bin/"  
 
-**error3**: samtools sort  
+**error3**: already finish **PROCESSING HINTS**; **RUNNING GENEMARK-EX**; **TRAIN AUGUSTUS**; **PREDICTING GENES WITH AUGUSTUS (NO UTRS)**    
+error in  **TRAINING AUGUSTUS UTR PARAMETERS** (already finish **gushr.py**; **gff2gbSmallDNA.pl**; **bamtools merge**)  
+detail error parts occured in **samtools sort**:
 [bam_sort_core] merging from 2622 files and 19 in-memory blocks...  
 [E::hts_open_format] Failed to open file /home/kang1234/genome/Gene_annotation/braker_4/merged.s.bam.tmp.1020.bam  
 samtools sort: fail to open "/home/kang1234/genome/Gene_annotation/braker_4/merged.s.bam.tmp.1020.bam": Too many open files  
