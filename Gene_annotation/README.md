@@ -93,7 +93,7 @@ replace "/home/kang1234/software/Augustus/bin/bam2hints" to "usr/bin/bam2hint2"
 in "**~/.bashrc**"  
 **export AUGUSTUS_BIN_PATH=/home/kang1234/software/Augustus/bin/** change to 
 **export AUGUSTUS_BIN_PATH=/usr/bin**
-
+***
 **error2** before training AUGUSTUS
 change the AUGUSTUS_BIN_PATH to "export AUGUSTUS_BIN_PATH=/home/kang1234/software/Augustus/bin/"  
 ```bash
@@ -110,7 +110,7 @@ braker.pl --softmasking --AUGUSTUS_ab_initio --makehub --gff3 \
 ```
 **How to fix error1 and error2**  
 copy the **bam2hint** in "/usr/bin" to "/home/kang1234/software/Augustus/bin/"  
-
+***
 ```bash
 braker.pl --softmasking --AUGUSTUS_ab_initio --makehub --gff3 \
 --UTR=on \
@@ -128,7 +128,7 @@ detail error parts occured in **samtools sort**:
 [E::hts_open_format] Failed to open file /home/kang1234/genome/Gene_annotation/braker_4/merged.s.bam.tmp.1020.bam  
 samtools sort: fail to open "/home/kang1234/genome/Gene_annotation/braker_4/merged.s.bam.tmp.1020.bam": Too many open files  
 **solved**: with -m 2G when run **samtoos sort** 
-
+***
 **Run with only two bam files to get the command for the continue of last running in braker_4  
 ```bash
 braker.pl --softmasking --AUGUSTUS_ab_initio --makehub --gff3 \
@@ -147,8 +147,16 @@ ERROR in file /home/kang1234/software/BRAKER/scripts/braker.pl at line 11504
 Failed to execute: /home/kang1234/software/miniconda3/bin/python3 /home/kang1234/software/MakeHub/make_hub.py -g /home/kang1234/genome/Gene_annotation/braker_5/genome.fa -e jlkang@hku.hk -l hub_Lab -L Labroides_dimidiatus_5 -X /home/kang1234/genome/Gene_annotation/braker_5 -P  > /home/kang1234/genome/Gene_annotation/braker_5/makehub.log 2> /home/kang1234/genome/Gene_annotation/braker_5/errors/makehub.err  
 continue running in the command:  
 ```bash
-# (base) kang1234@celia-PowerEdge-T640 Mon Sep 20 09:08:34 ~/genome/Gene_annotation/braker_5
+# (base) kang1234@celia-PowerEdge-T640 Mon Sep 20 09:08:34 ~/genome/Gene_annotation/braker_5
 $/home/kang1234/software/miniconda3/bin/python3 /home/kang1234/software/MakeHub/make_hub.py -g /home/kang1234/genome/Gene_annotation/braker_5/genome.fa -e jlkang@hku.hk -l hub_Lab -L Labroides_dimidiatus_5 -X /home/kang1234/genome/Gene_annotation/braker_5 -P  > /home/kang1234/genome/Gene_annotation/braker_5/makehub.log 2> /home/kang1234/genome/Gene_annotation/braker_5/errors/makehub.err
-
+# (base) kang1234@celia-PowerEdge-T640 Mon Sep 20 10:25:52 ~/genome/Gene_annotation
+$perl clean_up.pl --softmasking --AUGUSTUS_ab_initio --makehub --gff3 --UTR=on --species Labroides_dimidiatus_5 --cores 20 --bam=RNA-seq/RNA-align/LD10FB.sorted.bam,RNA-seq/RNA-align/LD10HB.sorted.bam --workingdir ./braker_5 --verbosity=4 --email jlkang@hku.hk
 ```
-
+**FINISH**
+***
+**Continue the running of braker_4**  
+**The LAST finished running is**   
+"samtools sort": add "-m 2G" in the running command  
+```bash
+/usr/bin/samtools sort -@ 19 -m 2G -o /home/kang1234/genome/Gene_annotation/braker_4/merged.s.bam /home/kang1234/genome/Gene_annotation/braker_4/merged.bam 1> /home/kang1234/genome/Gene_annotation/braker_4/samtools_sort_before_wig.stdout 2> /home/kang1234/genome/Gene_annotation/braker_4/errors/samtools_sort_before_wig.stderr
+```
