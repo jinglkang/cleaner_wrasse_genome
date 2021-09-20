@@ -164,3 +164,5 @@ $perl clean_up.pl --softmasking --AUGUSTUS_ab_initio --makehub --gff3 --UTR=on -
 ```bash
 less braker.log |perl -alne 'print unless /^#\s+.*2021.*/'|less
 ```
+delete the command that have already been finished in braker_4  
+
