@@ -160,3 +160,7 @@ $perl clean_up.pl --softmasking --AUGUSTUS_ab_initio --makehub --gff3 --UTR=on -
 ```bash
 /usr/bin/samtools sort -@ 19 -m 2G -o /home/kang1234/genome/Gene_annotation/braker_4/merged.s.bam /home/kang1234/genome/Gene_annotation/braker_4/merged.bam 1> /home/kang1234/genome/Gene_annotation/braker_4/samtools_sort_before_wig.stdout 2> /home/kang1234/genome/Gene_annotation/braker_4/errors/samtools_sort_before_wig.stderr
 ```
+**GET the command from "braker.log" in "~/genome/Gene_annotation/braker_5" to found what are still needed to continue the running of braker_4:**  
+```bash
+less braker.log |perl -alne 'print unless /^#\s+.*2021.*/'|less
+```
