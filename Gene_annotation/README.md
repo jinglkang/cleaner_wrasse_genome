@@ -141,6 +141,14 @@ braker.pl --softmasking --AUGUSTUS_ab_initio --makehub --gff3 \
 --verbosity=4 \
 --email jlkang@hku.hk
 ```
+**error4**:  
+Use of uninitialized value in print at /home/kang1234/software/BRAKER/scripts/braker.pl line 11481.  
+ERROR in file /home/kang1234/software/BRAKER/scripts/braker.pl at line 11504  
+Failed to execute: /home/kang1234/software/miniconda3/bin/python3 /home/kang1234/software/MakeHub/make_hub.py -g /home/kang1234/genome/Gene_annotation/braker_5/genome.fa -e jlkang@hku.hk -l hub_Lab -L Labroides_dimidiatus_5 -X /home/kang1234/genome/Gene_annotation/braker_5 -P  > /home/kang1234/genome/Gene_annotation/braker_5/makehub.log 2> /home/kang1234/genome/Gene_annotation/braker_5/errors/makehub.err  
+continue running in the command:  
+```bash
+# (base) kang1234@celia-PowerEdge-T640 Mon Sep 20 09:08:34 ~/genome/Gene_annotation/braker_5
+$/home/kang1234/software/miniconda3/bin/python3 /home/kang1234/software/MakeHub/make_hub.py -g /home/kang1234/genome/Gene_annotation/braker_5/genome.fa -e jlkang@hku.hk -l hub_Lab -L Labroides_dimidiatus_5 -X /home/kang1234/genome/Gene_annotation/braker_5 -P  > /home/kang1234/genome/Gene_annotation/braker_5/makehub.log 2> /home/kang1234/genome/Gene_annotation/braker_5/errors/makehub.err
 
-
+```
 
