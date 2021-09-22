@@ -167,6 +167,7 @@ less braker.log |perl -alne 'print unless /^#\s+.*2021.*/' >running.sh
 ```
 ***
 ## Too many errors, running again with merged bam file in braker_4
+if you have many bam files, it's better to merge them before running BRAKER  
 ```bash
 braker.pl --softmasking --AUGUSTUS_ab_initio --gff3 \
 --UTR=on \
