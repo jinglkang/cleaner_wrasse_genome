@@ -165,4 +165,6 @@ delete the command in running.sh that have already been finished in braker_4, an
 ```bash
 less braker.log |perl -alne 'print unless /^#\s+.*2021.*/' >running.sh
 ```
+***
+## Too many errors, running again with merged bam file in braker_4
 
