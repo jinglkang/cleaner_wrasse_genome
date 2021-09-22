@@ -167,4 +167,12 @@ less braker.log |perl -alne 'print unless /^#\s+.*2021.*/' >running.sh
 ```
 ***
 ## Too many errors, running again with merged bam file in braker_4
-
+```bash
+braker.pl --softmasking --AUGUSTUS_ab_initio --gff3 \
+--UTR=on \
+--species Labroides_dimidiatus_6 \
+--cores 20 \
+--bam=braker_4/merged.s.bam \
+--genome=Cleaner_wrasse_softmasked_ChaHeader.fasta \
+--workingdir ./braker_6
+```
