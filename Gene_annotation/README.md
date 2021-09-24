@@ -177,3 +177,17 @@ braker.pl --softmasking --AUGUSTUS_ab_initio --gff3 \
 --genome=Cleaner_wrasse_softmasked_ChaHeader.fasta \
 --workingdir ./braker_6
 ```
+***
+error again in the step of 'samtools sort'; add '-m 2G' in 'samtools sort' of gushr.py
+run again based on the hint gtf file and genemark gtf file in braker_6  
+```bash
+braker.pl --softmasking --AUGUSTUS_ab_initio --gff3 \
+--UTR=on \
+--hints braker_6/hintsfile.gff \
+--geneMarkGtf braker_6/GeneMark-ET/genemark.gtf \
+--species Labroides_dimidiatus_7 \
+--cores 20 \
+--bam=braker_4/merged.s.bam \
+--genome=Cleaner_wrasse_softmasked_ChaHeader.fasta \
+--workingdir ./braker_7
+```
