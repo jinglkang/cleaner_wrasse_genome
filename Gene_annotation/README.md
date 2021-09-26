@@ -195,5 +195,14 @@ braker.pl --softmasking --AUGUSTUS_ab_initio --gff3 \
 error again, once more in "samtools sort"; change this in the source codes of braker.pl  
 and "rm braker_3 braker_4 braker_6 braker_7"  
 and run again!!!!!!!!
+```bash
+braker.pl --softmasking --AUGUSTUS_ab_initio --gff3 \
+--UTR=on \
+--species Labroides_dimidiatus_3 \
+--cores 20 \
+--bam=merged.bam \
+--genome=Cleaner_wrasse_softmasked_ChaHeader.fasta \
+--workingdir ./braker_3
+```
 
 
