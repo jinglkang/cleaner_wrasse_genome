@@ -262,9 +262,9 @@ nohup blastp -query braker2+3_combined_renamed.aa.long.fa \
 **output format**:   
 |**Query Seq-id**|**subject seq-id**|**percent identity**|**alignment length**|**number of mismatches**|**number of gap openings**|**query start**|**query end**|**subject start**|**subject end**|**Expect value**|**HSP bit score**|
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-|Ldim_g1.t1|      “sp|P30626|SORCN_HUMAN”   |65.487  |113     |39      |0       |1       |113     |86      |198     |6.08e-51        |162|
-|Ldim_g1.t1|      sp|Q5R4U9|SORCN_PONAB   |65.487  |113     |39      |0       |1       |113     |86      |198     |6.08e-51        |162|
-|Ldim_g1.t1|      sp|P05044|SORCN_CRIGR   |63.717  |113     |41      |0       |1       |113     |86      |198     |4.07e-50        |160|
-|Ldim_g1.t1|      sp|Q6P069|SORCN_MOUSE   |63.717  |113     |41      |0       |1       |113     |86      |198     |6.50e-50        |159|
+|Ldim_g1.t1|      sp\|P30626\|SORCN_HUMAN   |65.487  |113     |39      |0       |1       |113     |86      |198     |6.08e-51        |162|
+|Ldim_g1.t1|      sp\|Q5R4U9\|SORCN_PONAB   |65.487  |113     |39      |0       |1       |113     |86      |198     |6.08e-51        |162|
+|Ldim_g1.t1|      sp\|P05044\|SORCN_CRIGR   |63.717  |113     |41      |0       |1       |113     |86      |198     |4.07e-50        |160|
+|Ldim_g1.t1|      sp\|Q6P069\|SORCN_MOUSE   |63.717  |113     |41      |0       |1       |113     |86      |198     |6.50e-50        |159|
 ***
 
