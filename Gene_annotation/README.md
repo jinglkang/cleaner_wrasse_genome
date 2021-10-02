@@ -239,5 +239,10 @@ working dir: ~/genome/Gene_annotation    
 ```bash
 rename_gtf.py --gtf braker2+3_combined.gtf --prefix Ldim --out braker2+3_combined_renamed.gtf
 ```
+### 4.4 move the combined and renamed gtf file to new dir (~/genome/Gene_annotation/combined)
+```bash
+mkdir combined
+mv braker2+3_combined.gtf braker2+3_combined_renamed.gtf combined/
+```
 ***
 
