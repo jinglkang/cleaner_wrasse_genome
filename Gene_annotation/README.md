@@ -234,5 +234,10 @@ tsebra.py -g braker_2/braker_2_fixed.gtf,braker_3/braker_3_fixed.gtf \
 -e braker_2/hintsfile.gff,braker_3/hintsfile.gff \
 -o braker2+3_combined.gtf
 ```
-
+### 4.3 renaming the transcripts from the TSEBRA
+working dir: ~/genome/Gene_annotation       
+```bash
+rename_gtf.py --gtf braker2+3_combined.gtf --prefix Ldim --out braker2+3_combined_renamed.gtf
+```
+***
 
