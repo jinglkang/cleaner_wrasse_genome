@@ -244,5 +244,10 @@ rename_gtf.py --gtf braker2+3_combined.gtf --prefix Ldim --out braker2+3_combine
 mkdir combined
 mv braker2+3_combined.gtf braker2+3_combined_renamed.gtf combined/
 ```
+protein sequences of each transcript    
+```bash
+gffread -y braker2+3_combined_renamed.aa.fa -g ../Cleaner_wrasse_softmasked_ChaHeader.fasta braker2+3_combined_renamed.gtf
+```
+
 ***
 
