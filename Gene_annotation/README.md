@@ -217,7 +217,22 @@ less braker_utr.gtf|perl -alne '($na)=$_=~/gene_id\s\"(.*)?\"\;/ if /gene_id/;pr
 |augustus.ab_initio_utr.gtf|21678 genes|
 ***
 ## 4. Combine the results in braker_2 and braker_3 with TSEBRA (the transcript select for braker)
-
-
+### 4.1 maker sure that the gene and transcript IDs of the gene prediction files in order
+#### ~/genome/Gene_annotation/braker_2    
+```bash
+fix_gtf_ids.py --gtf braker.gtf --out braker_2_fixed.gtf
+```
+#### ~/genome/Gene_annotation/braker_3
+```bash
+fix_gtf_ids.py --gtf braker.gtf --out braker_3_fixed.gtf
+```
+### 4.2 combine predictions with TSEBRA
+working dir: ~/genome/Gene_annotation     
+```bash
+tsebra.py -g braker_2/braker_2_fixed.gtf,braker_3/braker_3_fixed.gtf \ 
+-c ~/software/TSEBRA/config/default.cfg \
+-e braker_2/hintsfile.gff,braker_3/hintsfile.gff \
+-o braker2+3_combined.gtf
+```
 
 
