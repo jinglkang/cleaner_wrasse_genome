@@ -215,6 +215,9 @@ less braker_utr.gtf|perl -alne '($na)=$_=~/gene_id\s\"(.*)?\"\;/ if /gene_id/;pr
 |braker_utr.gtf|126576 genes|
 |augustus.ab_initio.gtf|38761 genes|
 |augustus.ab_initio_utr.gtf|21678 genes|
+***
+## Combine the results in braker_2 and braker_3 with TSEBRA (the transcript select for braker)
+
 
 
 
