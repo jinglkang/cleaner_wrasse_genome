@@ -253,7 +253,10 @@ gffread -y braker2+3_combined_renamed.aa.fa -g ../Cleaner_wrasse_softmasked_ChaH
 perl extract_long_transcript.pl >braker2+3_combined_renamed.aa.long.fa
 ```
 **blast to the swiss-prot database (blastp)**
+remove dot (.) in the end of the sequences   
 ```bash
+less braker2+3_combined_renamed.aa.long.fa|perl -alne 's/\.//;print' >braker2+3_combined_renamed.aa.long.new.fa
+mv braker2+3_combined_renamed.aa.long.new.fa  braker2+3_combined_renamed.aa.long.fa
 nohup blastp -query braker2+3_combined_renamed.aa.long.fa \
 -db ~/swiss-prot/uniprot-filtered-reviewed_yes.fasta \
 -outfmt 6 -num_threads 20 -evalue 1e-5 \
