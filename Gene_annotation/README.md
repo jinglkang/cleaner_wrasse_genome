@@ -272,7 +272,10 @@ nohup blastp -query braker2+3_combined_renamed.aa.long.fa \
 
 
 **extract the best hit of each query**   
-21674 genes have blast hits (blastp result: Ldim_blastp.result.txt)   
-
+21674 genes have blast hits (blastp result: Ldim_blastp.result.txt)    
+21666 genes have the best blast hit with percentage of identical matches > 20%    
+```bash
+perl extract_best_blastp.pl >Ldim_blastp.result.best.txt
+```
 ***
 
