@@ -279,11 +279,11 @@ perl extract_best_blastp.pl >Ldim_blastp.result.best.txt
 ```
 **blast to the refseq database (blastp)**  
 the results from Du Kang: ~/genome/Gene_annotation/combined/braker2+3_combined_renamed.aa.long.fa.symbol   
-download the protein of vertebrate_other (2021-09-12)    
+download the protein of vertebrate_other (2021-09-12), and build blast database (protein)       
 ```bash
 nohup wget ftp://ftp.ncbi.nlm.nih.gov/refseq/release/vertebrate_other/*protein.faa.gz &
 zcat *gz >vertebrate_other.fa
-
+makeblastdb -in vertebrate_other.fa -dbtype prot -input_type fasta
 ```
 vertebrate_other.fa: 10,418,909 proteins   
 
