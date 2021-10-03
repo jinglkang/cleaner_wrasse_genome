@@ -244,7 +244,7 @@ rename_gtf.py --gtf braker2+3_combined.gtf --prefix Ldim --out braker2+3_combine
 mkdir combined
 mv braker2+3_combined.gtf braker2+3_combined_renamed.gtf combined/
 ```
-**protein sequences of each transcript**        
+**protein sequences of each transcript (30440 transcripts, 28138 genes)**        
 ```bash
 gffread -y braker2+3_combined_renamed.aa.fa -g ../Cleaner_wrasse_softmasked_ChaHeader.fasta braker2+3_combined_renamed.gtf
 ```
@@ -269,5 +269,8 @@ nohup blastp -query braker2+3_combined_renamed.aa.long.fa \
 |Ldim_g1.t1|      sp\|Q5R4U9\|SORCN_PONAB   |65.487  |113     |39      |0       |1       |113     |86      |198     |6.08e-51        |162|
 |Ldim_g1.t1|      sp\|P05044\|SORCN_CRIGR   |63.717  |113     |41      |0       |1       |113     |86      |198     |4.07e-50        |160|
 |Ldim_g1.t1|      sp\|Q6P069\|SORCN_MOUSE   |63.717  |113     |41      |0       |1       |113     |86      |198     |6.50e-50        |159|
+**extract the best hit of each query**
+21674 genes have blast hits (blastp result: Ldim_blastp.result.txt)   
+
 ***
 
