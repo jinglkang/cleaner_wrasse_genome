@@ -287,7 +287,12 @@ makeblastdb -in vertebrate_other.fa -dbtype prot -input_type fasta
 diamond makedb --in vertebrate_other.fa -d vertebrate_other
 ```
 vertebrate_other.fa: 10,418,909 proteins   
-
+**diamond map**   
+```bash
+nohup diamond blastp -q braker2+3_combined_renamed.aa.long.fa \
+-e 1e-5 --sensitive -k 1 -d ~/refseq_vert_other/vertebrate_other \
+--out Ldim_refseq_diamond.result.txt  > diamond.blastp.process 2>&1 &
+```
     
 ***
 
