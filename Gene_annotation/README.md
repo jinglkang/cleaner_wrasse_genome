@@ -271,7 +271,7 @@ nohup blastp -query braker2+3_combined_renamed.aa.long.fa \
 |Ldim_g1.t1|      sp\|Q6P069\|SORCN_MOUSE   |63.717  |113     |41      |0       |1       |113     |86      |198     |6.50e-50        |159|
 
 
-**extract the best hit of each query**
+**extract the best hit of each query**   
 21674 genes have blast hits (blastp result: Ldim_blastp.result.txt)   
 
 ***
