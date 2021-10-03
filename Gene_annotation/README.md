@@ -277,10 +277,10 @@ nohup blastp -query braker2+3_combined_renamed.aa.long.fa \
 ```bash
 perl extract_best_blastp.pl >Ldim_blastp.result.best.txt
 ```
-**blast to the refseq database (blastp)**
-working dir: ~/refseq_vert_other   
+**blast to the refseq database (blastp: done by Du Kang)**   
 ```bash
 nohup wget ftp://ftp.ncbi.nlm.nih.gov/refseq/release/vertebrate_other/*protein.faa.gz &
 ```
+the results: ~/genome/Gene_annotation/combined/braker2+3_combined_renamed.aa.long.fa.symbol    
 ***
 
