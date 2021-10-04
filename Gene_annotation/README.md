@@ -293,6 +293,38 @@ nohup diamond blastp -q braker2+3_combined_renamed.aa.long.fa \
 -e 1e-5 --sensitive -k 1 -d ~/refseq_vert_other/vertebrate_other \
 --out Ldim_refseq_diamond.result.txt  > diamond.blastp.process 2>&1 &
 ```
-    
+**install REST::Client (perl)**  
+```bash
+sudo mkdir -p /home/kang1234/.cpanm
+sudo touch /home/kang1234/.bash_history
+sudo chown -R kang1234: /home/kang1234/
+sudo cpanm REST::Client
+```
+**extract the swiss-prot info: Uniprot Accession; gene name; length**    
+```bash
+# ~/swiss-prot
+perl extract_swiss_pro_info.pl >swiss_pro_info.txt
+```
+**extract the refseq info: Ref Accession; gene name; length**   
+```bash
+# ~/refseq_vert_other
+perl extract_refseq_pro_info.pl >ref_pro_info.txt
+```
+**extract the blastp results; gene symbol; gene name**    
+**qcov:** ((query end)-(query start)+1)/(query length)     
+**scov:** ((subject end)-(subject start)+1)/(subject length)    
+**identity**
+**qlength:** query length   
+**slength:** subject length 
+```bash
+# ~/genome/Gene_annotation/combined
+perl assemble_blastp_result.pl >braker2+3_combined_renamed.aa.long.anno.txt
+less braker2+3_combined_renamed.aa.long.anno.txt|perl -alne '($acc)=$_=~/db_accession="(.*?)"\;/; print $acc if /swiss-prot/' >swiss-prot_acc.txt
+less braker2+3_combined_renamed.aa.long.anno.txt|perl -alne '($acc)=$_=~/db_accession="(.*?)"\;/; print $acc if /refseq/' >ref_acc.txt
+bioDBNet_db2db.pl UniprotAccession genesymbol swiss-prot_acc.txt > swiss-prot_acc_symbol.txt
+bioDBNet_db2db.pl RefSeqProteinAccession genesymbol ref_acc.txt > ref_acc_symbol.txt
+# add gene symbol
+perl add_gene_symbol.pl > braker2+3_combined_renamed.aa.long.anno.final.txt
+```
 ***
 
