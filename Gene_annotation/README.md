@@ -11,6 +11,10 @@ mkdir RNA-align
 perl Hisat2_align_bam.pl
 for txt in *.txt;do echo -e "$txt\c"; grep 'overall alignment rate' $txt|perl -alne 'print "\t$F[0]"';done >RNA_overall_align_rate.txt
 ```
+### c. estimate the length of scaffolds   
+```bash
+falen Cleaner_wrasse_softmasked_ChaHeader.fasta | sort -k2,2nr |less
+```
 **Overall alignment rate**: RNA_overall_align_rate.txt (mean rate: 77.14%)
 ***
 ## 2. ab-initio gene pridiction
