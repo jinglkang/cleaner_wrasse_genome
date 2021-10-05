@@ -285,6 +285,7 @@ nohup wget ftp://ftp.ncbi.nlm.nih.gov/refseq/release/vertebrate_other/*protein.f
 zcat *gz >vertebrate_other.fa
 makeblastdb -in vertebrate_other.fa -dbtype prot -input_type fasta
 diamond makedb --in vertebrate_other.fa -d vertebrate_other
+diamond makedb --in uniprot-filtered-reviewed_yes.fasta -d uniprot-filtered-reviewed_yes.fasta
 ```
 vertebrate_other.fa: 10,418,909 proteins   
 **diamond map**   
