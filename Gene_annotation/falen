@@ -1,0 +1,37 @@
+#!/usr/bin/perl -w
+
+my $usage=<<EOF;
+----------------------------------------------
+falen: fasta length
+
+Usage: $0 input(or stdin) (-aln)
+
+-aln    it is an alignment, only output length of the first sequence
+
+                        Du Kang 2020-07-08
+----------------------------------------------
+EOF
+
+while ($_=shift @ARGV) {
+        if(/^-aln$/){
+                $aln=1;
+        }elsif(!/^-/){
+                push @file, $_;
+        }
+}
+die $usage if (!@file and -t STDIN);
+
+open IN, "cat @file |" or die $!;       # if @file was none, will be read from STDIN
+while(<IN>){
+        if (/>(\S+)/) {
+                if ($aln and @name) {print "$name[0]\t$len{$name[0]}\n" and exit}
+                $name=$1;
+                push @name, $name;
+        }else{
+                chomp;
+                s/\s+//g;
+                $len{$name}+=length $_;
+        }
+}
+
+print "$_\t$len{$_}\n" foreach @name;
