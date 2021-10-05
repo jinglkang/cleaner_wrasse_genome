@@ -337,6 +337,7 @@ annotate --fasta braker2+3_combined_renamed.aa.long.fa
 ***
 ## 5. Mitochondrial genome assembly (MITObim)    
 Install MITObim docker image (~/software)    
+*Notolabrus celidotus* mitochondrial genome (Notolabrus_celidotus_mito.fa) as assemble reference   
 ```bash
 docker pull chrishah/mitobim
 # ~/genome
