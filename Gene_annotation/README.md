@@ -338,4 +338,5 @@ docker pull chrishah/mitobim
 # ~/genome
 WORKING_DIR=/home/kang1234/genome
 sudo docker run -i -t -v $WORKING_DIR/:/home/data chrishah/mitobim /bin/bash
+cd data  # the files are in ~/data/ of the docker image
 ```
