@@ -7,6 +7,7 @@ Interesting Paper will be showed here
 ### 1. Species in Labridae which have genome
 **Vertebrata; Euteleostomi; Actinopterygii; Neopterygii; Teleostei; Neoteleostei; Acanthomorphata;**   
 **Eupercaria; Labriformes; Labridae;**  
+**download the genome of these species in**: ~/genome/Labridae_genome    
 |**Species**|**Cleaner_behavior_category**|**Lineage**|
 |:---:|:---:|:---:|
 |*Symphodus melops* (corkwing wrasse)|Facultative Cleaner|Symphodus; Symphodus melops|
