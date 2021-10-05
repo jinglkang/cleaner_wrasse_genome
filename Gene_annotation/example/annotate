@@ -1,0 +1,324 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use Getopt::Long 'HelpMessage';
+use File::Basename;
+
+my $usage=<<_EOH_;;
+----------------------------------------------------------
+annotate sequences in fasta file by swiss-prot and
+vertebrate_other of refseq via diamond blastp
+
+Usage: 
+annotate --fasta 1.fasta
+
+				Kang 2021-10-05
+----------------------------------------------------------
+_EOH_
+;
+
+GetOptions(
+	'fasta:s', \my $fasta,	# the input fasta file
+	'help', \ my $help
+	);
+
+if ($help || (! $fasta)) {
+	die $usage;
+}
+
+my $blastp_swis;
+my $swis_db="/home/kang1234/swiss-prot/uniprot-filtered-reviewed_yes.fasta"; # the swiss-prot database name
+my $swis_db_name=basename $swis_db; # $swis_base_name: uniprot-filtered-reviewed_yes.fasta
+my $swis_dir=dirname $swis_db; # $swis_dir: /home/kang1234/swiss-prot
+
+my $blastp_ref;
+my $ref_db="/home/kang1234/refseq_vert_other/vertebrate_other"; # the refseq database name
+my $ref_db_name=basename $ref_db; # $ref_base_name: vertebrate_other
+my $ref_dir=dirname $ref_db; # $ref_dir: /home/kang1234/refseq_vert_other/
+
+# examine whether the diamond database were built
+&examine_db();
+
+# extract info from the header of swissdb fasta file: uniprot-filtered-reviewed_yes.fasta
+# output: swiss_pro_info.txt
+&extract_swissdb_info();
+
+# extract info from the header of refseq fasta file: vertebrate_other.fa
+# output: ref_pro_info.txt
+&extract_refseqdb_info();
+
+# diamond blastp to swis
+$blastp_swis="diamond blastp -q $fasta ";
+$blastp_swis.="-e 1e-5 --sensitive -k 1 -d $swis_db ";
+$blastp_swis.="--out swis-blastp.result";
+system($blastp_swis);
+
+# diamond blastp to refseq vertebrate_other
+$blastp_ref="diamond blastp -q $fasta ";
+$blastp_ref.="-e 1e-5 --sensitive -k 1 -d $ref_db ";
+$blastp_ref.="--out ref-blastp.result";
+system($blastp_ref);
+
+# save the sequence length of $fasta
+my %query;
+my $name;
+my @names;
+open FASTA, "$fasta" or die "There is no $fasta\n";
+while (<FASTA>) {
+	chomp;
+    if (/>/) {
+        s/>//;
+        my @a=split;
+        $name=$a[0];
+        push @names, $name;
+    } else {
+    	$query{$name}=length($_);
+    }
+}
+close FASTA;
+
+my (%swis_blastp, %swis_info);
+my $swis_info="/home/kang1234/swiss-prot/swiss_pro_info.txt";
+open SWIS_INFO, $swis_info or die "can not open $swis_info\n";
+while (<SWIS_INFO>) {
+	chomp;
+    my @a=split /\t/;
+    my $uni_acc=$a[0];
+    $swis_info{$uni_acc}={
+    	'gene_name' => $a[1],
+        'length' => $a[2]
+    };
+}
+close SWIS_INFO;
+
+
+my $blastp_swis_result="swis-blastp.result";
+open BLASTP_SWIS, $blastp_swis_result or die "can not open $blastp_swis_result\n";
+while (<BLASTP_SWIS>) {
+	chomp;
+    my @a=split;
+    my $q_name=$a[0];
+    my $iden=$a[2];
+    my $q_a_len=$a[7]-$a[6]+1;
+    my $s_a_len=$a[9]-$a[8]+1;
+    my @b=split /\|/, $a[1];
+    my $uni_acc=$b[1];
+    $swis_blastp{$q_name}={
+    	'uni_acc' => $uni_acc,
+        'iden' => $iden,
+        'q_a_len' => $q_a_len,
+        's_a_len' => $s_a_len
+    };
+}
+close BLASTP_SWIS;
+
+my (%ref_blastp, %ref_info);
+my $ref_info="/home/kang1234/refseq_vert_other/ref_pro_info.txt";
+open REF_INFO, $ref_info or die "can not open $ref_info\n";
+while (<REF_INFO>) {
+	chomp;
+    my @a=split /\t/;
+    my $ref_acc=$a[0];
+    $ref_info{$ref_acc}={
+    	'gene_name' => $a[1],
+        'length' => $a[2]
+    };
+}
+close REF_INFO;
+
+my $blastp_ref_result="ref-blastp.result";
+open BLASTP_REF, $blastp_ref_result or die "can not open $blastp_ref_result\n";
+while (<BLASTP_REF>) {
+	chomp;
+    my @a=split;
+    my $q_name=$a[0];
+    my $iden=$a[2];
+    my $q_a_len=$a[7]-$a[6]+1;
+    my $s_a_len=$a[9]-$a[8]+1;
+    my $ref_acc=$a[1];
+    $ref_blastp{$q_name}={
+    	'ref_acc' => $ref_acc,
+        'iden' => $iden,
+        'q_a_len' => $q_a_len,
+        's_a_len' => $s_a_len
+    };
+}
+close BLASTP_REF;
+
+my $ano1=$fasta.".ano1";
+open ANO1, ">$ano1" or die "can not open $ano1\n";
+foreach my $name (@names) {
+	my $q_len=$query{$name};
+    (my $newname)=$name=~/(.*)\.t\d+/;
+    if ($swis_blastp{$name}) {
+    	my $uni_acc=$swis_blastp{$name}->{'uni_acc'};
+        my $sub_len=$swis_info{$uni_acc}->{'length'};
+        my $s_a_len=$swis_blastp{$name}->{'s_a_len'};
+        my $q_a_len=$swis_blastp{$name}->{'q_a_len'};
+        my $iden=$swis_blastp{$name}->{'iden'};
+        my $scov=($s_a_len/$sub_len)*100;
+        my $genename=$swis_info{$uni_acc}->{'gene_name'};
+        $scov=sprintf("%.2f",$scov);
+        my $qcov=($q_a_len/$q_len)*100;
+        $qcov=sprintf("%.2f",$qcov);
+        print ANO1 "$newname\tqcov=\"$qcov\";scov=\"$scov\";identity=\"$iden\";qlenth=\"$q_len\";slenth=\"$sub_len\";db_accession=\"$uni_acc\";db=\"swiss-prot\"\tName=\"$genename\"\n";
+    } elsif ($ref_blastp{$name}) {
+    	my $ref_acc=$ref_blastp{$name}->{'ref_acc'};
+        my $sub_len=$ref_info{$ref_acc}->{'length'};
+        my $s_a_len=$ref_blastp{$name}->{'s_a_len'};
+        my $q_a_len=$ref_blastp{$name}->{'q_a_len'};
+        my $iden=$ref_blastp{$name}->{'iden'};
+        my $scov=($s_a_len/$sub_len)*100;
+        my $genename=$ref_info{$ref_acc}->{'gene_name'};
+        $scov=sprintf("%.2f",$scov);
+        my $qcov=($q_a_len/$q_len)*100;
+        $qcov=sprintf("%.2f",$qcov);
+        print ANO1 "$newname\tqcov=\"$qcov\";scov=\"$scov\";identity=\"$iden\";qlenth=\"$q_len\";slenth=\"$sub_len\";db_accession=\"$ref_acc\";db=\"refseq\"\tName=\"$genename\"\n";
+    } else {
+    	print ANO1 "$newname\tqcov=\"-\";scov=\"-\";identity=\"-\";qlenth=\"-\";slenth=\"-\";db_accession=\"-\";db=\"-\"\tName=\"-\"\n";
+    }
+}
+close ANO1;
+
+open ANO1, "$ano1" or die "can not open $ano1\n";
+open TXT1, ">swiss-prot_acc.txt" or die "can not create swiss-prot_acc.txt\n";
+open TXT2, ">ref_acc.txt" or die "can not create swiss-prot_acc.txt\n"; 
+while (<ANO1>) {
+	chomp;
+	(my $acc)=$_=~/db_accession=\"(.*?)\"\;/;
+	if (/swiss-prot/) {
+		print TXT1 "$acc\n";
+	} elsif (/refseq/){
+		print TXT2 "$acc\n";
+	}
+}
+close ANO1;
+close TXT1;
+close TXT2;
+
+system("bioDBNet_db2db.pl UniprotAccession genesymbol swiss-prot_acc.txt > swiss-prot_acc_symbol.txt");
+system("bioDBNet_db2db.pl RefSeqProteinAccession genesymbol ref_acc.txt > ref_acc_symbol.txt");
+
+my $swis_sym="swiss-prot_acc_symbol.txt";
+my %swis_symbol;
+open SWIS_SYM, $swis_sym or die "can not open $swis_sym\n";
+while (<SWIS_SYM>) {
+        chomp;
+        my @a=split;
+        my $swis_acc=$a[0];
+        $swis_symbol{$swis_acc}=$a[1];
+}
+close SWIS_SYM;
+
+my $ref_sym="ref_acc_symbol.txt";
+my %ref_symbol;
+open REF_SYM, $ref_sym or die "can not open $ref_sym\n";
+while (<REF_SYM>) {
+        chomp;
+        my @a=split;
+        my $ref_acc=$a[0];
+        $ref_symbol{$ref_acc}=$a[1];
+}
+close REF_SYM;
+
+open ANO1, $ano1 or die "can not open $ano1\n";
+my $ano_final=$fasta.".ano.final";;
+open ANO_FINAL, ">$ano_final" or die "can not create $ano_final\n";
+while (<ANO1>) {
+	chomp;
+    my @a=split /\t/;
+    if (/swiss-prot/) {
+    	(my $swis_acc)=$_=~/db_accession=\"(.*)?\";/;
+        my $symbol=$swis_symbol{$swis_acc};
+        print ANO_FINAL "$a[0]\t$a[1]\tsymbol=\"$symbol\"\t$a[2]\n";
+    } elsif (/refseq/) {
+    	(my $ref_acc)=$_=~/db_accession=\"(.*)?\.\d+\"/;
+        my $symbol=$ref_symbol{$ref_acc};
+        print ANO_FINAL "$a[0]\t$a[1]\tsymbol=\"$symbol\"\t$a[2]\n";
+    } else {
+    	print ANO_FINAL "$a[0]\t$a[1]\tsymbol=\"-\"\t$a[2]\n";
+    }
+}
+close ANO1;
+close ANO_FINAL;
+
+
+#######################
+# examine database
+sub examine_db {
+	my $swis_db=$swis_db_name.".dmnd";
+	my $ref_db=$ref_db_name.".dmnd";
+	if (! -e "$swis_dir/$swis_db") {
+		die "There is no diamond database for swiss-prot\n";
+	}
+	if (! -e "$ref_dir/$ref_db") {
+		die "There is no diamond database for refseq\n";
+	}
+}
+
+# extract the information from the swiss-prot fasta file
+# uniprot-filtered-reviewed_yes.fasta
+# save uniprot accession, gene, length into swiss_pro_info.txt
+sub extract_swissdb_info {
+	my $info="$swis_dir/swiss_pro_info.txt";
+	my $swis_fasta="$swis_dir/uniprot-filtered-reviewed_yes.fasta";
+	if (! -e $swis_fasta) {
+		open INFO, ">$info";
+		my (@names);
+		my $name;
+		my %hash;
+		open SWIS_FASTA, $swis_fasta or die "can not open $swis_fasta\n";
+		while (<SWIS_FASTA>) {
+			chomp;
+			if (/>/) {
+				my @a=split /\|/;
+				my $uni_acc=$a[1];
+				(my $pro_name)=$_=~/\s+?(.*)?\s+OS=/;
+				(my $organ)=$_=~/OS=(.*)?\s+OX=/;
+				$name=$uni_acc."\t".$pro_name." [".$organ."]";
+		#		$organ?(print "$name\n"):(die "these is no organism name\n");
+				push @names, $name;
+			} else {
+				$hash{$name}.=$_;
+			}
+		}
+		close SWIS_FASTA;
+		foreach my $name (@names) {
+			my $len=length($hash{$name});
+			print INFO "$name\t$len\n";
+		}
+		close INFO;
+	}
+}
+
+# extract the information from the refseq fasta file
+# vertebrate_other.fa
+# save refseq accession, gene, length into ref_pro_info.txt
+sub extract_refseqdb_info {
+	my $info="$ref_dir/ref_pro_info.txt";
+	my $ref_fasta="$ref_dir/vertebrate_other.fa";
+	if (! -e $info) {
+		open INFO, ">$info";
+		my @names;
+		my $name;
+		my %hash;
+		open REF_FASTA, $ref_fasta or die "can not open $ref_fasta\n";
+		while (<REF_FASTA>) {
+			chomp;
+			if (/>/) {
+				s/^>//;
+				s/\s+/\t/;
+				$name=$_;
+				push @names, $name;
+			} else {
+				$hash{$name}.=$_;
+			}
+		}
+		close REF_FASTA;
+		foreach my $name (@names) {
+			my $len=length($hash{$name});
+			print INFO "$name\t$len\n";
+		}
+		close INFO;
+	}
+}
