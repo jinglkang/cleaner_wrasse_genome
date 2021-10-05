@@ -331,4 +331,5 @@ perl add_gene_symbol.pl > braker2+3_combined_renamed.aa.long.anno.final.txt
 ### 4.5 annotate using swiss-prot and refseq (assemble all above step to a perl script)
 annotate --fasta braker2+3_combined_renamed.aa.long.fa    
 ***
+## 5. Mitochondrial genome assembly (MITObim)    
 
