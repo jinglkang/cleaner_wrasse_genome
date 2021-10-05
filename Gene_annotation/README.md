@@ -328,5 +328,7 @@ bioDBNet_db2db.pl RefSeqProteinAccession genesymbol ref_acc.txt > ref_acc_symbol
 perl add_gene_symbol.pl > braker2+3_combined_renamed.aa.long.anno.final.txt
 ```
 **The final gene annotation file:** braker2+3_combined_renamed.aa.long.anno.final.txt    
+### 4.5 annotate using swiss-prot and refseq (assemble all above step to a perl script)
+annotate --fasta braker2+3_combined_renamed.aa.long.fa    
 ***
 
