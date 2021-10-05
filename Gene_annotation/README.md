@@ -335,4 +335,7 @@ annotate --fasta braker2+3_combined_renamed.aa.long.fa
 Install MITObim docker image (~/software)    
 ```bash
 docker pull chrishah/mitobim
+# ~/genome
+WORKING_DIR=/home/kang1234/genome
+sudo docker run -i -t -v $WORKING_DIR/:/home/data chrishah/mitobim /bin/bash
 ```
