@@ -339,4 +339,6 @@ docker pull chrishah/mitobim
 WORKING_DIR=/home/kang1234/genome
 sudo docker run -i -t -v $WORKING_DIR/:/home/data chrishah/mitobim /bin/bash
 cd data  # the files are in ~/data/ of the docker image
+# ~/software
+git clone https://github.com/BioInfoTools/BBMap.git
 ```
