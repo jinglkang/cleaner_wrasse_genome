@@ -11,3 +11,6 @@
 
 ## Final scaffolded fasta file
 **jordan-the2300-mb-hirise-ht8d1__08-26-2021__hic_output.fasta**          # 57 scaffolds ; about 726 M (726,382,194 bp)
+***
+## download ncbi genome data
+https://ftp.ncbi.nlm.nih.gov/genomes/genbank/vertebrate_other/Thalassoma_bifasciatum/latest_assembly_versions/GCA_008086565.1_UOO_Thbifa_1.2/    
