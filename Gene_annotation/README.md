@@ -341,4 +341,6 @@ sudo docker run -i -t -v $WORKING_DIR/:/home/data chrishah/mitobim /bin/bash
 cd data  # the files are in ~/data/ of the docker image
 # ~/software
 git clone https://github.com/BioInfoTools/BBMap.git
+# sample reads
+~/software/bbmap/reformat.sh in1=DTG-OmniC-105_R1_001.fastq.gz in2=DTG-OmniC-105_R2_001.fastq.gz out=input.fastq samplerate=0.1 
 ```
