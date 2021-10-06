@@ -365,8 +365,13 @@ MITObim.pl -start 1 -end 30 -sample run -ref mito -readpool input.fastq -quick L
 **restart**   
 because DTG-OmniC-105_R1_001.fastq.gz and DTG-OmniC-105_R2_001.fastq.gz are not pacbio data (They are Ominic data)    
 change to use XDOVE_20210610_S64049_PL100183019-1_D01.ccs.fastq.gz
-working dir: ~/genome/  
+working dir: ~/genome/mito_genome
 ```bash
 MITObim.pl -start 1 -end 30 -sample run -ref mito -readpool ../XDOVE_20210610_S64049_PL100183019-1_D01.ccs.fastq.gz -quick ../Labridae_genome/Notolabrus_celidotus_mito.fa --platform pacbio
 ```
 **RUN error**   
+**Use the original method: DO not add --platform pacbio; and use DTG-OmniC-105_R1_001.fastq.gz and DTG-OmniC-105_R2_001.fastq.gz**   
+working dir: ~/genome/mito_genome
+```bash
+~/software/bbmap/reformat.sh in1=../DTG-OmniC-105_R1_001.fastq.gz in2=../DTG-OmniC-105_R2_001.fastq.gz out=input.fastq samplerate=0.1
+```
