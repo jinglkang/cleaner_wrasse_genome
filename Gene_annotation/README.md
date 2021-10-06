@@ -362,3 +362,11 @@ git clone https://github.com/BioInfoTools/BBMap.git
 # docker
 MITObim.pl -start 1 -end 30 -sample run -ref mito -readpool input.fastq -quick Labridae_genome/Notolabrus_celidotus_mito.fa --platform pacbio
 ```
+**restart**   
+because DTG-OmniC-105_R1_001.fastq.gz and DTG-OmniC-105_R2_001.fastq.gz are not pacbio data (They are Ominic data)    
+change to use XDOVE_20210610_S64049_PL100183019-1_D01.ccs.fastq.gz
+working dir: ~/genome/  
+```bash
+MITObim.pl -start 1 -end 30 -sample run -ref mito -readpool ../XDOVE_20210610_S64049_PL100183019-1_D01.ccs.fastq.gz -quick ../Labridae_genome/Notolabrus_celidotus_mito.fa --platform pacbio
+```
+**RUN error**   
