@@ -374,4 +374,5 @@ MITObim.pl -start 1 -end 30 -sample run -ref mito -readpool ../XDOVE_20210610_S6
 working dir: ~/genome/mito_genome
 ```bash
 ~/software/bbmap/reformat.sh in1=../DTG-OmniC-105_R1_001.fastq.gz in2=../DTG-OmniC-105_R2_001.fastq.gz out=input.fastq samplerate=0.1
+MITObim.pl -start 1 -end 30 -sample run -ref mito -readpool input.fastq -quick ../Labridae_genome/Notolabrus_celidotus_mito.fa
 ```
