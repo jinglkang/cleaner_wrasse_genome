@@ -335,7 +335,18 @@ perl add_gene_symbol.pl > braker2+3_combined_renamed.aa.long.anno.final.txt
 ### 4.5 annotate using swiss-prot and refseq (assemble all above step to a perl script)
 annotate --fasta braker2+3_combined_renamed.aa.long.fa    
 ***
-## 5. Mitochondrial genome assembly (MITObim)    
+## 5. Mitochondrial genome assembly (MITObim)   
+**From Du Kang**   
+```bash
+mkdir mito; cd mito
+reformat.sh in1=../clean.1.fq.gz in2=../clean.2.fq.gz out=input.fastq samplerate=0.1    # sample 一部分reads即可
+MITObim.pl -start 1 -end 30 -sample run -ref mito -readpool input.fastq --quick $mt
+file=`ls */run-mito-it*`
+perl -i -lape 's/>.*/>MT/' $file
+mv $file ../mt.fa
+cd ../
+rm -rf mito
+```
 Install MITObim docker image (~/software)    
 *Notolabrus celidotus* mitochondrial genome (Notolabrus_celidotus_mito.fa) as assemble reference   
 ```bash
