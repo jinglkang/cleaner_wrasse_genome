@@ -399,10 +399,47 @@ nohup blastn -query ~/genome/Gene_annotation/Cleaner_wrasse_hardmasked_ChaHeader
 ```
 #### Result
 all mito-genome (length: 17140) were mapped to Scx22uW_26 (length: 23658)          
+but Scx22uW_26 did not get annotated by BRAKER    
 sort according to query start    
 ```bash
 less Ldim-mito-genome_blastn.result|sort -k7,7n
 ```
+Check the scaffolds without annotated    
+working dir: ~/genome/Gene_annotation/combined   
+```bash
+falen ../Cleaner_wrasse_hardmasked_ChaHeader.fasta|sort -k2,2nr >scaffold_length.txt
+cut -f 1 braker2+3_combined.gtf|sort -u >scaffold_annotate.txt
+perl temp3.pl >scaffold_annotate_info.txt
+```
+temp3.pl  
+```perl
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+my (%hash1, %hash2);
+open FIL1, "scaffold_length.txt";
+while (<FIL1>) {
+	chomp;
+	my @a=split;
+	$hash1{$a[0]}=$a[1];
+}
+
+open FIL2, "scaffold_annotate.txt";
+while (<FIL2>) {
+	chomp;
+	$hash2{$_}=$_;
+}
+
+foreach my $key (sort {$hash1{$b} <=> $hash1{$a}} keys %hash1) {
+	if ($hash2{$key}) {
+		print "$key\t$hash1{$key}\tAnnotated\n";
+	} else {
+		print "$key\t$hash1{$key}\tNon-annotated\n";	
+	}
+}
+```
+
 ***
 ## 6. BUSCO on predicted protein sequeces
 working dir (my own workstation): /media/HDD/cleaner_fish_genome    
