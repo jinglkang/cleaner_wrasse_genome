@@ -463,6 +463,8 @@ tRNAscan-SE -E -o whole_genome_tRNA.txt -f whole_genome_tRNA_sec_str.txt -m whol
 **Results** (2859 tRNAs): whole_genome_tRNA.txt; whole_genome_tRNA_sec_str.txt; whole_genome_tRNA_summary.txt     
 ***
 ### 7.2 ribosomal RNAs: RNAmmer
+So strange, can only run RNAmmer in the install dir (afterl install the old version hmmsearch)    
+working dir: ~/software/rnammer    
 ```bash
 rnammer -S euk -m tsu,lsu,ssu -f ../Gene_annotation/Cleaner_wrasse_softmasked.fasta >ribosomal_RNA.txt
 ```
