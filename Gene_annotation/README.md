@@ -454,11 +454,13 @@ Use the method in Ensembl (http://asia.ensembl.org/info/genome/genebuild/ncrna.h
 ```bash
 tRNAscan-SE -M vert -o mito_tRNA.txt -f mito_tRNA_sec_str.txt -m mito_tRNA_summary.txt ../mito_genome/Ldim-mito.fasta
 ```
+**Results**: mito_tRNA.txt; mito_tRNA_sec_str.txt; mito_tRNA_summary.txt    
 #### based on whole genome assembly
 ```bash
 tRNAscan-SE -E -o whole_genome_tRNA.txt -f whole_genome_tRNA_sec_str.txt -m whole_genome_tRNA_summary.txt ../Gene_annotation/Cleaner_wrasse_softmasked.fasta
 ```
 ***
+
 ### 7.2 ribosomal RNAs: RNAmmer
 ***
 ### 7.3 the rest of the ncRNAs: Rfam
