@@ -449,3 +449,9 @@ nohup python ~/software/Busco/scripts/run_BUSCO.py -m prot -i braker2+3_combined
 ***
 ## 7. Annotate non-coding RNAs
 Use the method in Ensembl (http://asia.ensembl.org/info/genome/genebuild/ncrna.html)   
+### 7.1 tRANs: tRNAscan
+***
+### 7.2 ribosomal RNAs: RNAmmer
+***
+### 7.3 the rest of the ncRNAs: Rfam
+***
