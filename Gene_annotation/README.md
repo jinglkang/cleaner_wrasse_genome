@@ -467,7 +467,7 @@ So strange, can only run RNAmmer in the install dir (afterl install the old vers
 working dir: ~/software/rnammer    
 ```bash
 cp ~/genome/ncRNA/Cleaner_wrasse_hardmasked.fasta ./
-rnammer -S bac -m lsu,ssu,tsu -gff - < Cleaner_wrasse_hardmasked.fasta >ribosomal_RNA.txt
+rnammer -S euk -m lsu,ssu,tsu -gff - < Cleaner_wrasse_hardmasked.fasta >ribosomal_RNA.txt
 ```
 ***
 ### 7.3 the rest of the ncRNAs: using infernal and Rfam
