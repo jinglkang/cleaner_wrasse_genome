@@ -448,3 +448,4 @@ nohup python ~/software/Busco/scripts/run_BUSCO.py -m prot -i braker2+3_combined
 ```
 ***
 ## 7. Annotate non-coding RNAs
+Use the method in Ensembl (http://asia.ensembl.org/info/genome/genebuild/ncrna.html)   
