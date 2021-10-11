@@ -446,4 +446,5 @@ working dir (my own workstation): /media/HDD/cleaner_fish_genome
 ```bash
 nohup python ~/software/Busco/scripts/run_BUSCO.py -m prot -i braker2+3_combined_renamed.aa.long.fa -o Ldim -l ~/software/Busco/lineage/actinopterygii_odb9 -c 20 -t Ldim-tmp >Busco_Ldim.process 2>&1 &
 ```
+***
 ## 7. Annotate non-coding RNAs
