@@ -466,7 +466,8 @@ tRNAscan-SE -E -o whole_genome_tRNA.txt -f whole_genome_tRNA_sec_str.txt -m whol
 So strange, can only run RNAmmer in the install dir (afterl install the old version hmmsearch)    
 working dir: ~/software/rnammer    
 ```bash
-rnammer -S euk -m tsu,lsu,ssu -f ../Gene_annotation/Cleaner_wrasse_softmasked.fasta >ribosomal_RNA.txt
+cp ~/genome/ncRNA/Cleaner_wrasse_hardmasked.fasta ./
+rnammer -S bac -m lsu,ssu,tsu -gff - < Cleaner_wrasse_hardmasked.fasta >ribosomal_RNA.txt
 ```
 ***
 ### 7.3 the rest of the ncRNAs: using infernal and Rfam
