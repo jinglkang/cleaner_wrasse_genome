@@ -383,6 +383,20 @@ if you found MITObim useful, please cite:
 Hahn C, Bachmann L and Chevreux B. (2013) Reconstructing mitochondrial genomes directly from genomic next-generation sequencing reads -
 a baiting and iterative mapping approach. Nucl. Acids Res. 41(13):e129. doi: 10.1093/nar/gkt371   
 ***
+### Check mito-genome location in genome
+#### genome as reference
+working dir: ~/genome/Gene_annotation
+```bash
+makeblastdb -in Cleaner_wrasse_hardmasked_ChaHeader.fasta -dbtype nucl -input_type fasta
+# working dir: ~/genome/mito_genome
+nohup blastn -query Ldim-mito.fasta -db ~/genome/Gene_annotation/Cleaner_wrasse_hardmasked_ChaHeader.fasta -outfmt 6 -num_threads 20 -out Ldim-mito-genome_blastn.result -max_target_seqs 1  > blastn-1.process 2>&1 &
+```
+#### mito-genome as reference
+working dir: ~/genome/mito_genome    
+```bash
+makeblastdb -in Ldim-mito.fasta -dbtype nucl -input_type fasta
+nohup blastn -query ~/genome/Gene_annotation/Cleaner_wrasse_hardmasked_ChaHeader.fasta -db Ldim-mito.fasta -outfmt 6 -num_threads 20 -out Ldim-genome-mito_blastn.result -max_target_seqs 1  > blastn-2.process 2>&1 &
+```
 ## 6. BUSCO on predicted protein sequeces
 working dir (my own workstation): /media/HDD/cleaner_fish_genome    
 ```bash
