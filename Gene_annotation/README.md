@@ -398,7 +398,7 @@ makeblastdb -in Ldim-mito.fasta -dbtype nucl -input_type fasta
 nohup blastn -query ~/genome/Gene_annotation/Cleaner_wrasse_hardmasked_ChaHeader.fasta -db Ldim-mito.fasta -outfmt 6 -num_threads 20 -out Ldim-genome-mito_blastn.result -max_target_seqs 1  > blastn-2.process 2>&1 &
 ```
 #### Result
-all mito-genome were mapped to Scx22uW_26 (23658)          
+all mito-genome (length: 17140) were mapped to Scx22uW_26 (length: 23658)          
 sort according to query start    
 ```bash
 less Ldim-mito-genome_blastn.result|sort -k7,7n
