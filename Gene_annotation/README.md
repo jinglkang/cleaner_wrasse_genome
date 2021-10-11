@@ -449,6 +449,7 @@ nohup python ~/software/Busco/scripts/run_BUSCO.py -m prot -i braker2+3_combined
 ***
 ## 7. Annotate non-coding RNAs
 Use the method in Ensembl (http://asia.ensembl.org/info/genome/genebuild/ncrna.html)   
+working dir: ~/genome/ncRNA   
 ### 7.1 tRANs: tRNAscan
 #### search for mitochondrial tRNAs: based on the mitochondrial assembly
 ```bash
@@ -461,8 +462,10 @@ tRNAscan-SE -E -o whole_genome_tRNA.txt -f whole_genome_tRNA_sec_str.txt -m whol
 ```
 **Results** (2859 tRNAs): whole_genome_tRNA.txt; whole_genome_tRNA_sec_str.txt; whole_genome_tRNA_summary.txt     
 ***
-
 ### 7.2 ribosomal RNAs: RNAmmer
+```bash
+rnammer -S euk -m tsu,lsu,ssu -f ../Gene_annotation/Cleaner_wrasse_softmasked.fasta >ribosomal_RNA.txt
+```
 ***
 ### 7.3 the rest of the ncRNAs: Rfam
 ***
