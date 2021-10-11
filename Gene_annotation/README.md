@@ -467,5 +467,6 @@ tRNAscan-SE -E -o whole_genome_tRNA.txt -f whole_genome_tRNA_sec_str.txt -m whol
 rnammer -S euk -m tsu,lsu,ssu -f ../Gene_annotation/Cleaner_wrasse_softmasked.fasta >ribosomal_RNA.txt
 ```
 ***
-### 7.3 the rest of the ncRNAs: Rfam
+### 7.3 the rest of the ncRNAs: using infernal and Rfam
+
 ***
