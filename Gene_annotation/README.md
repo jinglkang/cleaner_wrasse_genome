@@ -376,6 +376,12 @@ working dir: ~/genome/mito_genome
 ~/software/bbmap/reformat.sh in1=../DTG-OmniC-105_R1_001.fastq.gz in2=../DTG-OmniC-105_R2_001.fastq.gz out=input.fastq samplerate=0.1
 MITObim.pl -start 1 -end 30 -sample run -ref mito -readpool input.fastq -quick ../Labridae_genome/Notolabrus_celidotus_mito.fa
 ```
+MITObim has reached a stationary read number after 30 iterations!!      
+Final assembly result will be written to file: /home/data/mito_genome/iteration30/run-mito-it30_noIUPAC.fasta     
+contig length: 17140      
+if you found MITObim useful, please cite:    
+Hahn C, Bachmann L and Chevreux B. (2013) Reconstructing mitochondrial genomes directly from genomic next-generation sequencing reads -
+a baiting and iterative mapping approach. Nucl. Acids Res. 41(13):e129. doi: 10.1093/nar/gkt371   
 ***
 ## 6. BUSCO on predicted protein sequeces
 working dir (my own workstation): /media/HDD/cleaner_fish_genome    
