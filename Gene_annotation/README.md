@@ -439,8 +439,8 @@ foreach my $key (sort {$hash1{$b} <=> $hash1{$a}} keys %hash1) {
 	}
 }
 ```
+Result: ~/genome/Gene_annotation/combined/scaffold_annotate_info.txt, **16 scaffold did not get annotated**      
 
-***
 ## 6. BUSCO on predicted protein sequeces
 working dir (my own workstation): /media/HDD/cleaner_fish_genome    
 ```bash
