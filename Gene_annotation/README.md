@@ -473,5 +473,10 @@ cp ribosomal_RNA.txt ~/genome/ncRNA
 **Result**:  ~/genome/ncRNA/ribosomal_RNA.txt    
 ***
 ### 7.3 the rest of the ncRNAs: using infernal and Rfam
-Using the steps of this website (https://docs.rfam.org/en/latest/genome-annotation.html)   
+Using the steps of this website (https://docs.rfam.org/en/latest/genome-annotation.html)     
+working dir: ~/software/infernal-1.1.2   
+-Z: the number of million bp * 2 (726.382194 M \*2 = 1452.76439)   
+```bash
+cmscan -Z 1452.76439 --cut_ga --rfam --nohmmonly --tblout Ldim-genome.tblout --fmt 2 --clanin Rfam.clanin Rfam.cm Cleaner_wrasse_hardmasked_ChaHeader.fasta > Ldim-genome.cmscan
+```
 ***
