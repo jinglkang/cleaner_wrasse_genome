@@ -473,5 +473,5 @@ cp ribosomal_RNA.txt ~/genome/ncRNA
 **Result**:  ~/genome/ncRNA/ribosomal_RNA.txt    
 ***
 ### 7.3 the rest of the ncRNAs: using infernal and Rfam
-
+Using the steps of this website (https://docs.rfam.org/en/latest/genome-annotation.html)   
 ***
