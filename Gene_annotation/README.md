@@ -439,8 +439,10 @@ foreach my $key (sort {$hash1{$b} <=> $hash1{$a}} keys %hash1) {
 	}
 }
 ```
-Result: ~/genome/Gene_annotation/combined/scaffold_annotate_info.txt, **16 scaffold did not get annotated**      
-
+Result: ~/genome/Gene_annotation/combined/scaffold_annotate_info.txt, **16 scaffold did not get annotated**    
+Annotate Ldim-mito.fasta (assembled by MITObim.pl) and Scx22uW_26.fa (the sequences of scaffold Scx22uW_26) in this website (http://mitofish.aori.u-tokyo.ac.jp/annotation/input.html)    
+Ldim-mito.fasta (37 genes, normal); Scx22uW_26.fa (44 genes, more than normal).    
+***
 ## 6. BUSCO on predicted protein sequeces
 working dir (my own workstation): /media/HDD/cleaner_fish_genome    
 ```bash
