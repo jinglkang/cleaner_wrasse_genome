@@ -468,7 +468,9 @@ working dir: ~/software/rnammer
 ```bash
 cp ~/genome/ncRNA/Cleaner_wrasse_hardmasked.fasta ./
 rnammer -S euk -m lsu,ssu,tsu -gff - < Cleaner_wrasse_hardmasked.fasta >ribosomal_RNA.txt
+cp ribosomal_RNA.txt ~/genome/ncRNA
 ```
+**Result**:  ~/genome/ncRNA/ribosomal_RNA.txt    
 ***
 ### 7.3 the rest of the ncRNAs: using infernal and Rfam
 
