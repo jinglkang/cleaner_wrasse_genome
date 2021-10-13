@@ -480,5 +480,7 @@ working dir: ~/software/infernal-1.1.2
 -Z: the number of million bp * 2 (726.382194 M \*2 = 1452.76439)   
 ```bash
 cmscan -Z 1452.76439 --cut_ga --rfam --nohmmonly --tblout Ldim-genome.tblout --fmt 2 --clanin Rfam.clanin Rfam.cm Cleaner_wrasse_hardmasked_ChaHeader.fasta > Ldim-genome.cmscan
+mv Ldim-genome.cmscan Ldim-genome.tblout ~/genome/ncRNA/
 ```
+**Result**  ~/genome/ncRNA/:  Ldim-genome.cmscan; Ldim-genome.tblout       
 ***
