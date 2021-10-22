@@ -34,3 +34,8 @@ trim flanking regions, for COI (keep the sequences can be translated to pep), fo
 perl concatenated.pl --fasta *_align*fasta --out concatenated
 ```
 gene length: 12S (424 bp), 16S (511 bp), COI (634 bp).    
+***
+### identify the best-fitting model for each gene
+```bash
+java -jar ~/software/jmodeltest-2.1.10/jModelTest.jar -d 12S_align.fasta -g 4 -i -f -AIC -BIC -a
+```
