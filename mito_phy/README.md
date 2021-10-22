@@ -31,5 +31,5 @@ perl cat_sequences.pl --fasta *.COI.fasta >COI.fasta
 **align by Muscle**    
 trim flanking regions, for COI (keep the sequences can be translated to pep), for 12S and 16S (delete the postion if any species includes a gap), and concatenated the sequences of three genes per species       
 ```bash
-
+perl concatenated.pl --fasta *_align*fasta --out concatenated
 ```
