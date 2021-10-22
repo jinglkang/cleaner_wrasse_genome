@@ -33,4 +33,4 @@ trim flanking regions, for COI (keep the sequences can be translated to pep), fo
 ```bash
 perl concatenated.pl --fasta *_align*fasta --out concatenated
 ```
-gene length: 12S (424), 16S (511), COI (634).    
+gene length: 12S (424 bp), 16S (511 bp), COI (634 bp).    
