@@ -40,6 +40,7 @@ gene length: 12S (424 bp), 16S (511 bp), COI (634 bp).
 java -jar ~/software/jmodeltest-2.1.10/jModelTest.jar -d 12S_align.fasta -g 4 -i -f -AIC -BIC -a
 java -jar ~/software/jmodeltest-2.1.10/jModelTest.jar -d 16S_align.fasta -g 4 -i -f -AIC -BIC -a
 java -jar ~/software/jmodeltest-2.1.10/jModelTest.jar -d COI_align_coding.fasta -g 4 -i -f -AIC -BIC -a
+java -jar ~/software/jmodeltest-2.1.10/jModelTest.jar -d concatenated.fasta -g 4 -i -f -AIC -BIC -a
 ```
 
 12S Best Models:    
