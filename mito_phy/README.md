@@ -92,3 +92,7 @@ DNA, gene3 = 936-1569
 ```bash
 raxmlHPC -f a -m GTRGAMMAI -p 12345 -x 12345 -# 1000 -q patitions.tab -s concatenated.phy -n concatenated_2
 ```
+**results:**     
+Best-scoring ML tree written to: /home/Kang/Desktop/cleaner_fish/mito_phy/RAxML_bestTree.concatenated_2       
+Best-scoring ML tree with support values written to: /home/Kang/Desktop/cleaner_fish/mito_phy/RAxML_bipartitions.concatenated_2       
+Best-scoring ML tree with support values as branch labels written to: /home/Kang/Desktop/cleaner_fish/mito_phy/RAxML_bipartitionsBranchLabels.concatenated_2      
