@@ -72,3 +72,4 @@ raxmlHPC -f a -x 12345 -p 12345 -# 1000 -m GTRGAMMAI -s concatenated.phy -n conc
 Best-scoring ML tree written to: /home/Kang/Desktop/cleaner_fish/mito_phy/RAxML_bestTree.concatenated_1       
 Best-scoring ML tree with support values written to: /home/Kang/Desktop/cleaner_fish/mito_phy/RAxML_bipartitions.concatenated_1      
 Best-scoring ML tree with support values as branch labels written to: /home/Kang/Desktop/cleaner_fish/mito_phy/RAxML_bipartitionsBranchLabels.concatenated_1       
+All 1000 bootstrapped trees written to: /home/Kang/Desktop/cleaner_fish/mito_phy/RAxML_bootstrap.concatenated_1         
