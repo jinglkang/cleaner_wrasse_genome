@@ -73,7 +73,7 @@ concatenated genes Best Models:    
 ```bash
 fasta2phy.pl concatenated.fasta >concatenated.phy
 ```
-### CONSTRUCT phylogentic tree
+### CONSTRUCT phylogentic tree: Raxml
 #### concatenated, no partition
 ```bash
 raxmlHPC -f a -x 12345 -p 12345 -# 1000 -m GTRGAMMAI -s concatenated.phy -n concatenated_1
@@ -104,3 +104,14 @@ raxmlHPC -f a -m GTRGAMMAI -p 12345 -x 12345 -# 1000 -q patitions.tab -s concate
 Best-scoring ML tree written to: /home/Kang/Desktop/cleaner_fish/mito_phy/RAxML_bestTree.concatenated_3       
 Best-scoring ML tree with support values written to: /home/Kang/Desktop/cleaner_fish/mito_phy/RAxML_bipartitions.concatenated_3       
 Best-scoring ML tree with support values as branch labels written to: /home/Kang/Desktop/cleaner_fish/mito_phy/RAxML_bipartitionsBranchLabels.concatenated_3      
+****
+### CONSTRUCT phylogentic tree: Beast
+convert fasta file to nexus: http://phylogeny.lirmm.fr/phylo_cgi/data_converter.cgi     
+add some command in the end:      
+```
+begin assumptions;
+        charset 12S = 1-424;
+        charset 16S = 425-935;
+        charset COI = 936-1569;
+end;
+```
