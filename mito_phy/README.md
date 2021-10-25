@@ -83,6 +83,11 @@ Best-scoring ML tree with support values written to: /home/Kang/Desktop/cleaner_
 Best-scoring ML tree with support values as branch labels written to: /home/Kang/Desktop/cleaner_fish/mito_phy/RAxML_bipartitionsBranchLabels.concatenated_1       
 All 1000 bootstrapped trees written to: /home/Kang/Desktop/cleaner_fish/mito_phy/RAxML_bootstrap.concatenated_1         
 ### partitioned
+patitions.tab:   
+DNA, gene1 = 1-424     
+DNA, gene2 = 425-935      
+DNA, gene3 = 936-1569     
+
 ```bash
 raxmlHPC -f a -m GTRGAMMAI -p 12345 -x 12345 -# 1000 -q patitions.tab -s concatenated.phy -n concatenated_2
 ```
