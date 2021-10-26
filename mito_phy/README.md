@@ -127,3 +127,24 @@ In Linux:
 9. Estimate the results: File -> import Trace file (log File); the results are in the directory where you ran beast;        
 10. TreeAnnotator to get the final tree: burnin percentage (10); posterior probability limit (0.5);    
 ****
+### CONSTRUCT phylogentic tree: MrBayes 
+convert fasta file to nexus: http://phylogeny.lirmm.fr/phylo_cgi/data_converter.cgi     
+add some command in the end:      
+```
+begin mrbayes;
+        charset 12S = 1-424;
+        charset 16S = 425-935;
+        charset COI = 936-1569;
+        partition by_gene = 3:12S,16S,COI;
+        set partition = by_gene;
+end;
+```
+**run MrBayes:** mb       
+set model for each partition         
+```
+lset applyto=(1,2) nst=6 rates=invgamma
+lset applyto=(3) nst=6 rates=invgamma
+mcmc ngen=10000000 samplefreq=20000
+sump burnin=125
+sumt burnin=125
+```
