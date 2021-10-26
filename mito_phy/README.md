@@ -116,13 +116,14 @@ begin assumptions;
 end;
 ```
 In Linux:    
-1. ./beauti; File -> import alignment (select the nexus file);      
-2. site model: 12S (GTR+I+G; default + estimate(except substitution rate)); 16S (GTR+I+G; default + estimate(except substitution rate)); COI (HKY+I+G; default + estimate(except substitution rate));       
-3. clock model: relaxed clock log normal (default)    
-4. priors: default (Yule model: notice uniform birth rate should be set the lower and upper value, here i set them as 0 and 2);
-5. priors: if you want to add calibration time (+ add prior: Taxon set, all species you want set to a taxon, log normal distribution (set mean and standard deviation to ensure in calibration time within 2.5%-97.5%), notice to select monophyletic);     
-6. MCMC: chain length; store every (how often the prameter values in the markov chain should be displayed on the screen and recorded in the log file: if chain length=1000000, you want more than 10000 samples, then the store every should be 1000000/10000=100); the other set as default;  
-7. File -> save as (xml file); ./beast (run the xml file);                
-8. Estimate the results: File -> import Trace file (log File); the results are in the directory where you ran beast;        
-9. TreeAnnotator to get the final tree: burnin percentage (10); posterior probability limit (0.5);    
+1. ./beauti; File -> import alignment (select the nexus file);    
+2. if you just want one combined tree when you set the partitions, select all partitions (link trees);           
+3. site model: 12S (GTR+I+G; default + estimate(except substitution rate)); 16S (GTR+I+G; default + estimate(except substitution rate)); COI (HKY+I+G; default + estimate(except substitution rate));       
+4. clock model: relaxed clock log normal (default)    
+5. priors: default (Yule model: notice uniform birth rate should be set the lower and upper value, here i set them as 0 and 2);
+6. priors: if you want to add calibration time (+ add prior: Taxon set, all species you want set to a taxon, log normal distribution (set mean and standard deviation to ensure in calibration time within 2.5%-97.5%), notice to select monophyletic);     
+7. MCMC: chain length; store every (how often the prameter values in the markov chain should be displayed on the screen and recorded in the log file: if chain length=1000000, you want more than 10000 samples, then the store every should be 1000000/10000=100); the other set as default;  
+8. File -> save as (xml file); ./beast (run the xml file);                
+9. Estimate the results: File -> import Trace file (log File); the results are in the directory where you ran beast;        
+10. TreeAnnotator to get the final tree: burnin percentage (10); posterior probability limit (0.5);    
 ****
