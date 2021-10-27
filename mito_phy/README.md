@@ -150,6 +150,7 @@ sumt burnin=125
 ```
 ***
 ## restart: the same mito genes, different species
+working dir: ~/Desktop/cleaner_fish/mito_phy/restart       
 ### Species (NCBI: Nucleotide --> search "Thamnaconus septentrionalis mitochondrion, complete genome")
 **Labridae** (10 species): 5 Labroides; 1 Symphodus; 1 Labrus; 1 Thalassoma; 1 Cheilinus; 1 Notolabrus.           
 
