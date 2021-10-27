@@ -151,6 +151,7 @@ sumt burnin=125
 ***
 ## restart: the same mito genes, different species
 ### Species (NCBI: Nucleotide --> search "Thamnaconus septentrionalis mitochondrion, complete genome")
-**Labridae** (10 species): 5 Labroides; 1 Symphodus; 1 Labrus; 1 Thalassoma; 1 Cheilinus; 1 Notolabrus.     
-*Labrodies dimdiatus* (sequences from our genome and a individual from NCBI), *L. phthirophagus*, *L. bicolor*, *L. pectoralis*, *L. rubrolabiatus*, *Symphodus melops*, *Labrus bergylta*, *Thalassoma bifasciatum*, *Cheilinus undulatus*, *Notolabrus celidotus*            
+**Labridae** (10 species): 5 Labroides; 1 Symphodus; 1 Labrus; 1 Thalassoma; 1 Cheilinus; 1 Notolabrus.       
+*Labrodies dimdiatus* (sequences from our genome and a individual from NCBI), *L. phthirophagus*, *L. bicolor*, *L. pectoralis*, *L. rubrolabiatus*    
+*Symphodus melops*, *Labrus bergylta*, *Thalassoma bifasciatum*, *Cheilinus undulatus*, *Notolabrus celidotus*            
 **other species** (6 species): medaka, *Oryzias latipes*; spotted green pufferfish, *Tetraodon nigroviridis*; stickleback, *Gasterosteus aculeatus*; zebrafish, *Danio rerio*; platyfish, *Xiphophorus maculatus*; Spotted gar, *Lepisosteus oculatus*.     
