@@ -155,4 +155,5 @@ sumt burnin=125
 
 *Labrodies dimdiatus* (sequences from our genome and a individual from NCBI), *L. phthirophagus*, *L. bicolor*, *L. pectoralis*, *L. rubrolabiatus*    
 *Symphodus melops*, *Labrus bergylta*, *Thalassoma bifasciatum*, *Cheilinus undulatus*, *Notolabrus celidotus*            
+
 **other species** (6 species): medaka, *Oryzias latipes*; spotted green pufferfish, *Tetraodon nigroviridis*; stickleback, *Gasterosteus aculeatus*; zebrafish, *Danio rerio*; platyfish, *Xiphophorus maculatus*; Spotted gar, *Lepisosteus oculatus*.     
