@@ -158,3 +158,4 @@ working dir: ~/Desktop/cleaner_fish/mito_phy/restart
 *Symphodus melops*, *Labrus bergylta*, *Thalassoma bifasciatum*, *Cheilinus undulatus*, *Notolabrus celidotus*            
 
 **other species** (6 species): medaka, *Oryzias latipes*; spotted green pufferfish, *Tetraodon nigroviridis*; stickleback, *Gasterosteus aculeatus*; zebrafish, *Danio rerio*; platyfish, *Xiphophorus maculatus*; Spotted gar, *Lepisosteus oculatus*.     
+three genes alignment length: 12S (426); 16S (518); COI	(634).         
