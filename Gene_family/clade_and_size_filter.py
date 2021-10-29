@@ -1,9 +1,6 @@
 """
-This script defines and runs the clade_filter and size_filter functions. The former keeps only gene families with gene copies in at least two species of the specified clades; this is necessary because anc
-estral state reconstruction requires at least two species per clade of interest. The latter separates gene families with < 100 from > 100 gene copies in one or more species; this is necessary because big
-gene families cause the variance of gene copy number to be too large and lead to noninformative parameter estimates.
-The output should be two CAFE input files, one for gene families with < 100 gene copies in all species, another for the remaining gene families. The first file should be used to estimate parameter values,
- and these values should then be used to analyse the second file.
+This script defines and runs the clade_filter and size_filter functions. The former keeps only gene families with gene copies in at least two species of the specified clades; this is necessary because ancestral state reconstruction requires at least two species per clade of interest. The latter separates gene families with < 100 from > 100 gene copies in one or more species; this is necessary because big gene families cause the variance of gene copy number to be too large and lead to noninformative parameter estimates.
+The output should be two CAFE input files, one for gene families with < 100 gene copies in all species, another for the remaining gene families. The first file should be used to estimate parameter values, and these values should then be used to analyse the second file.
 """
 
 __author__ = "Fabio H. K. Mendes"
