@@ -1,6 +1,6 @@
 Gene Families
 ------------------------------
-## dowload data from Ensemble: [Biomart](http://www.ensembl.org/biomart/martview/d5204916c47e24f97df5659227a20b42)
+## dowload data from Ensembl: [Biomart](http://www.ensembl.org/biomart/martview/d5204916c47e24f97df5659227a20b42)
 Japanese Medaka, Oryzias latipes; Fugu, Takifugu rubripes; Stickleback, Gasterosteus aculeatus; Zebrafish, Danio rerio; Platyfish, Xiphophorus maculatus; Spotted gar, Lepisosteus oculatus
 1. click Ensembl Genes 104 -> Zebrafish genes (GRCz11);    
 2. click Attributes -> Sequences: Peptide -> Header information: Gene ID + CDS length (uncheck Transcript ID);    
@@ -15,6 +15,13 @@ perl Ensemble_longest_pep.pl --fasta *.fasta
 put pep sequences of all species into one file    
 ```bash
 cat Longest* > makeblastdb_input.fa
+```
+
+### For Platyfish which didn't download from Biomart
+working dir: ~/Desktop/cleaner_fish/genome  
+download pep sequences file of Platyfish from Ensembl (Platyfish.pep.all.fasta)     
+```bash
+perl prep_Ensembl_pep.pl --fasta Platyfish.pep.all.fasta
 ```
 
 ## all-by-all by blast
