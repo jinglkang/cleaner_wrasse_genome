@@ -484,14 +484,3 @@ mv Ldim-genome.cmscan Ldim-genome.tblout ~/genome/ncRNA/
 ```
 **Result**  ~/genome/ncRNA/:  Ldim-genome.cmscan; Ldim-genome.tblout       
 ***
-Gene prediction for *Thalassoma bifasciatum* (Bluehead wrasse)
---------------------------------------------------------------------
-## Using OrthoDB as basis for protein.fa to predict genes
-```bash
-braker.pl --softmasking --AUGUSTUS_ab_initio --gff3 \
---species Thalassoma_bifasciatum \
---cores 20 \
---genome=Thalassoma_bifasciatum_ChaHeader.fasta \
---prot_seq=OrthoDB_Vertebrata/proteins.fasta \
---workingdir ./Thalassoma_bifasciatum
-```
