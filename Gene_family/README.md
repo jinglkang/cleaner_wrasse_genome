@@ -23,7 +23,17 @@ download pep sequences file of Platyfish from Ensembl (Platyfish.pep.all.fasta)
 ```bash
 perl prep_Ensembl_pep.pl --fasta Platyfish.pep.all.fasta
 ```
-
+***
+## For species with gff and genome fasta file that were downloaded from ncbi
+working dir: ~/Desktop/cleaner_fish/genome  
+species: *cheilinus undulatus* (Cund), *Labrus bergylta* (Lber), *Notolabrus celidotus* (Ncel);   
+```bash
+~/software/gffread/gffread -y cheilinus_undulatus.pep.all.fasta -g cheilinus_undulatus.fasta cheilinus_undulatus.gff
+less cheilinus_undulatus.gff|grep -v '#'|perl -alne 'print if $F[2] eq "mRNA"'|perl -alne 'my ($tra)=$_=~/ID=(.*?);/;my ($gene)=$_=~/Parent=(.*?);/;$gene=~s/gene/Cund/;print "$tra\t$gene"' > cheilinus_undulatus.tran.gene
+perl transform.pl --fasta cheilinus_undulatus.pep.all.fasta --table cheilinus_undulatus.tran.gene >cheilinus_undulatus.pep.all.2.fasta
+perl prep_ncbi_pep.pl --fasta cheilinus_undulatus.pep.all.2.fasta
+```
+***
 ## all-by-all by blast
 ```bash
 makeblastdb -in makeblastdb_input.fa -dbtype prot -out blastdb
