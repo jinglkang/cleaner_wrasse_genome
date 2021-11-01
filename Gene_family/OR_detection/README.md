@@ -15,3 +15,16 @@ use the longest pep sequence as the gene sequence:  ../test/makeblastdb_input.fa
 perl temp2.pl >query.fasta
 ```
 320 sequences as query      
+## identify OR in Labroides dimidiatus (bluestreak cleaner wrasse)
+```bash
+scp kang1234@147.8.76.155:~/genome/Gene_annotation/Cleaner_wrasse_softmasked_ChaHeader.fasta ./
+mkdir Ldim
+mv Cleaner_wrasse_softmasked_ChaHeader.fasta Ldim/
+cp query.fasta Ldim/
+cd Ldim/
+makeblastdb -in Cleaner_wrasse_softmasked_ChaHeader.fasta -dbtype nucl -parse_seqids -out Cleaner_wrasse
+tblastn -outfmt 6 -query query.fasta -out query.fa.bla -db Cleaner_wrasse -evalue 1e-10 -num_threads 30
+solar.pl -f m8 -cCn 1000 -d -1 query.fa.bla >query.fa.bla.solar
+best_solar_finder.pl query.fa.bla.solar >query.fa.bla.solar.besthit
+
+```
