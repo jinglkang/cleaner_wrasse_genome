@@ -64,7 +64,7 @@ sub extract_info_fasta {
                         $gene=$a[0];
                         $a[1]?($len=$a[1]):($len=0);
                         $hash1{$gene}++;
-                        push @genes, $gene;
+                        push @genes, $gene if $hash1{$gene}==1;
                 } else {
                         my $time=$hash1{$gene};
                         $hash2{$gene}->{$time} .= $_;
