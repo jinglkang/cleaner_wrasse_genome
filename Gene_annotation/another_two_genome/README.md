@@ -7,7 +7,7 @@ working dir: ~/Desktop/cleaner_fish/genome
 ```bash
 mkdir smel_genome
 cd smel_genome/
-trf Symphodus_melops.fasta 2 5 7 80 10 50 2000
+trf Symphodus_melops.fasta 2 5 7 80 10 50 2000 -h -f -d -m
 ```
 ## *Thalassoma bifasciatum* : did not find the annotation information
 Gene prediction for *Thalassoma bifasciatum* (Bluehead wrasse)
