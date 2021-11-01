@@ -26,5 +26,7 @@ makeblastdb -in Cleaner_wrasse_softmasked_ChaHeader.fasta -dbtype nucl -parse_se
 tblastn -outfmt 6 -query query.fasta -out query.fa.bla -db Cleaner_wrasse -evalue 1e-10 -num_threads 30
 solar.pl -f m8 -cCn 1000 -d -1 query.fa.bla >query.fa.bla.solar
 best_solar_finder.pl query.fa.bla.solar >query.fa.bla.solar.besthit
+cat query.fa.bla.solar.besthit|perl -lane '$alength=$F[3]-$F[2]+1;print unless $alength<250' >query.fa.bla.solar.besthit.lt250
+cat query.fasta Cleaner_wrasse_softmasked_ChaHeader.fasta >pool.fa
 
 ```
