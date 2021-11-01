@@ -14,3 +14,4 @@ use the longest pep sequence as the gene sequence:  ../test/makeblastdb_input.fa
 ```bash
 perl temp2.pl >query.fasta
 ```
+320 sequences as query      
