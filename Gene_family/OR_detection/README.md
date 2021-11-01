@@ -14,7 +14,7 @@ use the longest pep sequence as the gene sequence:  ../test/makeblastdb_input.fa
 ```bash
 perl temp2.pl >query.fasta
 ```
-320 sequences as query      
+257 of 320 sequences as query      
 ## identify OR in Labroides dimidiatus (bluestreak cleaner wrasse)
 ```bash
 scp kang1234@147.8.76.155:~/genome/Gene_annotation/Cleaner_wrasse_softmasked_ChaHeader.fasta ./
