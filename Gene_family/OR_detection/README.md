@@ -1,7 +1,6 @@
-Olfactory receptors detection
---------------------------------------
+# Olfactory receptors detection
 working dir: ~/Desktop/cleaner_fish/genome/OR_detection      
-# obtain query receptors
+## obtain query receptors
 search "**olfactory**" in gene name of species     
 ```bash
 less Stickleback_gene.txt.gz|grep -Ei 'olfactory'|perl -alne '$ge="Stickleback_".$F[0];print $ge'>query_gene.txt
