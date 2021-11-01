@@ -28,5 +28,7 @@ solar.pl -f m8 -cCn 1000 -d -1 query.fa.bla >query.fa.bla.solar
 best_solar_finder.pl query.fa.bla.solar >query.fa.bla.solar.besthit
 cat query.fa.bla.solar.besthit|perl -lane '$alength=$F[3]-$F[2]+1;print unless $alength<250' >query.fa.bla.solar.besthit.lt250
 cat query.fasta Cleaner_wrasse_softmasked_ChaHeader.fasta >pool.fa
-
+genewise_after_solar.pl pool.fa query.fa.bla.solar.besthit.lt250
+best_genewise_finder.pl query.fa.bla.solar.besthit.lt250.wise >query.fa.bla.solar.besthit.lt250.wise.best
+wise2cds.pl Cleaner_wrasse_softmasked_ChaHeader.fasta query.fa.bla.solar.besthit.lt250.wise.best >query.fa.bla.solar.besthit.lt250.wise.best.cds
 ```
