@@ -30,5 +30,5 @@ cat query.fa.bla.solar.besthit|perl -lane '$alength=$F[3]-$F[2]+1;print unless $
 cat query.fasta Cleaner_wrasse_softmasked_ChaHeader.fasta >pool.fa
 genewise_after_solar.pl pool.fa query.fa.bla.solar.besthit.lt250
 best_genewise_finder.pl query.fa.bla.solar.besthit.lt250.wise >query.fa.bla.solar.besthit.lt250.wise.best
-wise_parser.pl Cleaner_wrasse_softmasked_ChaHeader.fasta query.fa.bla.solar.besthit.lt250.wise
+wise_parser.pl Cleaner_wrasse_softmasked_ChaHeader.fasta query.fa.bla.solar.besthit.lt250.wise.best
 ```
