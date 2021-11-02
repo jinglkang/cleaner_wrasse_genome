@@ -2,7 +2,7 @@ Gene annotation for another two species
 ------------------------------------------------------
 ## Symphodus melops (corkwing wrasse)
 annotation gtf file lacks the alternative splicing information          
-working dir: ~/Desktop/cleaner_fish/genome     
+working dir: ~/Desktop/cleaner_fish/genome   && SNORLAX:   ~/genome/Repeat_annotation/smel_repeat     
 ### Tandem Repeats Finder to search the tandem repeat
 ```bash
 mkdir smel_genome
