@@ -17,7 +17,16 @@ use the longest pep sequence as the gene sequence:  ../test/makeblastdb_input.fa
 perl temp2.pl >query.fasta
 ```
 257 of 320 sequences as query      
+
 ## identify OR in Labroides dimidiatus (bluestreak cleaner wrasse)
+### solar output
+```bash
+Stickleback_ENSGACG00000005797  319     52      319     -       Scx22uW_10      28217623        26878094        26880398        2       196     52,272;271,319; 26880398,26879739;26878240,26878094;    -158;-39;
+Stickleback_ENSGACG00000005797  319     1       300     -       Scx22uW_11      31167972        31135941        31136830        2       94      1,135;138,300;  31136830,31136438;31136432,31135941;    -47;-47;
+Stickleback_ENSGACG00000010313  796     14      791     +       Scx22uW_17      12817414        11935300        11938409        5       665     14,69;70,166;165,517;515,620;621,791;   11935300,11935467;11935589,11935879;11936020,11937162;11937249,11937698;11937897,11938409;      +49;+83;+303;+86;+149;
+Stickleback_ENSGACG00000010313  796     21      789     +       Scx22uW_17      12817414        11930927        11948974        7       424     21,68;74,171;165,417;440,517;516,558;554,620;621,789;   11930927,11931070;11931162,11931458;11931738,11932484;11932624,11932854;11932931,11933059;11933112,11933312;11948468,11948974;  +16;+49;+130;+40;+29;+27;+141;
+```
+**solar**: **-cCn** intron length (subject length 26880398-26878094+1=2305; pep length 319\*3=957; intron length 2304-957+1=1347; it will not be clustered together if -cCn=1000 even the two blast hit have overlap, otherwise the two blast hit will be clustered)    
 ```bash
 scp kang1234@147.8.76.155:~/genome/Gene_annotation/Cleaner_wrasse_softmasked_ChaHeader.fasta ./
 mkdir Ldim
