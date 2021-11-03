@@ -18,6 +18,10 @@ chmod +x dfam-tetools.sh
 BuildDatabase -name Symphodus_melops Symphodus_melops.fasta
 nohup RepeatModeler -database Symphodus_melops -pa 30 -LTRStruct >& RepeatModeler.run.out &
 ```
+#### RepeatMasker: soft mask
+```bash
+RepeatMasker -lib Symphodus_melops-families.fa -pa 30 -xsmall Symphodus_melops.fasta
+```
 
 ***
 ## *Thalassoma bifasciatum* : did not find the annotation information
