@@ -34,3 +34,8 @@ genewise_after_solar.pl pool.fa query.fa.bla.solar.besthit.lt250
 best_genewise_finder.pl query.fa.bla.solar.besthit.lt250.wise >query.fa.bla.solar.besthit.lt250.wise.best
 wise_parser.pl Cleaner_wrasse_softmasked_ChaHeader.fasta query.fa.bla.solar.besthit.lt250.wise.best
 ```
+## build an NJ tree using FastTree
+```bash
+fa2aln 1.fasta -f > 1.align.fasta
+FastTree -fastest 2.align.fasta > 2.align.tre
+```
