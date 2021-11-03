@@ -35,7 +35,9 @@ best_genewise_finder.pl query.fa.bla.solar.besthit.lt250.wise >query.fa.bla.sola
 wise_parser.pl Cleaner_wrasse_softmasked_ChaHeader.fasta query.fa.bla.solar.besthit.lt250.wise.best
 ```
 ## build an NJ tree using FastTree
+include the sequences of Non-OR genes and Zebrafish clasiffied OR genes         
 ```bash
 fa2aln 1.fasta -f > 1.align.fasta
 FastTree -fastest 2.align.fasta > 2.align.tre
+less 2.align.tre|perl -alne 's/β/Bata/g;s/γ/Gama/g;s/δ/Delta/g;s/ε/Epsilon/g;s/ζ/Zeta/g;s/η/Eta/g;s/θ/Theta/g;s/κ/Kappa/g;print' >2.align.tre2
 ```
