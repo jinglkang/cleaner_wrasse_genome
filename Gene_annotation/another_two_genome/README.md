@@ -21,8 +21,18 @@ nohup RepeatModeler -database Symphodus_melops -pa 30 -LTRStruct >& RepeatModele
 #### RepeatMasker: soft mask
 ```bash
 RepeatMasker -lib Symphodus_melops-families.fa -pa 30 -xsmall Symphodus_melops.fasta
+cp Symphodus_melops.fasta.masked Symphodus_melops_softmasked.fasta
 ```
-
+results: ~/Desktop/cleaner_fish/genome/smel_genome/Symphodus_melops_softmasked.fasta
+### Gene Prediction
+```bash
+braker.pl --softmasking --AUGUSTUS_ab_initio --gff3 \
+--species Symphodus_melops \
+--cores 20 \
+--genome=Symphodus_melops_softmasked.fasta \
+--prot_seq=OrthoDB_Vertebrata/proteins.fasta \
+--workingdir ./Symphodus_melops
+```
 ***
 ## *Thalassoma bifasciatum* : did not find the annotation information
 Gene prediction for *Thalassoma bifasciatum* (Bluehead wrasse)
