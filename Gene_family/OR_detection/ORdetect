@@ -1,0 +1,73 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use File::Basename;
+use Getopt::Long 'HelpMessage';
+
+my $usage=<<_EOH_;;
+----------------------------------------------------------------------------------------
+This script is used to identify the OR genes of the input genome, and classify them
+
+Usage: 
+ORdetect --genome ./Cleaner_wrasse_softmasked_ChaHeader.fasta 
+		 --species Cleaner_wrasse
+		 --query ./query.fasta
+		 --nonOR ../Non_OR_gene.fasta
+		 --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+
+Example:
+1. --genome: the input genome
+2. --species: the species name
+3. --query:  the Known OR genes as query 
+4. --nonOR:  Non-OR genes
+5. --uniport: uniprot database 
+													Kang 2021-11-04
+------------------------------------------------------------------------------------------
+_EOH_
+;
+
+GetOptions(
+	'genome:s', \my $genome,
+	'species:s', \my $species,
+	'query:s', \my $query,
+	'nonOR:s', \my $nonOR,
+	'uniport:s', \ my $uniport
+	);
+
+unless ($genome && $query && $nonOR && $uniport) {
+	die $usage;
+}
+
+mkdir $species; # make the directory in the current directory for the output result
+chdir $species;
+
+########################################
+# 1. tblastn # the first time of tblastn  
+########################################
+mkdir "tblastn1"; chdir "tblastn1";
+system("makeblastdb -in $genome -dbtype nucl -parse_seqids -out $species");
+system("tblastn -outfmt 6 -query $query -out query.fa.bla -db $species -evalue 1e-10 -num_threads 30");
+system("solar.pl -f m8 -cCn 1000 -d -1 query.fa.bla >query.fa.bla.solar");
+system("best_solar_finder.pl query.fa.bla.solar >query.fa.bla.solar.besthit");
+system("cat query.fa.bla.solar.besthit|perl -lane '\$alength=\$F[3]-\$F[2]+1;print unless \$alength<250' >query.fa.bla.solar.besthit.lt250");
+chdir "../";
+########################################
+
+########################################
+# 2. genewise  
+########################################
+mkdir "genewise"; chdir "genewise";
+system("cat $query $genome >pool.fa");
+system("genewise_after_solar.pl pool.fa ../tblastn/query.fa.bla.solar.besthit.lt250"); # output: query.fa.bla.solar.besthit.lt250.wise
+system("best_genewise_finder.pl query.fa.bla.solar.besthit.lt250.wise >query.fa.bla.solar.besthit.lt250.wise.best");
+system("wise_parser.pl $genome query.fa.bla.solar.besthit.lt250.wise.best"); 
+# output: query.fa.bla.solar.besthit.lt250.wise.best.aa; query.fa.bla.solar.besthit.lt250.wise.best.cds;
+# output: query.fa.bla.solar.besthit.lt250.wise.best.dna; query.fa.bla.solar.besthit.lt250.wise.best.gff;
+chdir "../";
+########################################
+
+########################################
+# 3. filtering: blastp to uniprot  
+########################################
+mkdir "filtering"; chdir "filtering";
+
