@@ -51,3 +51,12 @@ fa2aln 1.fasta -f > 1.align.fasta
 FastTree -fastest 2.align.fasta > 2.align.tre
 less 2.align.tre|perl -alne 's/β/Bata/g;s/γ/Gama/g;s/δ/Delta/g;s/ε/Epsilon/g;s/ζ/Zeta/g;s/η/Eta/g;s/θ/Theta/g;s/κ/Kappa/g;print' >2.align.tre2
 ```
+## ORdetect
+```bash
+ORdetect --genome /media/HDD/cleaner_fish/genome/OR_detection/Ldim/Cleaner_wrasse_softmasked_ChaHeader.fasta \
+--species Cleaner_wrasse \
+--query /media/HDD/cleaner_fish/genome/OR_detection/query.fasta \
+--nonOR /media/HDD/cleaner_fish/genome/OR_detection/Non_OR_gene2.fasta  \
+--class /media/HDD/cleaner_fish/genome/OR_detection/Zebrafish_OR_class2.fasta  \
+--uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+```
