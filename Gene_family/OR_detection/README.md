@@ -1,5 +1,6 @@
 # Olfactory receptors detection
-working dir: ~/Desktop/cleaner_fish/genome/OR_detection      
+working dir: ~/Desktop/cleaner_fish/genome/OR_detection;      
+move to: /media/HDD/cleaner_fish;       
 Non_OR_gene.fasta: download sequences according to [paper](https://link-springer-com.eproxy.lib.hku.hk/protocol/10.1007%2F978-1-62703-377-0_3#Sec00036)      
 Zebrafish_OR_class.fasta: download according to [Evolutionary dynamics of olfactory receptor genes in fishes and tetrapods](https://www.pnas.org/content/102/17/6039/tab-figures-data)     
 ## obtain query receptors
