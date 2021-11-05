@@ -60,3 +60,8 @@ ORdetect --genome /media/HDD/cleaner_fish/genome/OR_detection/Ldim/Cleaner_wrass
 --class /media/HDD/cleaner_fish/genome/OR_detection/Zebrafish_OR_class2.fasta  \
 --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
 ```
+## NO SPACE
+```bash
+journalctl --vacuum-size=100M
+journalctl --vacuum-time=10d
+```
