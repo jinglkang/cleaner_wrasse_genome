@@ -65,3 +65,4 @@ ORdetect --genome /media/HDD/cleaner_fish/genome/OR_detection/Ldim/Cleaner_wrass
 journalctl --vacuum-size=100M
 journalctl --vacuum-time=10d
 ```
+And delete the core-dump in /var/lib/apport/coredump         
