@@ -106,3 +106,14 @@ mcxdump -icl out.blast_output.mci.I30 -tabr blast_output.tab -o dump.blast_outpu
 python mcl2rawcafe.py -i dump.blast_output.mci.I30 -o unfiltered_cafe_input.txt -sp "ENSTRUG ENSORLG ENSLOCG ENSGACG ENSDARG"
 python clade_and_size_filter.py -i unfiltered_cafe_input.txt -o filtered_cafe_input.txt -s
 ```
+***
+## CAFE for gene family: start
+working dir: my own work station (/media/HDD/cleaner_fish/genome/gene_family)       
+```
+mv test/ gene_family/    
+mv ../*_pep.fasta ./
+perl Ensemble_longest_pep.pl --fasta *.fasta
+cat Longest* > makeblastdb_input.fa
+makeblastdb -in makeblastdb_input.fa -dbtype prot -out blastdb
+nohup blastp -num_threads 30 -db blastdb -query makeblastdb_input.fa -outfmt 7 -seg yes > blast_output.txt 2>&1 &
+```
