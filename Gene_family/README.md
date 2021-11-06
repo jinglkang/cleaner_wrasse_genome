@@ -16,7 +16,7 @@ put pep sequences of all species into one file
 ```bash
 cat Longest* > makeblastdb_input.fa
 ```
-
+***
 ### For Platyfish which didn't download from Biomart
 working dir: ~/Desktop/cleaner_fish/genome  
 download pep sequences file of Platyfish from Ensembl (Platyfish.pep.all.fasta)     
