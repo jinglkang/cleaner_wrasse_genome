@@ -34,6 +34,63 @@ perl transform.pl --fasta cheilinus_undulatus.pep.all.fasta --table cheilinus_un
 perl prep_ncbi_pep.pl --fasta cheilinus_undulatus.pep.all.2.fasta
 ```
 ***
+## For species genes predicted by BRAKER
+### *Thalassoma bifasciatum*
+**SNORLAX** working dir: ~/genome/Gene_annotation/Thalassoma_bifasciatum   
+rename the output gtf (braker.gtf), and extract the pep sequences        
+```bash
+rename_gtf.py --gtf braker.gtf --prefix Tbif --out braker_renamed.gtf
+~/software/gffread/gffread -y Thalassoma_bifasciatum.pep.all.fasta -g ../Thalassoma_bifasciatum_ChaHeader.fasta braker_renamed.gtf
+```
+```bash
+perl temp1.pl Thalassoma_bifasciatum.pep.all.fasta>Thalassoma_bifasciatum_pep.fasta
+```
+```perl
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+my %hash; my $tran; my @trans;
+open FIL, "$ARGV[0]";
+while (<FIL>) {
+	chomp;
+	if (/>/) {
+		s/>//;
+		$tran=$_;
+		push @trans, $tran;
+	} else {
+		$hash{$tran}.=$_;
+	}
+}
+
+foreach my $tran (@trans) {
+	(my $na)=$tran=~/(.*)\./;
+	my $seq=$hash{$tran};
+	my $len=length($seq);
+	print ">$na|$len\n$seq\n";
+}
+```
+***
+### *Symphodus melops*
+**SNORLAX** working dir: ~/genome/Gene_annotation/Symphodus_melops    
+rename the output gtf (braker.gtf), and extract the pep sequences        
+```bash
+rename_gtf.py --gtf braker.gtf --prefix Smel --out braker_renamed.gtf
+~/software/gffread/gffread -y Symphodus_melops.pep.all.fasta -g ../Symphodus_melops_softmasked.fasta braker_renamed.gtf
+cp ../Thalassoma_bifasciatum/temp1.pl ./
+perl temp1.pl Symphodus_melops.pep.all.fasta>Symphodus_melops_pep.fasta
+```
+***
+### *Labroides dimidiatus*
+**SNORLAX** working dir: ~/genome/Gene_annotation/combined       
+```bash
+~/software/gffread/gffread -y Cleaner_wrasse.pep.all.fasta -g ../Cleaner_wrasse_softmasked_ChaHeader.fasta braker2+3_combined_renamed.gtf
+cp ../Thalassoma_bifasciatum/temp1.pl temp4.pl
+perl temp4.pl Cleaner_wrasse.pep.all.fasta>Labroides_dimidiatus_pep.fasta
+``` 
+***
+copy Labroides_dimidiatus_pep.fasta Thalassoma_bifasciatum_pep.fasta Symphodus_melops_pep.fasta to my own workstation (/media/HDD/cleaner_fish/genome);       
+***
 ## all-by-all by blast
 ```bash
 makeblastdb -in makeblastdb_input.fa -dbtype prot -out blastdb
