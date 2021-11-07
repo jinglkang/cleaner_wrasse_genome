@@ -117,3 +117,66 @@ cat Longest* > makeblastdb_input.fa
 makeblastdb -in makeblastdb_input.fa -dbtype prot -out blastdb
 nohup blastp -num_threads 30 -db blastdb -query makeblastdb_input.fa -outfmt 7 -seg yes > blast_output.txt 2>&1 &
 ```
+## CAFE for gene family: start
+working dir: my own work station (/media/HDD/cleaner_fish/genome/gene_family)       
+```
+mv test/ gene_family/    
+mv ../*_pep.fasta ./
+perl Ensemble_longest_pep.pl --fasta *.fasta
+cat Longest* > makeblastdb_input.fa
+makeblastdb -in makeblastdb_input.fa -dbtype prot -out blastdb
+nohup blastp -num_threads 30 -db blastdb -query makeblastdb_input.fa -outfmt 7 -seg yes > blast_output.txt 2>&1 &
+```
+### use diamond to do the blastp
+```perl
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+my $gene; my @genes; my %hash;
+open FIL1, "makeblastdb_input.fa";
+while (<FIL1>) {
+        chomp;
+        if (/>/) {
+                s/>//;
+                $gene=$_;
+                push @genes, $gene;
+        } else {
+                $hash{$gene}.=$_;
+        }
+}
+
+open FIL2, ">1.txt";
+foreach my $gene (@genes) {
+        my $new_gene;
+        if ($gene=~/ENSTRUG/) {
+                $new_gene="Fugu_".$gene;
+        } elsif ($gene=~/ENSORLG/) {
+                $new_gene="Medaka_".$gene;
+        } elsif ($gene=~/ENSXMAG/) {
+                $new_gene="Platyfish_".$gene;
+        } elsif ($gene=~/ENSLOCG/) {
+                $new_gene="Spottedgar_".$gene;
+        } elsif ($gene=~/ENSGACG/) {
+                $new_gene="Stickleback_".$gene;
+        } elsif ($gene=~/ENSDARG/) {
+                $new_gene="Zebrafish_".$gene;
+        } else {
+                $new_gene=$gene;
+        }
+        my $seq=$hash{$gene};   
+        if ($seq=~/\./) {
+                print FIL2 ">$new_gene\n$seq\n";
+        } else {
+                print ">$new_gene\n$seq\n";
+        }
+}
+close FIL2;
+
+```
+remove the sequences if the sequences include '.' (these seuqneces will be saved in 1.txt)      
+```bash
+perl temp1.pl >makeblastdb_input.2.fa
+diamond makedb --in makeblastdb_input.2.fa -d blastdb
+diamond blastp -q makeblastdb_input.2.fa -e 1e-5 --sensitive -d ./blastdb --out blast_output.txt
+```
