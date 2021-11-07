@@ -227,4 +227,6 @@ perl temp2.pl >single_copy.concatenated.fasta
 fasta2phy.pl single_copy.concatenated.fasta >single_copy.concatenated.phy
 ```
 the phylogenetic tree will be constructed on the basis of single_copy.concatenated.phy     
-
+```bash
+raxmlHPC -f a -m PROTGAMMAAUTO -p 12345 -x 12345 -# 1000 -s single_copy.concatenated.phy -o Spottedgar -n single_copy.concatenated
+```
