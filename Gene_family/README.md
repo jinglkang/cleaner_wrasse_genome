@@ -192,4 +192,33 @@ extract single copy orthologues and align them (the result will be in: /media/HD
 less filtered_cafe_input.txt|perl -alne 'my @a;for($i=2;$i<@F;$i++){push @a, $F[$i] if $F[$i]==1};print if @a==12'|wc -l
 perl extract_single_copy.pl
 ```
-1465 single copy orthlogues.
+1465 single copy orthlogues.      
+```perl
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+my (%seq, %hash);
+my $spe; my @spes;
+my @fasta=<single_copy/*.fasta>;
+foreach my $fasta (@fasta) {
+        open FIL, "$fasta" or die "can not open $fasta\n";
+        while (<FIL>) {
+                chomp;
+                if (/>(.*?)(_|-)/) {
+                        $spe=$1;
+                        $hash{$spe}++;
+                        push @spes, $spe if $hash{$spe}==1;
+                } else {
+                        $seq{$spe}.=$_;
+                }
+        }
+}
+
+foreach my $spe (@spes) {
+        print ">$spe\n$seq{$spe}\n";
+}
+```
+```bash
+perl temp2.pl >single_copy.concatenated.fasta
+```
