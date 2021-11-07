@@ -186,3 +186,4 @@ mcxdump -icl out.blast_output.mci.I30 -tabr blast_output.tab -o dump.blast_outpu
 python mcl2rawcafe.py -i dump.blast_output.mci.I30 -o unfiltered_cafe_input.txt -sp "Fugu Medaka Platyfish Spottedgar Stickleback Zebrafish Cund Lber Ncel Smel Tbif Ldim"
 python clade_and_size_filter.py -i unfiltered_cafe_input.txt -o filtered_cafe_input.txt -s
 ```
+### Estimating a species tree on the basis of one-to-one orthologues
