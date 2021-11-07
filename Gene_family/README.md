@@ -179,4 +179,10 @@ remove the sequences if the sequences include '.' (these seuqneces will be saved
 perl temp1.pl >makeblastdb_input.2.fa
 diamond makedb --in makeblastdb_input.2.fa -d blastdb
 diamond blastp -q makeblastdb_input.2.fa -e 1e-5 --sensitive -d ./blastdb --out blast_output.txt
+cut -f 1,2,11 blast_output.txt > blast_output.abc
+mcxload -abc blast_output.abc --stream-mirror --stream-neg-log10 -stream-tf 'ceil(200)' -o blast_output.mci -write-tab blast_output.tab
+mcl blast_output.mci -I 3
+mcxdump -icl out.blast_output.mci.I30 -tabr blast_output.tab -o dump.blast_output.mci.I30
+python mcl2rawcafe.py -i dump.blast_output.mci.I30 -o unfiltered_cafe_input.txt -sp "Fugu Medaka Platyfish Spottedgar Stickleback Zebrafish Cund Lber Ncel Smel Tbif Ldim"
+python clade_and_size_filter.py -i unfiltered_cafe_input.txt -o filtered_cafe_input.txt -s
 ```
