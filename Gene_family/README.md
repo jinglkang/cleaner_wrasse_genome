@@ -187,3 +187,9 @@ python mcl2rawcafe.py -i dump.blast_output.mci.I30 -o unfiltered_cafe_input.txt 
 python clade_and_size_filter.py -i unfiltered_cafe_input.txt -o filtered_cafe_input.txt -s
 ```
 ### Estimating a species tree on the basis of one-to-one orthologues
+extract single copy orthologues and align them (the result will be in: /media/HDD/cleaner_fish/genome/gene_family/single_copy)      
+```bash
+less filtered_cafe_input.txt|perl -alne 'my @a;for($i=2;$i<@F;$i++){push @a, $F[$i] if $F[$i]==1};print if @a==12'|wc -l
+perl extract_single_copy.pl
+```
+1465 single copy orthlogues.
