@@ -222,3 +222,4 @@ foreach my $spe (@spes) {
 ```bash
 perl temp2.pl >single_copy.concatenated.fasta
 ```
+the phylogenetic tree will be constructed on the basis of single_copy.concatenated.fasta     
