@@ -2,7 +2,8 @@
 **THANKS** very very much for the help of Dr. Du Kang (University of Wuerzburg) and Dr. Jiang Haifeng (Northwest A&F University). All the scripts are from Du Kang.    
 working dir: ~/Desktop/cleaner_fish/genome/OR_detection;      
 move to: /media/HDD/cleaner_fish;       
-Non_OR_gene.fasta: download sequences according to [paper](https://link-springer-com.eproxy.lib.hku.hk/protocol/10.1007%2F978-1-62703-377-0_3#Sec00036)      
+Non_OR_gene2.fasta: download from [paper](https://link-springer-com.eproxy.lib.hku.hk/protocol/10.1007%2F978-1-62703-377-0_3#Sec00036)      
+MBE_OR_class.fasta && OR_query_MBE.fasta: download from [MBE](https://academic.oup.com/mbe/article/38/10/4238/6277737#304113028)       
 Zebrafish_OR_class.fasta: download according to [Evolutionary dynamics of olfactory receptor genes in fishes and tetrapods](https://www.pnas.org/content/102/17/6039/tab-figures-data)     
 ## obtain query receptors
 search "**olfactory**" in gene name of species     
