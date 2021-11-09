@@ -231,3 +231,10 @@ use the PROTGAMMAAUTO parameter to select the optimal amino acid substitution mo
 ```bash
 raxmlHPC -f a -m PROTGAMMAAUTO -p 12345 -x 12345 -# 1000 -s single_copy.concatenated.phy -o Spottedgar -n single_copy.concatenated
 ```
+### Install r8s
+```bash
+sed -i 's/continuousML.o //' Makefile.linux
+sed -i 's/continuousML.o:/#continuousML.o:/' Makefile.linux
+# then delete "memory.o: /usr/include/errno.h /usr/include/sys/errno.h" in Makefile.linux to "memory.o: /usr/include/errno.h"
+make -f Makefile.linux
+```
