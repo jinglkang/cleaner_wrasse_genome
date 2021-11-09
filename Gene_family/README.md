@@ -238,7 +238,7 @@ sed -i 's/continuousML.o:/#continuousML.o:/' Makefile.linux
 # then delete "memory.o: /usr/include/errno.h /usr/include/sys/errno.h" in Makefile.linux to "memory.o: /usr/include/errno.h"
 make -f Makefile.linux
 ```
-set the calibration point: *D. rerio* - *G. aculeatus* (149.85-165.2), get the mid point as the calibration point (156.53).     
+set the calibration point: *D. rerio* - *G. aculeatus* (149.85-165.2 Mya), get the mid point as the calibration point (156.53).     
 ```bash
 python cafetutorial_prep_r8s.py -i RAxML_bestTree.single_copy.concatenated -o r8s_ctl_file.txt -s 638853 -p 'Zebrafish,Stickleback' -c '156.53'
 r8s -b -f r8s_ctl_file.txt > r8s_tmp.txt
