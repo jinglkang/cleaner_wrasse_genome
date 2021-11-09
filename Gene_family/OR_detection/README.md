@@ -1,4 +1,5 @@
 # Olfactory receptors detection
+**THANKS** very very much for the help of Dr. Du Kang (University of Wuerzburg) and Dr. Jiang Haifeng (Northwest A&F University). All the scripts are from Du Kang.    
 working dir: ~/Desktop/cleaner_fish/genome/OR_detection;      
 move to: /media/HDD/cleaner_fish;       
 Non_OR_gene.fasta: download sequences according to [paper](https://link-springer-com.eproxy.lib.hku.hk/protocol/10.1007%2F978-1-62703-377-0_3#Sec00036)      
@@ -51,7 +52,7 @@ fa2aln 1.fasta -f > 1.align.fasta
 FastTree -fastest 2.align.fasta > 2.align.tre
 less 2.align.tre|perl -alne 's/β/Bata/g;s/γ/Gama/g;s/δ/Delta/g;s/ε/Epsilon/g;s/ζ/Zeta/g;s/η/Eta/g;s/θ/Theta/g;s/κ/Kappa/g;print' >2.align.tre2
 ```
-## ORdetect
+## ORdetect1
 ```bash
 ORdetect --genome /media/HDD/cleaner_fish/genome/OR_detection/Ldim/Cleaner_wrasse_softmasked_ChaHeader.fasta \
 --species Cleaner_wrasse \
@@ -65,4 +66,13 @@ ORdetect --genome /media/HDD/cleaner_fish/genome/OR_detection/Ldim/Cleaner_wrass
 journalctl --vacuum-size=100M
 journalctl --vacuum-time=10d
 ```
-And delete the core-dump in /var/lib/apport/coredump         
+And delete the core-dump in /var/lib/apport/coredump  
+## ORdetect2 (which will be used in the following OR genes detection)      
+```bash
+ORdetect --genome /media/HDD/cleaner_fish/genome/OR_detection/Gasterosteus_aculeatus.BROADS1.dna_sm.toplevel.fa \
+--species Stickleback \
+--query /media/HDD/cleaner_fish/genome/OR_detection/OR_query_MBE.fasta \
+--nonOR /media/HDD/cleaner_fish/genome/OR_detection/Non_OR_gene2.fasta \
+--class /media/HDD/cleaner_fish/genome/OR_detection/MBE_OR_class.fasta \
+--uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+```
