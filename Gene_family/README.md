@@ -297,6 +297,8 @@ while (<FIL4>) {
 perl temp3.pl >filtered_cafe_input.final.txt
 ```
 **filtered_cafe_input.final.txt** will be the final input of CAFE     
+### Estimating the birth-death parameter λ
+#### Estimating a single λ for the whole tree
 
 
 
