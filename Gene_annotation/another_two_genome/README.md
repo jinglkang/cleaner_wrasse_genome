@@ -39,7 +39,7 @@ braker.pl --softmasking --AUGUSTUS_ab_initio --gff3 \
 rename_gtf.py --gtf braker.gtf --prefix Smel --out braker_renamed.gtf
 # get the pep sequence per transcript
 ~/software/gffread/gffread -y Symphodus_melops.pep.all.fasta -g ../Symphodus_melops_softmasked.fasta braker_renamed.gtf
-# rename the sequences header
+# rename the sequences header and remove sequences if the sequences include '.'
 less Symphodus_melops.pep.all.fasta|perl -alne 'if (/>/){my ($gene)=$_=~/>(.*)\./;print "$_ gene=$gene"}else{print}' >Symphodus_melops.pep.all.1.fasta
 # get the longest transcript per gene
 perl extract_long_transcript.pl Symphodus_melops.pep.all.1.fasta
