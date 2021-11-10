@@ -33,6 +33,22 @@ braker.pl --softmasking --AUGUSTUS_ab_initio --gff3 \
 --prot_seq=OrthoDB_Vertebrata/proteins.fasta \
 --workingdir ./Symphodus_melops
 ```
+### Annotate
+```bash
+# rename first
+rename_gtf.py --gtf braker.gtf --prefix Smel --out braker_renamed.gtf
+# get the pep sequence per transcript
+~/software/gffread/gffread -y Symphodus_melops.pep.all.fasta -g ../Symphodus_melops_softmasked.fasta braker_renamed.gtf
+# rename the sequences header
+less Symphodus_melops.pep.all.fasta|perl -alne 'if (/>/){my ($gene)=$_=~/>(.*)\./;print "$_ gene=$gene"}else{print}' >Symphodus_melops.pep.all.1.fasta
+# get the longest transcript per gene
+perl extract_long_transcript.pl Symphodus_melops.pep.all.1.fasta
+# the output is suffixed with "conca" and "conca.long"
+# Symphodus_melops.pep.all.1.conca.fasta: the pep sequences are concatenated
+# Symphodus_melops.pep.all.1.conca.long.fasta: the longest concatenated pep sequences per gene
+# now we can annotate Symphodus_melops.pep.all.1.conca.long.fasta by annotate
+annotate --fasta Symphodus_melops.pep.all.1.conca.long.fasta
+```
 ***
 ## *Thalassoma bifasciatum* : did not find the annotation information
 Gene prediction for *Thalassoma bifasciatum* (Bluehead wrasse)
