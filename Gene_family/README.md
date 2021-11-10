@@ -244,3 +244,59 @@ python cafetutorial_prep_r8s.py -i RAxML_bestTree.single_copy.concatenated -o r8
 r8s -b -f r8s_ctl_file.txt > r8s_tmp.txt
 tail -n 1 r8s_tmp.txt | cut -c 16- > r8s_ultrametric.txt
 ```
+### Remove gene families without homology in the SWISS-PROT database and the families that contained sequences that have multiple functional annotations
+```bash
+perl extract_swiss_homology.pl --anno Ldim.anno.final.txt --gene_family dump.blast_output.mci.I30 --key_word Ldim >dump.blast_output.mci.I30.Ldim.swis
+perl extract_swiss_homology.pl --anno Smel.anno.final.txt --gene_family dump.blast_output.mci.I30 --key_word Smel >dump.blast_output.mci.I30.Smel.swis
+perl extract_swiss_homology.pl --anno Tbif.anno.final.txt --gene_family dump.blast_output.mci.I30 --key_word Tbif >dump.blast_output.mci.I30.Tbif.swis
+```
+```perl
+#! /usr/bin/perl
+use strict;
+use warnings;
+
+my @id;
+open FIL1, "dump.blast_output.mci.I30.Ldim.swis";
+while (<FIL1>) {
+	chomp;
+	my @a=split;
+	push @id, $a[0];
+}
+
+open FIL2, "dump.blast_output.mci.I30.Smel.swis";
+while (<FIL2>) {
+	chomp;
+	my @a=split;
+	push @id, $a[0];
+}
+
+open FIL3, "dump.blast_output.mci.I30.Tbif.swis";
+while (<FIL3>) {
+	chomp;
+	my @a=split;
+	push @id, $a[0];
+}
+
+my %hash;
+foreach my $id (@id) {
+	$hash{$id}++;
+}
+
+open FIL4, "filtered_cafe_input.txt";
+while (<FIL4>) {
+	chomp;
+	my @a=split;
+	if (/^Desc/) {
+		print "$_\n";
+	} else {
+		print "$_\n" if $hash{$a[1]} && $hash{$a[1]}==3;
+	}
+}
+```
+```bash
+perl temp3.pl >filtered_cafe_input.final.txt
+```
+**filtered_cafe_input.final.txt** will be the final input of CAFE     
+
+
+
