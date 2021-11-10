@@ -299,6 +299,18 @@ perl temp3.pl >filtered_cafe_input.final.txt
 **filtered_cafe_input.final.txt** will be the final input of CAFE     
 ### Estimating the birth-death parameter λ
 #### Estimating a single λ for the whole tree
-
-
+**run1.sh**        
+```bash
+#! cafe
+load -i filtered_cafe_input.final.txt -t 4 -l reports/log_run1.txt
+tree ((((Platyfish:71.101088,Medaka:71.101088):12.018970,((((Lber:19.393079,Smel:19.393079):18.702044,Cund:38.095123):5.832633,((Ldim:17.725724,Tbif:17.725724):13.416364,Ncel:31.142089):12.785667):31.400507,(Fugu:71.980591,Stickleback:71.980591):3.347671):7.791796):73.409942,Zebrafish:156.530000)ishack:96.028791,Spottedgar:252.558791)
+lambda -s -t ((((1,1)1,((((1,1)1,1)1,((1,1)1,1)1)1,(1,1)1)1)1,1)1,1)
+report reports/report_run1
+```
+working dir: **SNORLAX** (~/genome/gene_family)     
+```bash
+chmod +x run1.sh
+mkdir reports
+cafe run1.sh
+```
 
