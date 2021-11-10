@@ -61,3 +61,9 @@ braker.pl --softmasking --AUGUSTUS_ab_initio --gff3 \
 --prot_seq=OrthoDB_Vertebrata/proteins.fasta \
 --workingdir ./Thalassoma_bifasciatum
 ```
+### Annotate
+```bash
+less Thalassoma_bifasciatum.pep.all.fasta|perl -alne 'if (/>/){my ($gene)=$_=~/>(.*)\./;print "$_ gene=$gene"}else{print}' >Thalassoma_bifasciatum.pep.all.1.fasta
+perl ../Symphodus_melops/extract_long_transcript.pl Thalassoma_bifasciatum.pep.all.1.fasta
+annotate --fasta Thalassoma_bifasciatum.pep.all.1.conca.long.fasta
+```
