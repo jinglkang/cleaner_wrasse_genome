@@ -313,4 +313,8 @@ chmod +x run1.sh
 mkdir reports
 cafe run1.sh
 ```
-
+##### Summarizing the output
+also put cafecore.pyc in the working directory       
+```bash
+python2 report_analysis.py -i reports/report_run1.cafe -o reports/summary_run1
+```
