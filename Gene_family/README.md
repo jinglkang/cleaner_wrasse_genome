@@ -302,7 +302,7 @@ perl temp3.pl >filtered_cafe_input.final.txt
 **run1.sh**        
 ```cafe
 #! cafe
-load -i filtered_cafe_input.final.txt -t 4 -l reports/log_run1.txt
+load -i filtered_cafe_input.final.txt -t 20 -l reports/log_run1.txt -p 0.01 -r 10000
 tree ((((Platyfish:71.101088,Medaka:71.101088):12.018970,((((Lber:19.393079,Smel:19.393079):18.702044,Cund:38.095123):5.832633,((Ldim:17.725724,Tbif:17.725724):13.416364,Ncel:31.142089):12.785667):31.400507,(Fugu:71.980591,Stickleback:71.980591):3.347671):7.791796):73.409942,Zebrafish:156.530000)ishack:96.028791,Spottedgar:252.558791)
 lambda -s -t ((((1,1)1,((((1,1)1,1)1,((1,1)1,1)1)1,(1,1)1)1)1,1)1,1)
 report reports/report_run1
