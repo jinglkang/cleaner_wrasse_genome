@@ -318,3 +318,11 @@ also put cafecore.pyc in the working directory
 ```bash
 python2 report_analysis.py -i reports/report_run1.cafe -o reports/summary_run1
 ```
+##### Plot the result: Rapid, Expansions, Contractions
+```bash
+python2 draw_tree.py -i reports/summary_run1_node.txt -t '((((Platyfish:71.1011,Medaka:71.1011):12.019,((((Lber:19.3931,Smel:19.3931):18.702,Cund:38.0951):5.83263,((Ldim:17.7257,Tbif:17.7257):13.4164,Ncel:31.1421):12.7857):31.4005,(Fugu:71.9806,Stickleback:71.9806):3.34767):7.7918):73.4099,Zebrafish:156.53):96.0288,Spottedgar:252.559)' -d '((((Platyfish<0>,Medaka<2>)<1>,((((Lber<4>,Smel<6>)<5>,Cund<8>)<7>,((Ldim<10>,Tbif<12>)<11>,Ncel<14>)<13>)<9>,(Fugu<16>,Stickleback<18>)<17>)<15>)<3>,Zebrafish<20>)<19>,Spottedgar<22>)<21>' -o reports/summary_run1_tree_rapid.png -y Rapid
+python2 draw_tree.py -i reports/summary_run1_node.txt -t '((((Platyfish:71.1011,Medaka:71.1011):12.019,((((Lber:19.3931,Smel:19.3931):18.702,Cund:38.0951):5.83263,((Ldim:17.7257,Tbif:17.7257):13.4164,Ncel:31.1421):12.7857):31.4005,(Fugu:71.9806,Stickleback:71.9806):3.34767):7.7918):73.4099,Zebrafish:156.53):96.0288,Spottedgar:252.559)' -d '((((Platyfish<0>,Medaka<2>)<1>,((((Lber<4>,Smel<6>)<5>,Cund<8>)<7>,((Ldim<10>,Tbif<12>)<11>,Ncel<14>)<13>)<9>,(Fugu<16>,Stickleback<18>)<17>)<15>)<3>,Zebrafish<20>)<19>,Spottedgar<22>)<21>' -o reports/summary_run1_tree_Expansions.png -y Expansions
+python2 draw_tree.py -i reports/summary_run1_node.txt -t '((((Platyfish:71.1011,Medaka:71.1011):12.019,((((Lber:19.3931,Smel:19.3931):18.702,Cund:38.0951):5.83263,((Ldim:17.7257,Tbif:17.7257):13.4164,Ncel:31.1421):12.7857):31.4005,(Fugu:71.9806,Stickleback:71.9806):3.34767):7.7918):73.4099,Zebrafish:156.53):96.0288,Spottedgar:252.559)' -d '((((Platyfish<0>,Medaka<2>)<1>,((((Lber<4>,Smel<6>)<5>,Cund<8>)<7>,((Ldim<10>,Tbif<12>)<11>,Ncel<14>)<13>)<9>,(Fugu<16>,Stickleback<18>)<17>)<15>)<3>,Zebrafish<20>)<19>,Spottedgar<22>)<21>' -o reports/summary_run1_tree_Contractions.png -y Contractions
+```
+
+
