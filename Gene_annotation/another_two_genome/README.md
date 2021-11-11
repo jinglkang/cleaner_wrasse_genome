@@ -1,4 +1,4 @@
-Gene annotation for another two species
+Gene annotation for another two species (also another three species: *Cheilinus undulatus*, *Labrus bergylta*, *Notolabrus celidotus*)
 ------------------------------------------------------
 ## Symphodus melops (corkwing wrasse)
 annotation gtf file lacks the alternative splicing information          
@@ -66,4 +66,14 @@ braker.pl --softmasking --AUGUSTUS_ab_initio --gff3 \
 less Thalassoma_bifasciatum.pep.all.fasta|perl -alne 'if (/>/){my ($gene)=$_=~/>(.*)\./;print "$_ gene=$gene"}else{print}' >Thalassoma_bifasciatum.pep.all.1.fasta
 perl ../Symphodus_melops/extract_long_transcript.pl Thalassoma_bifasciatum.pep.all.1.fasta
 annotate --fasta Thalassoma_bifasciatum.pep.all.1.conca.long.fasta
+```
+***
+## *Cheilinus undulatus*
+```bash
+braker.pl --softmasking --AUGUSTUS_ab_initio --gff3 \
+--species Cheilinus_undulatus \
+--cores 20 \
+--genome=Cheilinus_undulatus_softmasked_ChaHeader.fasta \
+--prot_seq=OrthoDB_Vertebrata/proteins.fasta \
+--workingdir ./Cheilinus_undulatus
 ```
