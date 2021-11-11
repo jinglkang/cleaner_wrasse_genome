@@ -300,7 +300,7 @@ perl temp3.pl >filtered_cafe_input.final.txt
 ### Estimating the birth-death parameter λ
 #### Estimating a single λ for the whole tree
 **run1.sh**        
-```bash
+```cafe
 #! cafe
 load -i filtered_cafe_input.final.txt -t 4 -l reports/log_run1.txt
 tree ((((Platyfish:71.101088,Medaka:71.101088):12.018970,((((Lber:19.393079,Smel:19.393079):18.702044,Cund:38.095123):5.832633,((Ldim:17.725724,Tbif:17.725724):13.416364,Ncel:31.142089):12.785667):31.400507,(Fugu:71.980591,Stickleback:71.980591):3.347671):7.791796):73.409942,Zebrafish:156.530000)ishack:96.028791,Spottedgar:252.558791)
@@ -324,5 +324,16 @@ python2 draw_tree.py -i reports/summary_run1_node.txt -t '((((Platyfish:71.1011,
 python2 draw_tree.py -i reports/summary_run1_node.txt -t '((((Platyfish:71.1011,Medaka:71.1011):12.019,((((Lber:19.3931,Smel:19.3931):18.702,Cund:38.0951):5.83263,((Ldim:17.7257,Tbif:17.7257):13.4164,Ncel:31.1421):12.7857):31.4005,(Fugu:71.9806,Stickleback:71.9806):3.34767):7.7918):73.4099,Zebrafish:156.53):96.0288,Spottedgar:252.559)' -d '((((Platyfish<0>,Medaka<2>)<1>,((((Lber<4>,Smel<6>)<5>,Cund<8>)<7>,((Ldim<10>,Tbif<12>)<11>,Ncel<14>)<13>)<9>,(Fugu<16>,Stickleback<18>)<17>)<15>)<3>,Zebrafish<20>)<19>,Spottedgar<22>)<21>' -o reports/summary_run1_tree_Expansions.png -y Expansions
 python2 draw_tree.py -i reports/summary_run1_node.txt -t '((((Platyfish:71.1011,Medaka:71.1011):12.019,((((Lber:19.3931,Smel:19.3931):18.702,Cund:38.0951):5.83263,((Ldim:17.7257,Tbif:17.7257):13.4164,Ncel:31.1421):12.7857):31.4005,(Fugu:71.9806,Stickleback:71.9806):3.34767):7.7918):73.4099,Zebrafish:156.53):96.0288,Spottedgar:252.559)' -d '((((Platyfish<0>,Medaka<2>)<1>,((((Lber<4>,Smel<6>)<5>,Cund<8>)<7>,((Ldim<10>,Tbif<12>)<11>,Ncel<14>)<13>)<9>,(Fugu<16>,Stickleback<18>)<17>)<15>)<3>,Zebrafish<20>)<19>,Spottedgar<22>)<21>' -o reports/summary_run1_tree_Contractions.png -y Contractions
 ```
-
+### Setting λ to a previously estimated value to deal with families with large numbers of gene copies
+**run2.sh**     
+```cafe
+#! cafe
+load -i filtered_cafe_input.final.txt -t 20 -l reports/log_run2.txt
+tree ((((Platyfish:71.101088,Medaka:71.101088):12.018970,((((Lber:19.393079,Smel:19.393079):18.702044,Cund:38.095123):5.832633,((Ldim:17.725724,Tbif:17.725724):13.416364,Ncel:31.142089):12.785667):31.400507,(Fugu:71.980591,Stickleback:71.980591):3.347671):7.791796):73.409942,Zebrafish:156.530000):96.028791,Spottedgar:252.558791)
+lambda -l 0.00230072 -t ((((1,1)1,((((1,1)1,1)1,((1,1)1,1)1)1,(1,1)1)1)1,1)1,1)
+report reports/report_run2
+```
+```bash
+cafe run2.sh
+```
 
