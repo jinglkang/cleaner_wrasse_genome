@@ -17,3 +17,9 @@ cp ../gene_family/Longest_Zebrafish_pep.fasta ./
 diamond makedb --in Longest_Zebrafish_pep.fasta -d Zebrafish_pep
 diamond blastp -q Longest_Labroides_dimidiatus_pep.fasta --sensitive -k 5 -d Zebrafish_pep -e 1e-10 --out Ldim_Zebra.blast
 ```
+***
+## Circos
+install perl module     
+```bash
+sudo cpanm Math::Bezier Regexp::Common Math::Round Math::VecStat Set::IntSpan Text::Format Statistics::Basic
+```
