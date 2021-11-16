@@ -69,6 +69,7 @@ annotate --fasta Thalassoma_bifasciatum.pep.all.1.conca.long.fasta
 ```
 ***
 ## *Cheilinus undulatus*
+### Using OrthoDB as basis for protein.fa to predict genes
 ```bash
 braker.pl --softmasking --AUGUSTUS_ab_initio --gff3 \
 --species Cheilinus_undulatus \
@@ -76,4 +77,50 @@ braker.pl --softmasking --AUGUSTUS_ab_initio --gff3 \
 --genome=Cheilinus_undulatus_softmasked_ChaHeader.fasta \
 --prot_seq=OrthoDB_Vertebrata/proteins.fasta \
 --workingdir ./Cheilinus_undulatus
+```
+## Annotate
+```bash
+rename_gtf.py --gtf braker.gtf --prefix Cund --out braker_renamed.gtf
+~/software/gffread/gffread -y Cheilinus_undulatus.pep.all.fasta -g ../Cheilinus_undulatus_softmasked_ChaHeader.fasta braker_renamed.gtf
+less Cheilinus_undulatus.pep.all.fasta|perl -alne 'if (/>/){my ($gene)=$_=~/>(.*)\./;print "$_ gene=$gene"}else{print}' >Cheilinus_undulatus.pep.all.1.fasta
+perl ../Symphodus_melops/extract_long_transcript.pl Cheilinus_undulatus.pep.all.1.fasta
+annotate --fasta Cheilinus_undulatus.pep.all.1.conca.long.fasta
+```
+***
+## *Labrus bergylta*
+### Using OrthoDB as basis for protein.fa to predict genes
+```bash
+braker.pl --softmasking --AUGUSTUS_ab_initio --gff3 \
+--species Labrus_bergylta \
+--cores 20 \
+--genome=Labrus_bergylta_softmasked_ChaHeader.fasta \
+--prot_seq=OrthoDB_Vertebrata/proteins.fasta \
+--workingdir ./Labrus_bergylta
+```
+### Annotate
+```bash
+rename_gtf.py --gtf braker.gtf --prefix Lber --out braker_renamed.gtf
+~/software/gffread/gffread -y Labrus_bergylta.pep.all.fasta -g ../Labrus_bergylta_softmasked_ChaHeader.fasta braker_renamed.gtf
+less Labrus_bergylta.pep.all.fasta|perl -alne 'if (/>/){my ($gene)=$_=~/>(.*)\./;print "$_ gene=$gene"}else{print}' >Labrus_bergylta.pep.all.1.fasta
+perl ../Symphodus_melops/extract_long_transcript.pl Labrus_bergylta.pep.all.1.fasta
+annotate --fasta Labrus_bergylta.pep.all.1.conca.long.fasta
+```
+***
+## *Notolabrus celidotus*
+### Using OrthoDB as basis for protein.fa to predict genes
+```bash
+braker.pl --softmasking --AUGUSTUS_ab_initio --gff3 \
+--species Notolabrus_celidotus \
+--cores 20 \
+--genome=Notolabrus_celidotus_softmasked_ChaHeader.fasta \
+--prot_seq=OrthoDB_Vertebrata/proteins.fasta \
+--workingdir ./Notolabrus_celidotus
+```
+### Annotate
+```bash
+rename_gtf.py --gtf braker.gtf --prefix Ncel --out braker_renamed.gtf
+~/software/gffread/gffread -y Notolabrus_celidotus.pep.all.fasta -g ../Notolabrus_celidotus_softmasked_ChaHeader.fasta braker_renamed.gtf
+less Notolabrus_celidotus.pep.all.fasta|perl -alne 'if (/>/){my ($gene)=$_=~/>(.*)\./;print "$_ gene=$gene"}else{print}' >Notolabrus_celidotus.pep.all.1.fasta
+perl ../Symphodus_melops/extract_long_transcript.pl Notolabrus_celidotus.pep.all.1.fasta
+annotate --fasta Notolabrus_celidotus.pep.all.1.conca.long.fasta
 ```
