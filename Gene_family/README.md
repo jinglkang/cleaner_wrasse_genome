@@ -360,9 +360,122 @@ report reports/report_run2
 ```bash
 cafe run2.sh
 ```
-# RESTART
-working dir: /media/HDD/cleaner_fish/genome/gene_family_2    
+***
+## Start again in a new dir (use the annotation file by ourselves)
+working dir: /media/HDD/cleaner_fish/genome/gene_family_2   
 ```bash
 cp ../gene_family/*_pep.fasta ./
 perl Ensemble_longest_pep.pl --fasta *.fasta
+cat Longest* > makeblastdb_input.fa
+perl temp1.pl >makeblastdb_input.2.fa
+diamond makedb --in makeblastdb_input.2.fa -d blastdb
+diamond blastp -q makeblastdb_input.2.fa -e 1e-5 --sensitive -d ./blastdb --out blast_output.txt
+cut -f 1,2,11 blast_output.txt > blast_output.abc
+mcxload -abc blast_output.abc --stream-mirror --stream-neg-log10 -stream-tf 'ceil(200)' -o blast_output.mci -write-tab blast_output.tab
+mcl blast_output.mci -I 3
+mcxdump -icl out.blast_output.mci.I30 -tabr blast_output.tab -o dump.blast_output.mci.I30
+cp ../gene_family/mcl2rawcafe.py ./
+python mcl2rawcafe.py -i dump.blast_output.mci.I30 -o unfiltered_cafe_input.txt -sp "Fugu Medaka Platyfish Spottedgar Stickleback Zebrafish Cund Lber Ncel Smel Tbif Ldim"
+less ../gene_family/filtered_cafe_input.txt|wc -l
+python clade_and_size_filter.py -i unfiltered_cafe_input.txt -o filtered_cafe_input.txt -s
+```
+***
+### Remove gene families without homology in the SWISS-PROT database and the families that contained sequences that have multiple functional annotations
+```bash
+# copy the annotation file of Ldim, Smel, Tbif, Cund, Lber, Ncel
+cp ../gene_family/*anno.final.txt ./
+scp kang1234@147.8.76.155:~/genome/Gene_annotation/Cheilinus_undulatus/Cheilinus_undulatus.pep.all.1.conca.long.fasta.ano.final Cund.anno.final.txt
+scp kang1234@147.8.76.155:~/genome/Gene_annotation/Labrus_bergylta/Labrus_bergylta.pep.all.1.conca.long.fasta.ano.final Lber.anno.final.txt
+scp kang1234@147.8.76.155:~/genome/Gene_annotation/Notolabrus_celidotus/Notolabrus_celidotus.pep.all.1.conca.long.fasta.ano.final Ncel.anno.final.txt
+cp ../gene_family/extract_swiss_homology.pl ./
+perl extract_swiss_homology.pl --anno Ldim.anno.final.txt --gene_family dump.blast_output.mci.I30 --key_word Ldim >dump.blast_output.mci.I30.Ldim.swis
+perl extract_swiss_homology.pl --anno Smel.anno.final.txt --gene_family dump.blast_output.mci.I30 --key_word Smel >dump.blast_output.mci.I30.Smel.swis
+perl extract_swiss_homology.pl --anno Tbif.anno.final.txt --gene_family dump.blast_output.mci.I30 --key_word Tbif >dump.blast_output.mci.I30.Tbif.swis
+perl extract_swiss_homology.pl --anno Cund.anno.final.txt --gene_family dump.blast_output.mci.I30 --key_word Cund >dump.blast_output.mci.I30.Cund.swis
+perl extract_swiss_homology.pl --anno Lber.anno.final.txt --gene_family dump.blast_output.mci.I30 --key_word Lber >dump.blast_output.mci.I30.Lber.swis
+perl extract_swiss_homology.pl --anno Ncel.anno.final.txt --gene_family dump.blast_output.mci.I30 --key_word Ncel >dump.blast_output.mci.I30.Ncel.swis
+```
+```perl
+#! /usr/bin/perl
+use strict;
+use warnings;
+
+my @id;
+open FIL1, "dump.blast_output.mci.I30.Ldim.swis";
+while (<FIL1>) {
+	chomp;
+	my @a=split;
+	push @id, $a[0];
+}
+
+open FIL2, "dump.blast_output.mci.I30.Smel.swis";
+while (<FIL2>) {
+	chomp;
+	my @a=split;
+	push @id, $a[0];
+}
+
+open FIL3, "dump.blast_output.mci.I30.Tbif.swis";
+while (<FIL3>) {
+	chomp;
+	my @a=split;
+	push @id, $a[0];
+}
+
+open FIL4, "dump.blast_output.mci.I30.Cund.swis";
+while (<FIL4>) {
+	chomp;
+	my @a=split;
+	push @id, $a[0];
+}
+
+open FIL5, "dump.blast_output.mci.I30.Lber.swis";
+while (<FIL5>) {
+	chomp;
+	my @a=split;
+	push @id, $a[0];
+}
+
+open FIL6, "dump.blast_output.mci.I30.Ncel.swis";
+while (<FIL6>) {
+	chomp;
+	my @a=split;
+	push @id, $a[0];
+}
+
+my %hash;
+foreach my $id (@id) {
+	$hash{$id}++;
+}
+
+open FIL7, "filtered_cafe_input.txt";
+while (<FIL7>) {
+	chomp;
+	my @a=split;
+	if (/^Desc/) {
+		print "$_\n";
+	} else {
+		print "$_\n" if $hash{$a[1]} && $hash{$a[1]}==6;
+	}
+}
+```
+```bash
+perl temp2.pl >filtered_cafe_input.final.txt
+```
+after the removal of genes in the same family but with different annotations, filtered_cafe_input.txt (20077 genes) --> filtered_cafe_input.final.txt (12965 genes)    
+***
+### Estimating a species tree on the basis of one-to-one orthologues
+```bash
+mkdir single_copy
+# 1180 single copy genes
+less filtered_cafe_input.final.txt|perl -alne 'my @a;for($i=2;$i<@F;$i++){push @a, $F[$i] if $F[$i]==1};print if @a==12'|wc -l
+# notice to change the input files, the resulted fasta files of single copy genes will be in the directory "single_copy/"
+perl extract_single_copy.pl
+# 1180 single copy orthlogues, trimAl trim the regions with bad quality in the sequences.
+cp ../gene_family/temp2.pl temp3.pl
+perl temp3.pl >single_copy.concatenated.fasta
+fasta2phy.pl single_copy.concatenated.fasta >single_copy.concatenated.phy
+# construct a phylogenetic tree, running in SNORLAX: ~/genome/gene_family
+scp single_copy.concatenated.phy kang1234@147.8.76.155:~/genome/gene_family
+nohup raxmlHPC -f a -m PROTGAMMAAUTO -p 12345 -x 12345 -# 1000 -s single_copy.concatenated.phy -o Spottedgar -n single_copy.concatenated > raxml.process 2>&1 &
 ```
