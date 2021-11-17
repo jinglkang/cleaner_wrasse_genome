@@ -360,4 +360,9 @@ report reports/report_run2
 ```bash
 cafe run2.sh
 ```
-
+# RESTART
+working dir: /media/HDD/cleaner_fish/genome/gene_family_2    
+```bash
+cp ../gene_family/*_pep.fasta ./
+perl Ensemble_longest_pep.pl --fasta *.fasta
+```
