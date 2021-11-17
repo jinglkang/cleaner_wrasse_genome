@@ -91,6 +91,30 @@ perl temp4.pl Cleaner_wrasse.pep.all.fasta>Labroides_dimidiatus_pep.fasta
 ***
 copy Labroides_dimidiatus_pep.fasta Thalassoma_bifasciatum_pep.fasta Symphodus_melops_pep.fasta to my own workstation (/media/HDD/cleaner_fish/genome);       
 ***
+### *Cheilinus undulatus*
+**SNORLAX** working dir: ~/genome/Gene_annotation/Cheilinus_undulatus      
+```bash
+perl ../combined/temp4.pl Cheilinus_undulatus.pep.all.fasta >Cheilinus_undulatus_pep.fasta
+# copy to my own work station
+scp kang1234@147.8.76.155:~/genome/Gene_annotation/Cheilinus_undulatus/Cheilinus_undulatus_pep.fasta ./
+```
+***
+### *Labrus bergylta*
+**SNORLAX** working dir: ~/genome/Gene_annotation/Labrus_bergylta       
+```bash
+perl ../combined/temp4.pl Labrus_bergylta.pep.all.fasta >Labrus_bergylta_pep.fasta
+# copy to my own work station
+scp kang1234@147.8.76.155:~/genome/Gene_annotation/Labrus_bergylta/Labrus_bergylta_pep.fasta ./
+```
+***
+### *Notolabrus celidotus*
+**SNORLAX** working dir: ~/genome/Gene_annotation/Notolabrus_celidotus       
+```bash
+perl ../combined/temp4.pl Notolabrus_celidotus.pep.all.fasta >Notolabrus_celidotus_pep.fasta
+ # copy to my own work station
+scp kang1234@147.8.76.155:~/genome/Gene_annotation/Notolabrus_celidotus/Notolabrus_celidotus_pep.fasta ./
+```
+***
 ## all-by-all by blast
 ```bash
 makeblastdb -in makeblastdb_input.fa -dbtype prot -out blastdb
