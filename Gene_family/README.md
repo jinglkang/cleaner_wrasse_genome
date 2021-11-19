@@ -479,3 +479,56 @@ fasta2phy.pl single_copy.concatenated.fasta >single_copy.concatenated.phy
 scp single_copy.concatenated.phy kang1234@147.8.76.155:~/genome/gene_family
 nohup raxmlHPC -f a -m PROTGAMMAAUTO -p 12345 -x 12345 -# 1000 -s single_copy.concatenated.phy -o Spottedgar -n single_copy.concatenated > raxml.process 2>&1 &
 ```
+### r8s to obtain the ultrametric tree
+RAxML_bestTree.single_copy.concatenated as the input file   
+set the calibration point: D. rerio - G. aculeatus (149.85-165.2 Mya), get the mid point as the calibration point (156.53)    
+working dir (my workstation): /media/HDD/cleaner_fish/genome/gene_family_2    
+```bash
+cp ../gene_family/cafetutorial_prep_r8s.py ./
+python cafetutorial_prep_r8s.py -i RAxML_bestTree.single_copy.concatenated -o r8s_ctl_file.txt -s 638853 -p 'Zebrafish,Stickleback' -c '156.53'
+r8s -b -f r8s_ctl_file.txt > r8s_tmp.txt
+tail -n 1 r8s_tmp.txt | cut -c 16- > r8s_ultrametric.txt
+```
+### Estimating the birth-death parameter λ
+remove "ishack" in r8s_ultrametric.txt;   
+filtered_cafe_input.final.txt will be the final input of CAFE;   
+cp the two files to SNORLAX and run CAFE
+```bash
+scp r8s_ultrametric.txt kang1234@147.8.76.155:~/genome/gene_family
+scp filtered_cafe_input.final.txt kang1234@147.8.76.155:~/genome/gene_family
+```
+### Estimating a single λ for the whole tree
+**run1.sh**   
+```CAFE
+#! cafe
+load -i filtered_cafe_input.final.txt -t 20 -l reports/log_run1.txt -p 0.01 -r 10000
+tree ((((Platyfish:71.157004,Medaka:71.157004):12.230458,((Fugu:72.568551,Stickleback:72.568551):3.343557,(((Smel:19.853801,Lber:19.853801):19.109431,Cund:38.963232):5.636659,((Tbif:18.004632,Ldim:18.004632):14.124763,Ncel:32.129395):12.470496):31.312217):7.475354):73.142538,Zebrafish:156.530000):96.579514,Spottedgar:253.109514)
+lambda -s -t ((((1,1)1,((1,1)1,(((1,1)1,1)1,((1,1)1,1)1)1)1)1,1)1,1)
+report reports/report_run1
+```
+save into run1.sh   
+```bash
+cafe run1.sh
+python2 report_analysis.py -i reports/report_run1.cafe -o reports/summary_run1
+```
+Lambda: 0.00256848   
+### Setting λ to a previously estimated value to deal with families with large numbers of gene copies
+**run2.sh**
+```CAFE
+#! cafe
+load -i filtered_cafe_input.final.txt -t 20 -l reports/log_run2.txt -p 0.01 -r 10000
+tree ((((Platyfish:71.157004,Medaka:71.157004):12.230458,((Fugu:72.568551,Stickleback:72.568551):3.343557,(((Smel:19.853801,Lber:19.853801):19.109431,Cund:38.963232):5.636659,((Tbif:18.004632,Ldim:18.004632):14.124763,Ncel:32.129395):12.470496):31.312217):7.475354):73.142538,Zebrafish:156.530000):96.579514,Spottedgar:253.109514)
+lambda -l 0.00256848 -t ((((1,1)1,((1,1)1,(((1,1)1,1)1,((1,1)1,1)1)1)1)1,1)1,1)
+report reports/report_run2
+```
+save into run2.sh   
+```bash
+python2 report_analysis.py -i reports/report_run2.cafe -o reports/summary_run2
+```
+**plot**   
+-i && -t can be found in "report_run2.cafe" (Tree: && # IDs of nodes)
+```bash
+python2 draw_tree.py -i reports/summary_run2_node.txt -t '((((Platyfish:71.157,Medaka:71.157):12.2305,((Fugu:72.5686,Stickleback:72.5686):3.34356,(((Smel:19.8538,Lber:19.8538):19.1094,Cund:38.9632):5.63666,((Tbif:18.0046,Ldim:18.0046):14.1248,Ncel:32.1294):12.4705):31.3122):7.47535):73.1425,Zebrafish:156.53):96.5795,Spottedgar:253.11)' -d '((((Platyfish<0>,Medaka<2>)<1>,((Fugu<4>,Stickleback<6>)<5>,(((Smel<8>,Lber<10>)<9>,Cund<12>)<11>,((Tbif<14>,Ldim<16>)<15>,Ncel<18>)<17>)<13>)<7>)<3>,Zebrafish<20>)<19>,Spottedgar<22>)<21>' -o reports/summary_run2_tree_rapid.png -y Rapid
+python2 draw_tree.py -i reports/summary_run2_node.txt -t '((((Platyfish:71.157,Medaka:71.157):12.2305,((Fugu:72.5686,Stickleback:72.5686):3.34356,(((Smel:19.8538,Lber:19.8538):19.1094,Cund:38.9632):5.63666,((Tbif:18.0046,Ldim:18.0046):14.1248,Ncel:32.1294):12.4705):31.3122):7.47535):73.1425,Zebrafish:156.53):96.5795,Spottedgar:253.11)' -d '((((Platyfish<0>,Medaka<2>)<1>,((Fugu<4>,Stickleback<6>)<5>,(((Smel<8>,Lber<10>)<9>,Cund<12>)<11>,((Tbif<14>,Ldim<16>)<15>,Ncel<18>)<17>)<13>)<7>)<3>,Zebrafish<20>)<19>,Spottedgar<22>)<21>' -o reports/summary_run2_tree_Expansions.png -y Expansions
+python2 draw_tree.py -i reports/summary_run2_node.txt -t '((((Platyfish:71.157,Medaka:71.157):12.2305,((Fugu:72.5686,Stickleback:72.5686):3.34356,(((Smel:19.8538,Lber:19.8538):19.1094,Cund:38.9632):5.63666,((Tbif:18.0046,Ldim:18.0046):14.1248,Ncel:32.1294):12.4705):31.3122):7.47535):73.1425,Zebrafish:156.53):96.5795,Spottedgar:253.11)' -d '((((Platyfish<0>,Medaka<2>)<1>,((Fugu<4>,Stickleback<6>)<5>,(((Smel<8>,Lber<10>)<9>,Cund<12>)<11>,((Tbif<14>,Ldim<16>)<15>,Ncel<18>)<17>)<13>)<7>)<3>,Zebrafish<20>)<19>,Spottedgar<22>)<21>' -o reports/summary_run2_tree_Contractions.png -y Contractions
+```
