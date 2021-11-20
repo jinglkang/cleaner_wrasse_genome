@@ -544,7 +544,7 @@ working dir (my workstation): /media/HDD/cleaner_fish/genome/gene_family_2
 ```bash
 perl Extract_gene_family_increase.pl Lber.anno.final.txt dump.blast_output.mci.I30 Lber|less
 ```
-#### extracted the gene copy number that is maximum in one species
+#### extracted the gene copy number that is maximum (large than at least 5) in one species
 ```bash
 perl Extract_gene_family_max.pl Lber.anno.final.txt dump.blast_output.mci.I30 Lber|less
 ```
