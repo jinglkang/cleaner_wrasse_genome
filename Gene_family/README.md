@@ -539,3 +539,12 @@ perl Extract_gene_family_info.pl Ldim.anno.final.txt dump.blast_output.mci.I30 L
 less summary_run2_anc.txt|perl -alne 'next if /^Family/;$num=$F[14]-$F[10];print "$F[0]" if $num<0' >Ldim_gene_contraction_family_id.txt
 perl Extract_gene_family_info.pl Ldim.anno.final.txt dump.blast_output.mci.I30 Ldim Ldim_gene_contraction_family_id.txt >Ldim_gene_contraction_family.txt
 ```
+#### extracted the gene copy number that keep increasing from Oligate to Facultative clean fish
+working dir (my workstation): /media/HDD/cleaner_fish/genome/gene_family_2
+```bash
+perl Extract_gene_family_increase.pl Lber.anno.final.txt dump.blast_output.mci.I30 Lber|less
+```
+#### extracted the gene copy number that is maximum in one species
+```bash
+perl Extract_gene_family_max.pl Lber.anno.final.txt dump.blast_output.mci.I30 Lber|less
+```
