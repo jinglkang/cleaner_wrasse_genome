@@ -532,3 +532,10 @@ python2 draw_tree.py -i reports/summary_run2_node.txt -t '((((Platyfish:71.157,M
 python2 draw_tree.py -i reports/summary_run2_node.txt -t '((((Platyfish:71.157,Medaka:71.157):12.2305,((Fugu:72.5686,Stickleback:72.5686):3.34356,(((Smel:19.8538,Lber:19.8538):19.1094,Cund:38.9632):5.63666,((Tbif:18.0046,Ldim:18.0046):14.1248,Ncel:32.1294):12.4705):31.3122):7.47535):73.1425,Zebrafish:156.53):96.5795,Spottedgar:253.11)' -d '((((Platyfish<0>,Medaka<2>)<1>,((Fugu<4>,Stickleback<6>)<5>,(((Smel<8>,Lber<10>)<9>,Cund<12>)<11>,((Tbif<14>,Ldim<16>)<15>,Ncel<18>)<17>)<13>)<7>)<3>,Zebrafish<20>)<19>,Spottedgar<22>)<21>' -o reports/summary_run2_tree_Expansions.png -y Expansions
 python2 draw_tree.py -i reports/summary_run2_node.txt -t '((((Platyfish:71.157,Medaka:71.157):12.2305,((Fugu:72.5686,Stickleback:72.5686):3.34356,(((Smel:19.8538,Lber:19.8538):19.1094,Cund:38.9632):5.63666,((Tbif:18.0046,Ldim:18.0046):14.1248,Ncel:32.1294):12.4705):31.3122):7.47535):73.1425,Zebrafish:156.53):96.5795,Spottedgar:253.11)' -d '((((Platyfish<0>,Medaka<2>)<1>,((Fugu<4>,Stickleback<6>)<5>,(((Smel<8>,Lber<10>)<9>,Cund<12>)<11>,((Tbif<14>,Ldim<16>)<15>,Ncel<18>)<17>)<13>)<7>)<3>,Zebrafish<20>)<19>,Spottedgar<22>)<21>' -o reports/summary_run2_tree_Contractions.png -y Contractions
 ```
+### extracted the expanded and contracted gene family in Ldim
+```bash
+less summary_run2_anc.txt|perl -alne 'next if /^Family/;$num=$F[14]-$F[10];print "$F[0]" if $num>0' >Ldim_gene_expansion_family_id.txt
+perl Extract_gene_family_info.pl Ldim.anno.final.txt dump.blast_output.mci.I30 Ldim Ldim_gene_expansion_family_id.txt >Ldim_gene_expansion_family.txt
+less summary_run2_anc.txt|perl -alne 'next if /^Family/;$num=$F[14]-$F[10];print "$F[0]" if $num<0' >Ldim_gene_contraction_family_id.txt
+perl Extract_gene_family_info.pl Ldim.anno.final.txt dump.blast_output.mci.I30 Ldim Ldim_gene_contraction_family_id.txt >Ldim_gene_contraction_family.txt
+```
