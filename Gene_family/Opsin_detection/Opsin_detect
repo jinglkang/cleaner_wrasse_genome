@@ -1,0 +1,176 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use File::Basename;
+use Cwd qw(cwd);
+use Getopt::Long 'HelpMessage';
+
+my $usage=<<_EOH_;;
+----------------------------------------------------------------------------------------
+This script is used to identify the Opsin genes of the input genome
+Note: please use the absolute directory for each input file.
+Usage:
+Opsin_detect --genome /media/HDD/cleaner_fish/genome/OR_detection/Cleaner_wrasse_softmasked_ChaHeader.fasta
+                 --species Cleaner_wrasse
+                 --query /media/HDD/cleaner_fish/genome/Opsin_detection/query.fasta
+                 --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+Example:
+1. --genome: the input genome
+2. --species: the species name
+3. --query:  the Known Opsin genes as query
+4. --uniport: uniprot database
+                                                Kang 2021-11-21
+------------------------------------------------------------------------------------------
+_EOH_
+;
+
+GetOptions(
+        'genome:s', \my $genome,
+        'species:s', \my $species,
+        'query:s', \my $query,
+        'uniprot:s', \ my $uniprot
+        );
+
+unless ($genome && $species && $query && $uniprot) {
+        die $usage;
+}
+
+mkdir $species; # make the directory in the current directory for the output result
+chdir $species;
+my $dir0 = cwd;
+&tblastn($query, "1e-5", "1");
+&genewise($query, "1");
+&filtering("1");
+
+########################################
+# 1. tblastn # the first time of tblastn
+########################################
+sub tblastn {
+        my ($fasta, $evalue, $time)=@_;
+        mkdir "tblastn" unless -d "tblastn"; chdir "tblastn";
+        my $dir = cwd;
+        print "Now i'm in $dir\n";
+        system("makeblastdb -in $genome -dbtype nucl -parse_seqids -out $species") unless -e "$species.nhr";
+        print "Now it's doing the $time time tblastn ... ...\n";
+        system("tblastn -outfmt 6 -query $fasta -out query.fa.bla -db $species -evalue $evalue -num_threads 30");
+        print "The $time tblastn finish\n";
+        system("solar.pl -f m8 -cCn 1000 -d -1 query.fa.bla >query.fa.bla.solar");
+        system("best_solar_finder.pl query.fa.bla.solar >query.fa.bla.solar.besthit");
+        system("cat query.fa.bla.solar.besthit|perl -lane '\$alength=\$F[3]-\$F[2]+1;print unless \$alength<200' >query.fa.bla.solar.besthit.lt250");
+        die "query.fa.bla.solar.besthit.lt250 is empty\n" if (-z "query.fa.bla.solar.besthit.lt250");
+        chdir "../";
+}
+
+########################################
+
+########################################
+# 2. genewise # the first time of genewise
+########################################
+sub genewise {
+        my ($fasta, $time)=@_;
+        mkdir "genewise" unless -d "genewise"; chdir "genewise";
+        my $dir = cwd;
+        print "Now i'm in $dir\n";
+        system("cat $fasta $genome >pool.fa");
+        print "Now it's going to do the $time time genewise ... ...\n";
+        system("genewise_after_solar.pl pool.fa ../tblastn/query.fa.bla.solar.besthit.lt250"); # output: query.fa.bla.solar.besthit.lt250.wise
+        print "The $time genewise is finished\n";
+        die "query.fa.bla.solar.besthit.lt250 is empty\n" if (-z "query.fa.bla.solar.besthit.lt250");
+        system("best_genewise_finder.pl query.fa.bla.solar.besthit.lt250.wise >query.fa.bla.solar.besthit.lt250.wise.best.$time");
+        system("wise_parser.pl $genome query.fa.bla.solar.besthit.lt250.wise.best.$time");
+        die "query.fa.bla.solar.besthit.lt250.wise.best.$time.aa is empty\n" if (-z "query.fa.bla.solar.besthit.lt250.wise.best.$time.aa");
+        # output: query.fa.bla.solar.besthit.lt250.wise.best.aa; query.fa.bla.solar.besthit.lt250.wise.best.cds;
+        # output: query.fa.bla.solar.besthit.lt250.wise.best.dna; query.fa.bla.solar.besthit.lt250.wise.best.gff;
+        chdir "../";
+}
+
+########################################
+
+########################################
+# 3. filtering: the first time of blastp to uniprot
+########################################
+sub filtering {
+        my ($time)=@_;
+        mkdir "filtering" unless -d "filtering"; chdir "filtering";
+        my $dir = cwd;
+        print "Now i'm in $dir\n";
+        print "Now it's doing the $time filtering\n";
+        print "blastp to uniprot ... ...\n";
+        system("blastp -outfmt 6 -query ../genewise/query.fa.bla.solar.besthit.lt250.wise.best.$time.aa -out blast.out -db $uniprot -num_threads 30");
+        print "The $time blastp to uniprot is finished\n";
+        system("cat blast.out |perl -lane 'print if \$F[0] ne \$flag; \$flag=\$F[0]'|perl -aF'\\t' -lne '\$F[1]=~/\\\|\.\*\\\|\(\.\*\)/;\$F[1]=\$1;\$h=join \"\\t\", \@F;print \$h' |sort -k2 >blast.out.best.$time");
+        die "blast.out.best.$time is empty\n" if (-z "blast.out.best.$time");
+        system("cut -f2 blast.out.best.$time|sort -u >entry.list");
+        system("bioDBNet_db2db.pl uniprotentryname uniprotproteinname entry.list >entry.list.cor_name");
+        system("bioDBNet_db2db.pl uniprotentryname genesymbol entry.list >entry.list.cor_symbol");
+        open SH1, ">1.sh" or die "can not create 1.sh\n";
+        print SH1 "join -t \$'\\t' -1 2 -2 1 blast.out.best.$time entry.list.cor_name|cut -f2,13|sort -u >augustus3.name";
+        system("bash 1.sh"); system("rm 1.sh");
+#       system("join -t \$'\\t' -1 2 -2 1 blast.out.best.$time entry.list.cor_name|cut -f2,13|sort -u >augustus3.name");
+        die "augustus3.name is empty\n" if (-z "augustus3.name");
+        open SH1, ">1.sh" or die "can not create 1.sh\n";
+        print SH1 "join -t \$'\\t' -1 2 -2 1 blast.out.best.$time entry.list.cor_symbol|cut -f2,13|sort -u >augustus3.symbol";
+        system("bash 1.sh"); system("rm 1.sh");
+#       system("join -t \$'\\t' -1 2 -2 1 blast.out.best.$time entry.list.cor_symbol|cut -f2,13|sort -u >augustus3.symbol");
+        die "augustus3.symbol is empty\n" if (-z "augustus3.symbol");
+        open SH1, ">1.sh" or die "can not create 1.sh\n";
+        print SH1 "join -t \$'\\t' augustus3.symbol augustus3.name >augustus3.symbol_name";
+        system("bash 1.sh"); system("rm 1.sh");
+#       system("join -t \$'\\t' augustus3.symbol augustus3.name >augustus3.symbol_name");
+        die "augustus3.symbol_name is empty\n" if (-z "augustus3.symbol_name");
+        system("cat augustus3.symbol_name|perl -lane 'print if /opsin|opn/i' |sort >filter.out.$time");
+        &create_query($time);
+        die "filter.out.$time is empty\n" if (-z "filter.out.$time");
+        &summary("filter.out.$time");
+        #        system("rm entry.list entry.list.cor_name entry.list.cor_symbol augustus3.name augustus3.symbol augustus3.symbol_name");
+        chdir "../";
+}
+########################################
+
+########################################
+# 4. create the query fasta file for the second tblastp
+########################################
+sub create_query {
+        my ($time)=@_;
+        my %hash; my $gene;
+        open FASTA, "../genewise/query.fa.bla.solar.besthit.lt250.wise.best.$time.aa" or die "$!\n";
+        while (<FASTA>) {
+                chomp;
+                if (/>/) {
+                        s/>//; $gene=$_;
+                } else {
+                        $hash{$gene}.=$_;
+                }
+        }
+        open FILT, "filter.out.$time" or die "$!\n";
+        open OUTPUT, ">filter.out.$time.fasta" or die "$!\n";
+        while (<FILT>) {
+                chomp;
+                my @a=split;
+                print OUTPUT ">$a[0]\n$hash{$a[0]}\n" if $hash{$a[0]};
+        }
+        close FASTA; close FILT; close OUTPUT;
+}
+########################################
+
+########################################
+# 5. summary the complete or not
+########################################
+sub summary {
+        (my $file)=@_;
+        open SUMMARY, ">summary.txt" or die "can not create summary.txt\n";
+        my %hash; my @types;
+        open FIL, $file or die "can not open $file\n";
+        while (<FIL>) {
+                chomp;
+                my @a=split;
+                (my $type)=$a[0]=~/(\D{1})$/;
+                $hash{$type}++;
+                push @types, $type if $hash{$type}==1;
+        }
+        close FIL;
+        foreach my $type (@types) {
+                print SUMMARY "$type\t$hash{$type}\n";
+        }
+        close SUMMARY;
+}
