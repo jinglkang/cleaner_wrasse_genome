@@ -77,3 +77,62 @@ ORdetect --genome /media/HDD/cleaner_fish/genome/OR_detection/Gasterosteus_acule
 --class /media/HDD/cleaner_fish/genome/OR_detection/MBE_OR_class.fasta \
 --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
 ```
+## add strand inforation (+|-)   
+dir: /media/HDD/cleaner_fish/genome/OR_detection    
+vi temp4.pl     
+```perl
+#!/usr/bin/perl -w
+use strict;
+use warnings;
+
+# /media/HDD/cleaner_fish/genome/OR_detection/Cleaner_wrasse/genewise/query.fa.bla.solar.besthit.lt250.wise.best.1.gff
+# /media/HDD/cleaner_fish/genome/OR_detection/Cleaner_wrasse/group/filter.out.fasta.bla.best.1
+
+my $cmd="ls -l -d \*/\|perl -alne \'\$F[-1]=~s\/\\/\/\/g;print \$F[-1]\' >1.txt";
+system($cmd);
+my $dir1="/media/HDD/cleaner_fish/genome/OR_detection/";
+open DIR, "1.txt" or die "can not open 1.txt\n";
+while (<DIR>) {
+	chomp;
+	my %hash;
+	my $spe=$_;
+	my $gff=$dir1."$spe/genewise/query.fa.bla.solar.besthit.lt250.wise.best.1.gff";
+	my $filter=$dir1."$spe/group/filter.out.fasta.bla.best.1";
+	
+	open GFF, "$gff" or die "can not open $gff";
+	while (<GFF>) {
+		chomp;
+		my @a=split;
+		if (/match/) {
+			my $name=$a[0].":".$a[3].":".$a[4];
+			$hash{$name}=$a[6];
+		}
+	}
+
+	my $NEW=$dir1."$spe/group/filter.out.fasta.bla.best.1.strand";
+	open NEW, ">$NEW" or die "can not create $NEW\n";
+	open FILTER, "$filter" or die "can not open $filter\n";
+	while (<FILTER>) {
+		chomp;
+		my @a=split;
+		my @b=split /\-/, $a[0];
+		my $name=$b[0];
+		my $phase=$b[1];
+		my $info;
+		for (my $i = 1; $i < @a; $i++) {
+			$info.=$a[$i]."\t";
+		}
+		$info=~s/\s+$//;
+		if ($hash{$name}) {
+			my $strand=$hash{$name};
+			my $new_name=$name.":".$strand.":".$phase;
+			print NEW "$new_name\t$info\n";
+		}
+	}
+}
+
+system("rm 1.txt");
+```
+```bash
+perl temp4.pl
+```
