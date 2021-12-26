@@ -123,3 +123,10 @@ nohup ./Opsin_detect --genome /media/HDD/cleaner_fish/genome/Labrus_bergylta.fas
 --query /media/HDD/cleaner_fish/genome/Opsin_detection/photoreceptors_gene_zebrafish_pep.fasta \
 --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
 ```
+### ***Thalassoma bifasciatum*** (bluehead)
+```bash
+./Opsin_detect --genome /media/HDD/cleaner_fish/genome/Thalassoma_bifasciatum.fasta \
+--species Thalassoma_bifasciatum \
+--query /media/HDD/cleaner_fish/genome/Opsin_detection/photoreceptors_gene_zebrafish_pep.fasta \
+--uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+```
