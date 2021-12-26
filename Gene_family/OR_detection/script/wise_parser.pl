@@ -93,7 +93,7 @@ while (<WISE>) {
                 $newstart=$start+1;
                 $pos[0]=$newstart."_$first_phase";
                 $pos[-1]=$end+1;
-                $name="$scaf:$newstart:$pos[-1]-$fflag";
+                $name="$scaf:$newstart:$pos[-1]-$fflag:$strand";
                 $pos=join (",",@pos);
                 $gff = "$scaf\tGeneWise\tmatch\t$newstart\t$pos[-1]\t$score\t$strand\t\.\t$name-$protein\n";
 
@@ -156,7 +156,7 @@ while (<WISE>) {
                 $newstart=$end+1;
                 $pos[0]=$newstart."_$first_phase";
                 $pos[-1]=$start+1;
-                $name="$scaf:$newstart:$pos[-1]-$fflag";
+                $name="$scaf:$newstart:$pos[-1]-$fflag:$strand";
                 $pos=join (",",@pos);
                 $gff = "$scaf\tGeneWise\tmatch\t$newstart\t$pos[-1]\t$score\t$strand\t\.\t$name-$protein\n";
 
