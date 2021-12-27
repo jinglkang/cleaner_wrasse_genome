@@ -548,3 +548,8 @@ perl Extract_gene_family_increase.pl Lber.anno.final.txt dump.blast_output.mci.I
 ```bash
 perl Extract_gene_family_max.pl Lber.anno.final.txt dump.blast_output.mci.I30 Lber|less
 ```
+#### select the gene family that the min number in cleaner fish species is more than the max number in non-cleaner fish species
+```bash
+perl cleaner_more_than_noncleaner.pl Smel.anno.final.txt dump.blast_output.mci.I30 Smel
+```
+some gene family in different species with different annotations (need solve this problerm)    
