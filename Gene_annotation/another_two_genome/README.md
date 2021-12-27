@@ -124,3 +124,28 @@ less Notolabrus_celidotus.pep.all.fasta|perl -alne 'if (/>/){my ($gene)=$_=~/>(.
 perl ../Symphodus_melops/extract_long_transcript.pl Notolabrus_celidotus.pep.all.1.fasta
 annotate --fasta Notolabrus_celidotus.pep.all.1.conca.long.fasta
 ```
+***
+## Run BUSCO for all six speices
+copy all pep fasta files to my own workstation   
+```bash
+# Kang@fishlab3 Mon Dec 27 19:53:14 /media/HDD/cleaner_fish_genome
+scp kang1234@147.8.76.155:~/genome/Gene_annotation/Symphodus_melops/Symphodus_melops.pep.all.1.conca.fasta ./
+scp kang1234@147.8.76.155:~/genome/Gene_annotation/Thalassoma_bifasciatum/Thalassoma_bifasciatum.pep.all.1.conca.fasta ./
+scp kang1234@147.8.76.155:~/genome/Gene_annotation/Notolabrus_celidotus/Notolabrus_celidotus.pep.all.1.conca.fasta ./
+scp kang1234@147.8.76.155:~/genome/Gene_annotation/Labrus_bergylta/Labrus_bergylta.pep.all.1.conca.fasta ./
+scp kang1234@147.8.76.155:~/genome/Gene_annotation/Cheilinus_undulatus/Cheilinus_undulatus.pep.all.1.conca.fasta ./
+```
+run BUSCO   
+vi run_busco.sh   
+```bash
+python ~/software/Busco/scripts/run_BUSCO.py -m prot -i Symphodus_melops.pep.all.1.conca.fasta -o Smel -l ~/software/Busco/lineage/actinopterygii_odb9 -c 30 -t Smel-tmp
+python ~/software/Busco/scripts/run_BUSCO.py -m prot -i Thalassoma_bifasciatum.pep.all.1.conca.fasta -o Tbif -l ~/software/Busco/lineage/actinopterygii_odb9 -c 30 -t Tbif-tmp
+python ~/software/Busco/scripts/run_BUSCO.py -m prot -i Notolabrus_celidotus.pep.all.1.conca.fasta -o Ncel -l ~/software/Busco/lineage/actinopterygii_odb9 -c 30 -t Ncel-tmp
+python ~/software/Busco/scripts/run_BUSCO.py -m prot -i Labrus_bergylta.pep.all.1.conca.fasta -o Lber -l ~/software/Busco/lineage/actinopterygii_odb9 -c 30 -t Lber-tmp
+python ~/software/Busco/scripts/run_BUSCO.py -m prot -i Cheilinus_undulatus.pep.all.1.conca.fasta -o Cund -l ~/software/Busco/lineage/actinopterygii_odb9 -c 30 -t Cund-tmp
+```
+
+```bash
+nohup sh run_busco.sh > Busco.process 2>&1 &
+# [1] 26627
+```
