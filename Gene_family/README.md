@@ -553,3 +553,54 @@ perl Extract_gene_family_max.pl Lber.anno.final.txt dump.blast_output.mci.I30 Lb
 perl cleaner_more_than_noncleaner.pl Smel.anno.final.txt dump.blast_output.mci.I30 Smel
 ```
 some gene family in different species with different annotations (need solve this problerm)    
+***
+### Ensure the gene family with the same annation in all the six fish species
+and make sure that Zebrafish has this gene family    
+```bash
+perl anno_consistent.pl >filtered_cafe_input.final.consistent.txt
+```
+11728 gene family   
+***
+### CAFE in SNORLAX
+```bash
+# Kang@fishlab3 Tue Dec 28 11:46:16 /media/HDD/cleaner_fish/genome/gene_family_2
+scp filtered_cafe_input.final.consistent.txt kang1234@147.8.76.155:~/genome/gene_family
+```
+#### Estimating a single λ for the whole tree
+SNORLAX: ~/genome/gene_family   
+run1.sh   
+```bash
+#! cafe
+load -i filtered_cafe_input.final.consistent.txt -t 20 -l reports/log_run1.txt -p 0.01 -r 10000
+tree ((((Platyfish:71.157004,Medaka:71.157004):12.230458,((Fugu:72.568551,Stickleback:72.568551):3.343557,(((Smel:19.853801,Lber:19.853801):19.109431,Cund:38.963232):5.636659,((Tbif:18.004632,Ldim:18.004632):14.124763,Ncel:32.129395):12.470496):31.312217):7.475354):73.142538,Zebrafish:156.530000):96.579514,Spottedgar:253.109514)
+lambda -s -t ((((1,1)1,((1,1)1,(((1,1)1,1)1,((1,1)1,1)1)1)1)1,1)1,1)
+report reports/report_run1
+```
+
+```bash
+cafe run1.sh
+python2 report_analysis.py -i reports/report_run1.cafe -o reports/summary_run1
+```
+Lambda: 0.00216440
+
+#### Setting λ to a previously estimated value to deal with families with large numbers of gene copies
+run2.sh   
+```bash
+#! cafe
+load -i filtered_cafe_input.final.consistent.txt -t 20 -l reports/log_run2.txt -p 0.01 -r 10000
+tree ((((Platyfish:71.157004,Medaka:71.157004):12.230458,((Fugu:72.568551,Stickleback:72.568551):3.343557,(((Smel:19.853801,Lber:19.853801):19.109431,Cund:38.963232):5.636659,((Tbif:18.004632,Ldim:18.004632):14.124763,Ncel:32.129395):12.470496):31.312217):7.475354):73.142538,Zebrafish:156.530000):96.579514,Spottedgar:253.109514)
+lambda -l 0.00216440 -t ((((1,1)1,((1,1)1,(((1,1)1,1)1,((1,1)1,1)1)1)1)1,1)1,1)
+report reports/report_run2
+```
+
+```bash
+cafe run2.sh
+python2 report_analysis.py -i reports/report_run2.cafe -o reports/summary_run2
+```
+
+#### Plot
+```bash
+python2 draw_tree.py -i reports/summary_run2_node.txt -t '((((Platyfish:71.157,Medaka:71.157):12.2305,((Fugu:72.5686,Stickleback:72.5686):3.34356,(((Smel:19.8538,Lber:19.8538):19.1094,Cund:38.9632):5.63666,((Tbif:18.0046,Ldim:18.0046):14.1248,Ncel:32.1294):12.4705):31.3122):7.47535):73.1425,Zebrafish:156.53):96.5795,Spottedgar:253.11)' -d '((((Platyfish<0>,Medaka<2>)<1>,((Fugu<4>,Stickleback<6>)<5>,(((Smel<8>,Lber<10>)<9>,Cund<12>)<11>,((Tbif<14>,Ldim<16>)<15>,Ncel<18>)<17>)<13>)<7>)<3>,Zebrafish<20>)<19>,Spottedgar<22>)<21>' -o reports/summary_run2_tree_rapid.png -y Rapid
+python2 draw_tree.py -i reports/summary_run2_node.txt -t '((((Platyfish:71.157,Medaka:71.157):12.2305,((Fugu:72.5686,Stickleback:72.5686):3.34356,(((Smel:19.8538,Lber:19.8538):19.1094,Cund:38.9632):5.63666,((Tbif:18.0046,Ldim:18.0046):14.1248,Ncel:32.1294):12.4705):31.3122):7.47535):73.1425,Zebrafish:156.53):96.5795,Spottedgar:253.11)' -d '((((Platyfish<0>,Medaka<2>)<1>,((Fugu<4>,Stickleback<6>)<5>,(((Smel<8>,Lber<10>)<9>,Cund<12>)<11>,((Tbif<14>,Ldim<16>)<15>,Ncel<18>)<17>)<13>)<7>)<3>,Zebrafish<20>)<19>,Spottedgar<22>)<21>' -o reports/summary_run2_tree_Expansions.png -y Expansions
+python2 draw_tree.py -i reports/summary_run2_node.txt -t '((((Platyfish:71.157,Medaka:71.157):12.2305,((Fugu:72.5686,Stickleback:72.5686):3.34356,(((Smel:19.8538,Lber:19.8538):19.1094,Cund:38.9632):5.63666,((Tbif:18.0046,Ldim:18.0046):14.1248,Ncel:32.1294):12.4705):31.3122):7.47535):73.1425,Zebrafish:156.53):96.5795,Spottedgar:253.11)' -d '((((Platyfish<0>,Medaka<2>)<1>,((Fugu<4>,Stickleback<6>)<5>,(((Smel<8>,Lber<10>)<9>,Cund<12>)<11>,((Tbif<14>,Ldim<16>)<15>,Ncel<18>)<17>)<13>)<7>)<3>,Zebrafish<20>)<19>,Spottedgar<22>)<21>' -o reports/summary_run2_tree_Contractions.png -y Contractions
+```
