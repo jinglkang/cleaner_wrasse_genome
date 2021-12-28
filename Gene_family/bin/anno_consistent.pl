@@ -1,6 +1,7 @@
 #!/usr/bin/perl -w
 use strict;
 use warnings;
+use List::MoreUtils qw(uniq);
 
 # pwd: /media/HDD/cleaner_fish/genome/gene_family_2
 # gene id in each family: dump.blast_output.mci.I30
@@ -30,18 +31,15 @@ while (<FAMILY>) {
 	my @a=split;
 	my $ano;
 	$k++;
-	my $j;
 	my $flag;
+	my @annos;
 	for (my $i = 0; $i < @a; $i++) {
-		next if /_ENS/;
-		$j++;
-		$ano=$ANNO{$a[$i]} if $j==1;
-		if ($ano ne $ANNO{$a[$i]}) {
-			$flag=1;
-			last;
-		}
+		next if $a[$i]=~/_ENS/;
+		$ano=$ANNO{$a[$i]};
+		push @annos, $ano,
 	}
-	unless ($flag) {
+	my @annos_new=uniq(@annos);
+	if (@annos_new==1 && $annos_new[0]=~/\D+/) {
 		$FAMILY{$k}++;
 	}
 }
