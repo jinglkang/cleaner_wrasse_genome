@@ -527,3 +527,9 @@ while (<FIL2>) {
 ```bash
 perl Update_gtf.pl >braker2+3_combined_renamed.final.gtf
 ```
+***
+## Extract the gene location in genome
+```bash
+# (base) kang1234@celia-PowerEdge-T640 Sun Jan 02 15:47:26 ~/genome/Gene_annotation/combined
+perl extract_gene_location.pl >Ldim_gene_location.txt
+```
