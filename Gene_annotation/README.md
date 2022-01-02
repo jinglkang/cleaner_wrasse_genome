@@ -484,3 +484,14 @@ mv Ldim-genome.cmscan Ldim-genome.tblout ~/genome/ncRNA/
 ```
 **Result**  ~/genome/ncRNA/:  Ldim-genome.cmscan; Ldim-genome.tblout       
 ***
+## Change the sequence name of genome assembly, add mito genome
+working dir: \~/genome/Gene_annotation    
+```bash
+# (base) kang1234@celia-PowerEdge-T640 Sun Jan 02 12:09:30 ~/genome/Gene_annotation
+less Ldim_genome.info.txt|perl -alne '$k++;if ($k>24 && $F[0]!~/scx22uw_26/i){$i++;$new_nm="scaffold".$i;print "$F[0]\t$new_nm\t$F[2]"}elsif ($F[0]=~/scx22uw_26/i){print "$F[0]\tMT\t$F[2]"}else{print};' >Ldim_genome.info.change.txt
+perl Change_header_mito.pl >Cleaner_wrasse_softmasked_ChaHeader_final.fasta
+```
+**Cleaner_wrasse_softmasked_ChaHeader_final.fasta** # Changed the new header (chr, scaffold), and the mito sequences   
+***
+## Update the gtf file
+add the infomation of OR and Opsin genes if these information are not included in the gtf file   
