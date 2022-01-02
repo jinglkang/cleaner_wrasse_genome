@@ -13,7 +13,7 @@ while (<TXT>) {
 	chomp;
 	my @a=split /\t/;
 	($tran, $gene)=$a[-1]=~/transcript_id\s\"(.*?)\"\;\sgene_id\s\"(.*?)\"\;/;
-	if ($a[-3] eq "+") {
+	if ( ($a[-3] eq "+") && ($a[2] eq "start_codon") ) {
 		$strand=1;
 		$chr=$a[0]; $start=$a[3];
 		my $line = <TXT>;
@@ -22,7 +22,7 @@ while (<TXT>) {
 			$end=$b[4];
 			print "$gene\t$tran\t$chr\t$start\t$end\t$strand\n";
 		}
-	} elsif ($a[-3] eq "-") {
+	} elsif ( ($a[-3] eq "-") && ($a[2] eq "stop_codon") ) {
 		$strand=-1;
 		$chr=$a[0]; $start=$a[3];
 		my $line = <TXT>;
