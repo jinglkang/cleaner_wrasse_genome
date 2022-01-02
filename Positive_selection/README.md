@@ -1,4 +1,4 @@
-# Orthologous genes detection
+# Positive_selection: Orthologous genes detection
 ## InParanoid: orthologous genes detection
 work in HPC   
 ```bash
@@ -84,3 +84,4 @@ cd ../
 nohup orthofinder -f longest_pep -a 32 >Orthofinder.process 2>&1 &
 # [1] 14786
 ```
+### Select 
