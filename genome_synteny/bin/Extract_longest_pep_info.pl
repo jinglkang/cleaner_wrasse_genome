@@ -44,7 +44,7 @@ sub Parse_geno {
 			($gene, $tran)=($1, $2);
 			$hash{$gene}=[] unless exists $hash{$gene};
 			push @{$hash{$gene}}, $tran;
-			push @genes, $gene;
+			push @genes, $gene if @{$hash{$gene}}==1;
 			} else {
 				$seq{$gene}->{$tran}.=$_;
 			}
@@ -56,7 +56,7 @@ sub Parse_geno {
 			$gene=$1; s/>//; $tran=$_;
 			$hash{$gene}=[] unless exists $hash{$gene};
 			push @{$hash{$gene}}, $tran;
-			push @genes, $gene;
+			push @genes, $gene if @{$hash{$gene}}==1;
 			} else {
 				$seq{$gene}->{$tran}.=$_;
 			}
