@@ -493,5 +493,37 @@ perl Change_header_mito.pl >Cleaner_wrasse_softmasked_ChaHeader_final.fasta
 ```
 **Cleaner_wrasse_softmasked_ChaHeader_final.fasta** # Changed the new header (chr, scaffold), and the mito sequences   
 ***
-## Update the gtf file
-add the infomation of OR and Opsin genes if these information are not included in the gtf file   
+## Update the gtf file (just update the chromosome and scaffold info)
+The gtf file not including the infomation of OR and Opsin genes   
+can select parts of the gtf info in get the mapped reads nb, e.g.,   
+```bash
+# Kang@fishlab3 Sun Jan 02 14:47:17 /media/HDD/cleaner_fish/genome/OR_detection/Cleaner_wrasse/genewise
+less query.fa.bla.solar.besthit.lt250.wise.best.1.gff
+```
+**Update:**   
+vi Update_gtf.pl   
+```perl
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+my %hash;
+open FIL, "../Ldim_genome.info.change.txt" or die "can not open ../Ldim_genome.info.change.txt\n";
+while (<FIL>) {
+        chomp;
+        my @a=split;
+        $hash{$a[0]}=$a[1];
+}
+
+open FIL2, "braker2+3_combined_renamed.gtf" or die "can not open braker2+3_combined_renamed.gtf\n";
+while (<FIL2>) {
+        chomp;
+        my @a=split;
+        s/$a[0]/$hash{$a[0]}/;
+        print "$_\n";
+}
+```
+
+```bash
+perl Update_gtf.pl >braker2+3_combined_renamed.final.gtf
+```
