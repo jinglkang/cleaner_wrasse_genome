@@ -23,3 +23,27 @@ install perl module
 ```bash
 sudo cpanm Math::Bezier Regexp::Common Math::Round Math::VecStat Set::IntSpan Text::Format Statistics::Basic
 ```
+***
+# Genome synteny with Stickleback
+select the orthogroups including genes in at least six species   
+```bash
+# Kang@fishlab3 Sun Jan 02 16:20:32 /media/HDD/cleaner_fish/genome/gene_family_2/longest_pep/OrthoFinder/Results_Jan01/Orthogroups
+perl orth_select.pl --spe Stickleback Ldim --nb 6 >Stickleback_Ldim_orthogroup.txt
+cp Stickleback_Ldim_orthogroup.txt /media/HDD/cleaner_fish/genome/synteny
+# Kang@fishlab3 Sun Jan 02 16:27:13 /media/HDD/cleaner_fish/genome/synteny
+scp kang1234@147.8.76.155:~/genome/Gene_annotation/combined/Ldim_gene_location.txt ./
+# kangjingliang@kangjingliangdeMacBook-Pro 日  1 02 16:30:43 ~/Downloads
+scp Stickleback_gene_chr.txt Kang@147.8.76.231:/media/HDD/cleaner_fish/genome/synteny
+```
+## Create the karyotype file to plot the gene synteny between Ldim and Stickleback
+### Extract the info of longest pep in Ldim and Stickleback
+Cleaner related fish: $ARGV\[1\]=0; Other: $ARGV\[1\]=1   
+```bash
+# jlkang@hpc2021 Sun Jan 02 19:19:32 ~/orthologous_detection
+perl Extract_longest_pep_info.pl Labroides_dimidiatus_all_pep.fa 0 >Ldim_longest_pep_info.txt
+perl Extract_longest_pep_info.pl Stickleback_all_pep.fa 1 >Stickleback_longest_pep_info.txt
+# Kang@fishlab3 Sun Jan 02 19:22:48 /media/HDD/cleaner_fish/genome/synteny
+scp jlkang@hpc2021-io1.hku.hk:~/orthologous_detection/*_longest_pep_info.txt ./
+# result file: Stickleback_Ldim_synteny.txt
+perl Create_Stickleback_Ldim_synteny.pl
+```
