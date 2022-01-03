@@ -1,5 +1,5 @@
 # Positive_selection: Orthologous genes detection
-## InParanoid: orthologous genes detection
+## InParanoid: orthologous genes detection (give up this following part)
 work in HPC   
 ```bash
 # jlkang@hpc2021-io1 Fri Dec 31 13:44:59 ~
@@ -71,7 +71,8 @@ sq
 # 113119 amd        inparanoid_b PD   jlkang     normal   1     128   N/A           3-10:00:00  3-10:00:00  (Priority)
 ```
 ***
-## Orthofinder
+# Orthofinder
+Orthofind is more suitable to as the tool for gene family than blastall (personal opinion)   
 ```bash
 # Kang@fishlab3 Sat Jan 01 13:25:40 /media/HDD/cleaner_fish/genome/gene_family_2
 mkdir longest_pep; cd longest_pep
@@ -84,4 +85,62 @@ cd ../
 nohup orthofinder -f longest_pep -a 32 >Orthofinder.process 2>&1 &
 # [1] 14786
 ```
-### Select 
+## All these orthogroups would be applied to detect postive selection
+tree: /media/HDD/cleaner_fish/genome/gene_family_2/longest_pep/OrthoFinder/Results_Jan01/Gene_Trees   
+### Download the cds nucleotide sequences of six species (e.g., Zebrafish) from Ensembl
+all pep and cds in   
+```bash
+# jlkang@hpc2021 Mon Jan 03 11:48:32 ~/orthologous_detection/all_pep
+# jlkang@hpc2021 Mon Jan 03 11:48:32 ~/orthologous_detection/all_cds
+perl Ensemble_longest_pep.pl --fasta *.fa # Longest_*_all_cds.fa are the result (longest cds per species)
+```
+### The cds sequences of longest pep of other six speceis are detected before in gene family analysis
+```bash
+# Kang@fishlab3 Mon Jan 03 12:03:02 /media/HDD/cleaner_fish/genome/gene_family_2/single_copy_id
+# Longest_Cheilinus_undulatus_cds.fasta; Longest_Labroides_dimidiatus_cds.fasta
+# Longest_Labrus_bergylta_cds.fasta; Longest_Notolabrus_celidotus_cds.fasta
+# Longest_Symphodus_melops_cds.fasta; Longest_Thalassoma_bifasciatum_cds.fasta
+
+# Kang@fishlab3 Mon Jan 03 13:54:02 /media/HDD/cleaner_fish/genome/gene_family_2/longest_pep/OrthoFinder/Results_Jan01
+mkdir longest_pep_sequences; mkdir longest_cds_sequences
+scp jlkang@hpc2021-io1.hku.hk:~/orthologous_detection/all_cds/Longest_*_all_cds.fa longest_cds_sequences/
+# Kang@fishlab3 Mon Jan 03 14:01:18 /media/HDD/cleaner_fish/genome/gene_family_2/single_copy_id
+ll Longest_*_cds.fasta|perl -alne 'unless (/single_copy_id_cds/){$n.=$F[-1]." "};END{print $n}'
+cp Longest_Cheilinus_undulatus_cds.fasta Longest_Labroides_dimidiatus_cds.fasta Longest_Labrus_bergylta_cds.fasta Longest_Notolabrus_celidotus_cds.fasta Longest_Symphodus_melops_cds.fasta Longest_Thalassoma_bifasciatum_cds.fasta /media/HDD/cleaner_fish/genome/gene_family_2/longest_pep/OrthoFinder/Results_Jan01/longest_cds_sequences/
+# Kang@fishlab3 Mon Jan 03 14:03:50 /media/HDD/cleaner_fish/genome/gene_family_2
+ll Longest_*_pep.fasta|perl -alne '$n.=$F[-1]." "};END{print $n}'
+cp Longest_Cheilinus_undulatus_pep.fasta Longest_Fugu_pep.fasta Longest_Japanese_Medaka_pep.fasta Longest_Labroides_dimidiatus_pep.fasta Longest_Labrus_bergylta_pep.fasta Longest_Notolabrus_celidotus_pep.fasta Longest_Platyfish_pep.fasta Longest_Spotted_gar_pep.fasta Longest_Stickleback_pep.fasta Longest_Symphodus_melops_pep.fasta Longest_Thalassoma_bifasciatum_pep.fasta Longest_Zebrafish_pep.fasta /media/HDD/cleaner_fish/genome/gene_family_2/longest_pep/OrthoFinder/Results_Jan01/longest_pep_sequences/
+```
+***
+# One protein as the representative protein of gene family per species
+the longest one per species per gene family will be randomly selected   
+```bash
+# Kang@fishlab3 Mon Jan 03 15:42:33 /media/HDD/cleaner_fish/genome/gene_family_2
+mv Longest_Japanese_Medaka_pep.fasta Longest_Medaka_pep.fasta
+mv Longest_Spotted_gar_pep.fasta Longest_Spottedgar_pep.fasta
+# pep length <=10000
+perl Extract_rep_gene_fm.pl >Rep_gene_fm.txt # 8974 gene family
+mkdir paml_input; cd paml_input
+# Kang@fishlab3 Mon Jan 03 17:51:52 /media/HDD/cleaner_fish/genome/gene_family_2/paml_input
+cp ../Longest_Zebrafish_pep.fasta ./
+cp /media/HDD/cleaner_fish/genome/gene_family_2/longest_pep/OrthoFinder/Results_Jan01/longest_cds_sequences/*.fasta ./
+cp /media/HDD/cleaner_fish/genome/gene_family_2/longest_pep/OrthoFinder/Results_Jan01/longest_cds_sequences/*.fa ./
+vi correlation.txt
+# refer	Longest_Zebrafish_pep.fasta
+# Zebrafish	Longest_Zebrafish_all_cds.fa
+# Stickleback	Longest_Stickleback_all_cds.fa
+# Spottedgar	Longest_Spottedgar_all_cds.fa
+# Platyfish	Longest_Platyfish_all_cds.fa
+# Medaka	Longest_medaka_all_cds.fa
+# Cund	Longest_Cheilinus_undulatus_cds.fasta
+# Fugu	Longest_Fugu_all_cds.fa
+# Lber	Longest_Labrus_bergylta_cds.fasta
+# Ncel	Longest_Notolabrus_celidotus_cds.fasta
+# Smel	Longest_Symphodus_melops_cds.fasta
+# Tbif	Longest_Thalassoma_bifasciatum_cds.fasta
+# Ldim	Longest_Labroides_dimidiatus_cds.fasta
+cp ../Rep_gene_fm.txt ./
+# parallel run prepare_input_paml.pl
+nohup perl prepare_input_paml_parallel.pl Rep_gene_fm.txt >prepare_input_paml.process 2>&1 &
+# [1] 5208
+```
