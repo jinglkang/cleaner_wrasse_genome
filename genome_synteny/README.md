@@ -25,7 +25,7 @@ sudo cpanm Math::Bezier Regexp::Common Math::Round Math::VecStat Set::IntSpan Te
 ```
 ***
 ***
-## Orthofinder
+# Orthofinder
 ```bash
 # Kang@fishlab3 Sat Jan 01 13:25:40 /media/HDD/cleaner_fish/genome/gene_family_2
 mkdir longest_pep; cd longest_pep
