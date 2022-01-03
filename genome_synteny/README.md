@@ -24,6 +24,21 @@ install perl module
 sudo cpanm Math::Bezier Regexp::Common Math::Round Math::VecStat Set::IntSpan Text::Format Statistics::Basic
 ```
 ***
+***
+## Orthofinder
+```bash
+# Kang@fishlab3 Sat Jan 01 13:25:40 /media/HDD/cleaner_fish/genome/gene_family_2
+mkdir longest_pep; cd longest_pep
+# Kang@fishlab3 Sat Jan 01 14:05:34 /media/HDD/cleaner_fish/genome/gene_family_2/longest_pep
+cp ../Longest_*_pep.fasta ./;mv Longest_Spotted_gar_pep.fasta Longest_Spottedgar_pep.fasta;mv Longest_Japanese_Medaka_pep.fasta Longest_Medaka_pep.fasta
+# change the fasta file name and add the species name in the header of sequences
+perl Change_name.pl; rm Change_name.pl
+cd ../
+# Kang@fishlab3 Sat Jan 01 14:06:00 /media/HDD/cleaner_fish/genome/gene_family_2
+nohup orthofinder -f longest_pep -a 32 >Orthofinder.process 2>&1 &
+# [1] 14786
+```
+***
 # Genome synteny with Stickleback
 select the orthogroups including genes in at least six species   
 ```bash
