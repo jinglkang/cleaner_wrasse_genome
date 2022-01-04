@@ -88,7 +88,7 @@ while (<FAM_INFO>) {
 	}
 }
 
-my $header="Family_id\tZebra_protein\t";
+my $header="Family_id\t";
 foreach my $spe (@spes) {
 	$header.=$spe."\t";
 }
@@ -96,7 +96,6 @@ $header=~s/\s+$//; # print "$header\n";
 
 foreach my $id (@ids) {
 	my $info;
-	$info=$spes{'Zebrafish'}->{$id}->{'gene'}."\t";
 	my $len=$spes{'Zebrafish'}->{$id}->{'len'};
 	foreach my $spe (@spes) {
 		my $gene=$spes{$spe}->{$id}->{'gene'};
