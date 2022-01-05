@@ -61,4 +61,99 @@ perl Extract_longest_pep_info.pl Stickleback_all_pep.fa 1 >Stickleback_longest_p
 scp jlkang@hpc2021-io1.hku.hk:~/orthologous_detection/*_longest_pep_info.txt ./
 # result file: Stickleback_Ldim_synteny.txt
 perl Create_Stickleback_Ldim_synteny.pl
+wc -l Stickleback_Ldim_synteny.txt # 11847 links
+less Stickleback_Ldim_synteny.txt|perl -alne 'print if /group/ && /chr/' > Stickleback_Ldim_synteny_chr.txt # 10850 link (in chr of Stickleback and Ldim)
+```
+## Circos plot
+```bash
+# Kang@fishlab3 Tue Jan 04 14:56:12 ~/Desktop/circos_test
+mkdir Link; cd Link
+# Kang@fishlab3 Tue Jan 04 14:59:07 ~/Desktop/circos_test/Link
+mkdir data etc; cd etc
+# copy from http://www.circos.ca/documentation/tutorials/links/basic_links/configuration
+# Kang@fishlab3 Tue Jan 04 15:02:19 ~/Desktop/circos_test/Link/etc
+vi circos.conf; vi bands.conf; vi ideogram.conf; vi ideogram.conf
+vi ideogram.position.conf; vi ticks.conf
+# create karyotype file of Ldim and Stickleback (in the same karyotype file)
+# Kang@fishlab3 Tue Jan 04 15:37:47 /media/HDD/cleaner_fish/genome/OR_detection
+falen Gasterosteus_aculeatus.BROADS1.dna_sm.toplevel.fa|perl -alne '$i++;$name="Stickleback".$i;print "chr - $name $F[0] 0 $F[1] $F[0]" if /group/i' >Stickleback_karyotype.txt
+cp Stickleback_karyotype.txt /media/HDD/cleaner_fish/genome/synteny
+
+# karyotype file: chr - ID LABEL START END COLOR
+# (base) kang1234@celia-PowerEdge-T640 Tue Jan 04 15:41:58 ~/genome/Gene_annotation
+falen Cleaner_wrasse_softmasked_ChaHeader_final.fasta|sort -k2,2nr |perl -alne '$i++;$name="Ldim".$i;print "chr - $name $F[0] 0 $F[1] $F[0]" if /chr/i' >Ldim_karyotype.txt
+# Kang@fishlab3 Tue Jan 04 15:43:40 /media/HDD/cleaner_fish/genome/synteny
+scp kang1234@147.8.76.155:~/genome/Gene_annotation/Ldim_karyotype.txt ./
+cat Stickleback_karyotype.txt Ldim_karyotype.txt >total_Stickleback_Ldim_karyotype.txt
+# Kang@fishlab3 Tue Jan 04 15:48:55 /media/HDD/cleaner_fish/genome/synteny
+cat Stickleback_karyotype.txt Ldim_karyotype.txt >~/Desktop/circos_test/Link/data/total_Stickleback_Ldim_karyotype.txt
+```
+
+vi temp1.pl   
+```perl
+#!/usr/bin/perl -w
+use strict;
+use warnings;
+
+my %hash;
+open FIL1, "total_Stickleback_Ldim_karyotype.txt";
+while (<FIL1>) {
+	chomp; my @a=split;
+	$hash{$a[3]}=$a[2];
+}
+
+open FIL2, "Stickleback_Ldim_synteny_chr.txt";
+while (<FIL2>) {
+	chomp;
+	my @a=split;
+	my $i=$hash{$a[0]}; my $j=$hash{$a[3]};
+	print "$i $a[1] $a[2] $j $a[4] $a[5]\n";
+}
+```
+vi circos.conf (\~/Desktop/circos_test/Link/etc)   
+```bash
+# karyotype   = data/total_Stickleback_Ldim_karyotype.txt
+# Kang@fishlab3 Tue Jan 04 15:58:52 ~/Desktop/circos_test/Link/data
+less total_Stickleback_Ldim_karyotype.txt|perl -alne '$i.=$F[2].";";END{$i=~s/\;$//;print $i}' # add the print
+less total_Stickleback_Ldim_karyotype.txt|perl -alne 's/group//g;print' >total_Stickleback_Ldim_karyotype.txt.1
+mv total_Stickleback_Ldim_karyotype.txt.1 total_Stickleback_Ldim_karyotype.txt
+# chromosomes       = Stickleback1;Stickleback2;Stickleback3;Stickleback4;Stickleback5;Stickleback6;Stickleback7;Stickleback8;Stickleback9;Stickleback10;Stickleback11;Stickleback12;Stickleback13;Stickleback14;Stickleback15;Stickleback16;Stickleback17;Stickleback18;Stickleback19;Stickleback20;Stickleback21;Ldim1;Ldim2;Ldim3;Ldim4;Ldim5;Ldim6;Ldim7;Ldim8;Ldim9;Ldim10;Ldim11;Ldim12;Ldim13;Ldim14;Ldim15;Ldim16;Ldim17;Ldim18;Ldim19;Ldim20;Ldim21;Ldim22;Ldim23;Ldim24
+# Kang@fishlab3 Tue Jan 04 16:07:07 ~/Desktop/circos_test/Link/data
+cp /media/HDD/cleaner_fish/genome/synteny/Stickleback_Ldim_synteny_chr.txt ./
+perl temp1.pl >segdup.txt
+# add color in segdup.txt to make the color same with chromosome
+# Kang@fishlab3 Tue Jan 04 19:56:57 ~/Desktop/circos_test/Link/data
+less segdup.txt |perl -alne '(my $i)=$F[3]=~/Ldim(\d+)/;$n="color=chr".$i;print "$_ $n"' >segdup.txt.1
+# file          = data/segdup.txt.1
+# record_limit  = 200000
+```
+
+vi ideogram.label.conf   
+```bash
+# remove: label_format     = eval(sprintf("chr%s",var(label)))
+```
+
+vi etc/ideogram.position.conf (chromosome width)  
+```bash
+# thickness        = 30p
+```
+
+## RUN Circos
+```bash
+# Kang@fishlab3 Tue Jan 04 16:21:51 ~/Desktop/circos_test/Link
+circos
+```
+
+## Gene density by Circos
+### Create the input for heatmap in Circos
+```bash
+# (base) kang1234@celia-PowerEdge-T640 Wed Jan 05 13:38:38 ~/genome/Gene_annotation/combined
+perl gene_density.pl >Ldim_gene_density.txt
+# Kang@fishlab3 Wed Jan 05 13:40:30 ~/Desktop/circos_test
+mkdir Heatmap; cd Heatmap
+# Kang@fishlab3 Wed Jan 05 13:41:01 ~/Desktop/circos_test/Heatmap
+mkdir data etc
+# Kang@fishlab3 Wed Jan 05 13:42:40 ~/Desktop/circos_test/Heatmap/data
+scp kang1234@147.8.76.155:~/genome/Gene_annotation/combined/Ldim_gene_density.txt ./
+scp kang1234@147.8.76.155:~/genome/Gene_annotation/karyotype.Ldim.txt ./
 ```
