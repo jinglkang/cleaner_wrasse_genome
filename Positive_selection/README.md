@@ -126,21 +126,20 @@ cp ../Longest_Zebrafish_pep.fasta ./
 cp /media/HDD/cleaner_fish/genome/gene_family_2/longest_pep/OrthoFinder/Results_Jan01/longest_cds_sequences/*.fasta ./
 cp /media/HDD/cleaner_fish/genome/gene_family_2/longest_pep/OrthoFinder/Results_Jan01/longest_cds_sequences/*.fa ./
 vi correlation.txt
-# refer	Longest_Zebrafish_pep.fasta
-# Zebrafish	Longest_Zebrafish_all_cds.fa
-# Stickleback	Longest_Stickleback_all_cds.fa
-# Spottedgar	Longest_Spottedgar_all_cds.fa
-# Platyfish	Longest_Platyfish_all_cds.fa
-# Medaka	Longest_medaka_all_cds.fa
-# Cund	Longest_Cheilinus_undulatus_cds.fasta
-# Fugu	Longest_Fugu_all_cds.fa
-# Lber	Longest_Labrus_bergylta_cds.fasta
-# Ncel	Longest_Notolabrus_celidotus_cds.fasta
-# Smel	Longest_Symphodus_melops_cds.fasta
-# Tbif	Longest_Thalassoma_bifasciatum_cds.fasta
-# Ldim	Longest_Labroides_dimidiatus_cds.fasta
+# Zebrafish       Longest_Zebrafish_pep.fasta     Longest_Zebrafish_all_cds.fa
+# Stickleback     Longest_Stickleback_pep.fasta   Longest_Stickleback_all_cds.fa
+# Spottedgar      Longest_Spotted_gar_pep.fasta   Longest_Spottedgar_all_cds.fa
+# Platyfish       Longest_Platyfish_pep.fasta     Longest_Platyfish_all_cds.fa
+# Medaka  Longest_Japanese_Medaka_pep.fasta       Longest_medaka_all_cds.fa
+# Cund    Longest_Cheilinus_undulatus_pep.fasta   Longest_Cheilinus_undulatus_cds.fasta
+# Fugu    Longest_Fugu_pep.fasta  Longest_Fugu_all_cds.fa
+# Lber    Longest_Labrus_bergylta_pep.fasta       Longest_Labrus_bergylta_cds.fasta
+# Ncel    Longest_Notolabrus_celidotus_pep.fasta  Longest_Notolabrus_celidotus_cds.fasta
+# Smel    Longest_Symphodus_melops_pep.fasta      Longest_Symphodus_melops_cds.fasta
+# Tbif    Longest_Thalassoma_bifasciatum_pep.fasta        Longest_Thalassoma_bifasciatum_cds.fasta
+# Ldim    Longest_Labroides_dimidiatus_pep.fasta  Longest_Labroides_dimidiatus_cds.fasta
 cp ../Rep_gene_fm.txt ./
-# parallel run prepare_input_paml.pl
+# parallel run prepare_input_paml.pl: two threads
 nohup perl prepare_input_paml_parallel.pl Rep_gene_fm.txt >prepare_input_paml.process 2>&1 &
-# [1] 5208
+# [1] 11647
 ```
