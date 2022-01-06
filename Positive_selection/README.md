@@ -143,3 +143,14 @@ cp ../Rep_gene_fm.txt ./
 nohup perl prepare_input_paml_parallel.pl Rep_gene_fm.txt >prepare_input_paml.process 2>&1 &
 # [1] 11647
 ```
+## RUN codeml
+vi spe_Ldim.tre   
+```bash
+# Kang@fishlab3 Thu Jan 06 10:32:06 /media/HDD/cleaner_fish/genome/gene_family_2/paml_input
+vi spe_Ldim.tre
+# ((Zebrafish,((Platyfish,Medaka),((Fugu,Stickleback),((Cund,(Smel,Lber)),(Ncel,(Tbif,Ldim #1)))))),Spottedgar);
+# perl codeml.pl --input final_orth_input_paml.txt --model branch-site --dir . --output_suf Ldim --tree spe_Ldim.tre --icode 0 --omega 1.2
+# parallel run codeml.pl: codeml_parallel.pl
+nohup perl codeml_parallel.pl final_orth_input_paml.txt >codeml.process 2>&1 &
+# [1] 23132
+```
