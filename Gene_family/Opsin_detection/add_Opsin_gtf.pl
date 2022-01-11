@@ -41,6 +41,7 @@ while (<OPSIN>) {
                         'gtf_strand' => $gtf_strand,
                         'gtf_tranid' => $gtf_tranid,
                         'gene'       => $gene,
+                        'anno'       => $anno
                 };
         }
 }
@@ -113,11 +114,12 @@ sub Parase {
                 my $gtf_strand=$opsin{$id}->{'gtf_strand'};
                 my $gtf_tranid=$opsin{$id}->{'gtf_tranid'};
                 my $gene      =$opsin{$id}->{'gene'};
+                my $anno      =$opsin{$id}->{'anno'};
 
 #                my $gene_info="gene_id \"$gtf_geneid\"\; gene_name \"$gene\"\; gene_source \"Swiss-Prot\"\; gene_biotype \"protein_coding\"\;";
-                my $gene_info="gene_id \"$gtf_geneid\"\; gene_name \"$gene\"\; gene_source \"Swiss-Prot\"\;";
+                my $gene_info="gene_id \"$gtf_geneid\"\; gene_name \"$gene\"\; gene_description \"$anno\"\; gene_source \"Swiss-Prot\"\;";
 #                my $tran_info="gene_id \"$gtf_geneid\"\; transcript_id \"$gtf_tranid\"\; gene_name \"$gene\"\; gene_source \"Swiss-Prot\"\; gene_biotype \"protein_coding\"\; transcript_biotype \"protein_coding\"\;";
-                my $tran_info="gene_id \"$gtf_geneid\"\; transcript_id \"$gtf_tranid\"\; gene_name \"$gene\"\; gene_source \"Swiss-Prot\"\;";
+                my $tran_info="gene_id \"$gtf_geneid\"\; transcript_id \"$gtf_tranid\"\; gene_name \"$gene\"\; gene_description \"$anno\"\; gene_source \"Swiss-Prot\"\;";
                 return($gtf_geneid, $gtf_strand, $gtf_tranid, $gene, $gene_info, $tran_info);
         }
 }
