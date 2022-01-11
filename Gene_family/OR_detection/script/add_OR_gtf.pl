@@ -96,9 +96,8 @@ while (<GFF>) {
                             my $tran_id="Ldim_g".$j.".t1";
                             my $gene_name=$info{$id}->{'gene'};
                           # $gene=$info{$id}->{'gene'};
-                            my $gene_info="gene_id \"$gene_id\"\; gene_name \"$gene_name\"\; gene_source \"Swiss-Prot\"\; gene_biotype \"protein_coding\"\;";
-                            my $tran_info="gene_id \"$gene_id\"\; transcript_id \"$tran_id\"\; gene_name \"$gene_name\"\; gene_source \"Swiss-Prot\"\; gene_biotype \"protein_coding\"\; transcript_biotype
-\"protein_coding\"\;";
+                            my $gene_info="gene_id \"$gene_id\"\; gene_name \"$gene_name\"\; gene_source \"Swiss-Prot\"\;";
+                            my $tran_info="gene_id \"$gene_id\"\; transcript_id \"$tran_id\"\; gene_name \"$gene_name\"\; gene_source \"Swiss-Prot\"\;";
                              if ($strand eq "+") {
                                     print "$b[0]\tGeneWise\tgene\t$b[3]\t$b[4]\t$info\t$gene_info\n";
                                     #my $tran=$gene.".t1";
