@@ -37,7 +37,7 @@ while (<OR>) {
             'strand' => $strand,
             'struct' => $struct,
             'gene'   => $gene,
-#               'anno'   => $anno
+            'anno'   => $anno
     };
 }
 
@@ -68,6 +68,7 @@ while (<OR_ANO>) {
 #               print TXT "##NONEX\t$id\tNon\tNon\t$gene\t$gene_strand\t$gene_str\t$anno\n";
             if ($gene_str eq "C") {
                     $info{$id}->{'gene'}=$gene;
+                    $info{$id}->{'anno'}=$anno;
             }
     }
 }
@@ -96,8 +97,9 @@ while (<GFF>) {
                             my $tran_id="Ldim_g".$j.".t1";
                             my $gene_name=$info{$id}->{'gene'};
                           # $gene=$info{$id}->{'gene'};
-                            my $gene_info="gene_id \"$gene_id\"\; gene_name \"$gene_name\"\; gene_source \"Swiss-Prot\"\;";
-                            my $tran_info="gene_id \"$gene_id\"\; transcript_id \"$tran_id\"\; gene_name \"$gene_name\"\; gene_source \"Swiss-Prot\"\;";
+                            my $anno      =$info{$id}->{'anno'};
+                            my $gene_info="gene_id \"$gene_id\"\; gene_name \"$gene_name\"\; gene_description \"$anno\"\; gene_source \"Swiss-Prot\"\;";
+                            my $tran_info="gene_id \"$gene_id\"\; transcript_id \"$tran_id\"\; gene_name \"$gene_name\"\; gene_description \"$anno\"\; gene_source \"Swiss-Prot\"\;";
                              if ($strand eq "+") {
                                     print "$b[0]\tGeneWise\tgene\t$b[3]\t$b[4]\t$info\t$gene_info\n";
                                     #my $tran=$gene.".t1";
