@@ -117,8 +117,8 @@ while (<GFF>) {
                                     my $start=$b[4]; my $stop=$b[4]+2;
                                     my $info1=".\t-\t0"; #my $info2="transcript_id \"$tran\"\; gene_id \"$gene\"\;";
                                     print "$b[0]\tGeneWise\tstop_codon\t$start\t$stop\t$info1\t$tran_info\n";
-                                    print "$b[0]\tGeneWise\tCDS\t$b[3]\t$b[4]\t$info\t$tran_info\n";
-                                    print "$b[0]\tGeneWise\texon\t$b[3]\t$b[4]\t$info\t$tran_info\n";
+                                    print "$b[0]\tGeneWise\tCDS\t$b[4]\t$b[3]\t$info\t$tran_info\n";
+                                    print "$b[0]\tGeneWise\texon\t$b[4]\t$b[3]\t$info\t$tran_info\n";
                                     my $end_d=$b[3]; my $end_s=$b[3]-2;
                                     print "$b[0]\tGeneWise\tstart_codon\t$end_s\t$end_d\t$info1\t$tran_info\n";
                             }
