@@ -130,3 +130,24 @@ nohup ./Opsin_detect --genome /media/HDD/cleaner_fish/genome/Labrus_bergylta.fas
 --query /media/HDD/cleaner_fish/genome/Opsin_detection/photoreceptors_gene_zebrafish_pep.fasta \
 --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
 ```
+***
+## Vision opsin genes
+### Add the OR gene info if it's not in the gtf
+check which OR gene is in the gtf and which is detected by genewise   
+```bash
+# Kang@fishlab3 Tue Jan 11 13:41:16 /media/HDD/cleaner_fish/genome/Opsin_detection/Cleaner_wrasse/filtering
+wc -l putative_opsin.txt
+# 8 putative_opsin.txt
+
+# (base) kang1234@celia-PowerEdge-T640 Mon Jan 10 13:49:51 ~/genome/Gene_annotation/combined
+perl check_Opsin_in_gtf.pl
+# In_gtf	C	4
+# No_gtf	C	4
+```
+Opsin gene info in gtf or not: Opsin_in_gtf.txt   
+4 complete Opsin genes are not in the gtf   
+### Add the complete OR not in gtf into a gtf, can add the content of this file into the genome gtf
+```bash
+# (base) kang1234@celia-PowerEdge-T640 Tue Jan 11 19:59:13 ~/genome/Gene_annotation/combined
+perl add_Opsin_gtf.pl >Opsin.gtf
+```
