@@ -136,3 +136,32 @@ system("rm 1.txt");
 ```bash
 perl temp4.pl
 ```
+***
+## Add the OR and vision opsin genes info into genome gtf file
+### OR genes
+```bash
+# Kang@fishlab3 Mon Jan 10 11:18:50 /media/HDD/cleaner_fish/genome/OR_detection/Cleaner_wrasse/group
+scp filter.out.fasta.bla.best.1.strand kang1234@147.8.76.155:~/genome/Gene_annotation/combined/putative_OR_strand.txt
+scp filter.out.1.info kang1234@147.8.76.155:~/genome/Gene_annotation/combined/putative_OR.info
+
+# Kang@fishlab3 Mon Jan 10 11:37:57 /media/HDD/cleaner_fish/genome/OR_detection/Cleaner_wrasse/genewise
+scp query.fa.bla.solar.besthit.lt250.wise.best.1.gff kang1234@147.8.76.155:~/genome/Gene_annotation/combined/putative_OR.gff
+```
+#### Add the OR gene info if it's not in the gtf
+check which OR gene is in the gtf and which is detected by genewise   
+```bash
+# (base) kang1234@celia-PowerEdge-T640 Mon Jan 10 13:49:51 ~/genome/Gene_annotation/combined
+perl check_OR_in_gtf.pl
+# In_gtf	C	6
+# No_gtf	C	41
+
+# In_gtf	C	16
+# No_gtf	C	31
+```
+OR gene info in gtf or not: OR_in_gtf.txt   
+41 complete OR genes are not in the gtf   
+#### Add the complete OR not in gtf into a gtf, can add the content of this file into the genome gtf
+```bash
+# (base) kang1234@celia-PowerEdge-T640 Tue Jan 11 11:56:27 ~/genome/Gene_annotation/combined
+perl add_OR_gtf.pl >OR.gtf
+```
