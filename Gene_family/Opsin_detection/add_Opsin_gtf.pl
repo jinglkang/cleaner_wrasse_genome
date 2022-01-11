@@ -72,7 +72,8 @@ while (<GFF>) {
         }
     } else {
         for (my $i = 0; $i < @a; $i++) {
-                my @b=split /\t/, $a[$i]; my $block=$b[2];
+                my @b=split /\t/, $a[$i];
+                my $block=$b[2];
                 my $info=$b[5]."\t".$b[6]."\t".$b[7];
                 if ($i==0) {
                         ($b[4] > $b[3])?($strand = "+"):($strand = "-");
@@ -84,24 +85,21 @@ while (<GFF>) {
                             } else {
                                 &Print_start($b[0], $b[3], $b[4], "-",  $info, $gene_info, $tran_info, $nb);
                         }
-                } elsif ($i<=@a-1) {
+                } elsif ($i<@a-1) {
                         if ($strand eq "+") {
                                 print "$b[0]\tGeneWise\t$block\t$b[3]\t$b[4]\t$info\t$tran_info\n";
                         } else {
                                 print "$b[0]\tGeneWise\t$block\t$b[4]\t$b[3]\t$info\t$tran_info\n";
                         }
-                } elsif ($i==@a) {
-                        my $block=$b[2];
+                } elsif ($i==@a-1) {
                         if ($strand eq "+") {
                                 print "$b[0]\tGeneWise\t$block\t$b[3]\t$b[4]\t$info\t$tran_info\n";
                                 my $end_d=$b[4]; my $end_s=$b[4]-2;
-                                my $info1=".\t+\t0";
-                                print "$b[0]\tGeneWise\tstop_codon\t$end_s\t$end_d\t$info1\t$tran_info\n";
+                                print "$b[0]\tGeneWise\tstop_codon\t$end_s\t$end_d\t$info\t$tran_info\n";
                         } else {
                                 print "$b[0]\tGeneWise\t$block\t$b[4]\t$b[3]\t$info\t$tran_info\n";
                                 my $end_d=$b[3]; my $end_s=$b[3]-2;
-                                my $info1=".\t+\t0";
-                                print "$b[0]\tGeneWise\tstart_codon\t$end_s\t$end_d\t$info1\t$tran_info\n";
+                                print "$b[0]\tGeneWise\tstart_codon\t$end_s\t$end_d\t$info\t$tran_info\n";
                         }
                 }
         }
