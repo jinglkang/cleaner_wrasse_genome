@@ -99,7 +99,7 @@ while (<GFF>) {
                           # $gene=$info{$id}->{'gene'};
                             my $anno      =$info{$id}->{'anno'};
                             my $gene_info="gene_id \"$gene_id\"\; gene_name \"$gene_name\"\; gene_description \"$anno\"\; gene_source \"Swiss-Prot\"\;";
-                            my $tran_info="gene_id \"$gene_id\"\; transcript_id \"$tran_id\"\; gene_name \"$gene_name\"\; gene_description \"$anno\"\; gene_source \"Swiss-Prot\"\;";
+                            my $tran_info="gene_id \"$gene_id\"\; transcript_id \"$tran_id\"\;";
                              if ($strand eq "+") {
                                     print "$b[0]\tGeneWise\tgene\t$b[3]\t$b[4]\t$info\t$gene_info\n";
                                     #my $tran=$gene.".t1";
