@@ -581,3 +581,10 @@ perl Update_gtf.pl Ldim_original_name.gtf >Ldim_chr_name.gtf
 less Ldim_chr_name.gtf|perl -alne '@F=split /\t/;if ($F[2] eq "gene") {($id, $name, $ano, $source)=$F[-1]=~/gene_id \"(.*)\"\; gene_name \"(.*)\"\; gene_description \"(.*)\"\; gene_source \"(.*)\"\;/;print "$id\t$source\t$name\t$ano"}' >Gene_annotation.final.txt
 ```
 **Gene_annotation.final.txt**: the annotation file also including OR and Opsin genes    
+## Forget to add the exon info of Opsin genes, so remove the previous results
+### DO NOT add the info of OR and Opsin genes
+```bash
+perl add_anno_gtf.pl > Ldim_original_name.gtf
+perl Update_gtf.pl Ldim_original_name.gtf >Ldim_chr_name.gtf
+less Ldim_chr_name.gtf|perl -alne '@F=split /\t/;if ($F[2] eq "gene") {($id, $name, $ano, $source)=$F[-1]=~/gene_id \"(.*)\"\; gene_name \"(.*)\"\; gene_description \"(.*)\"\; gene_source \"(.*)\"\;/;print "$id\t$source\t$name\t$ano"}' >Gene_annotation.final.txt
+```
