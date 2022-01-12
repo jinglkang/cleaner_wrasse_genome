@@ -23,7 +23,7 @@ while (<GTF>) {
 
 # gene id start from 28169
 my $opsin="putative_opsin.txt";
-my $i=28169; my %opsin;
+my $i=28169; my (%opsin, %hash);
 open OPSIN, $opsin or die "can not open $opsin\n";
 while (<OPSIN>) {
         chomp; my @a=split /\t/;
@@ -32,6 +32,15 @@ while (<OPSIN>) {
         ($b[2] > $b[1])?($id=$b[0]."\t".$b[1]."\t".$b[2]):($id=$b[0]."\t".$b[2]."\t".$b[1]);
         my $gene=$a[1]; my $anno=$a[2]; my $gene_strand=$b[3];
         last if $b[4] ne "C";
+        $hash{$gene}++;
+
+        if ($hash{$gene}==1) {
+                $gene=$gene;
+        } else {
+                my $nb=$hash{$gene};
+                $gene=$gene."_".$nb;
+        }
+
         $i++; $gtf_geneid="Ldim_g".$i;
         my $gtf_tranid=$gtf_geneid.".t1";
         my $gtf_strand=$gene_strand;
