@@ -154,3 +154,65 @@ vi spe_Ldim.tre
 nohup perl codeml_parallel.pl final_orth_input_paml.txt >codeml.process 2>&1 &
 # [1] 23132
 ```
+## Result
+**working dir**: /media/HDD/cleaner_fish/genome/gene_family_2/paml_input/postively_selected_genes
+vi temp1.pl    
+```perl
+#!/usr/bin/perl -w
+use strict;
+use warnings;
+use List::MoreUtils qw(uniq);
+
+# working dir: /media/HDD/cleaner_fish/genome/gene_family_2/reports_2
+
+# get the anno info per gene family using Zebrafish anno info
+# Zebrafish anno info: /media/HDD/cleaner_fish/genome/gene_family_2/all_annotation/Zebrafish_gene.txt
+# gene per family: /media/HDD/cleaner_fish/genome/gene_family_2/dump.blast_output.mci.I30
+
+my %zebra;
+my $zebra_ano="/media/HDD/cleaner_fish/genome/gene_family_2/all_annotation/Zebrafish_gene.txt";
+open ZEBRA, "$zebra_ano" or die "There is no $zebra_ano\n";
+while (<ZEBRA>) {
+        chomp;
+        my @a=split /\t/;
+        next if /^Gene/;
+        my $id="Zebrafish_".$a[0];
+        my $info;
+        for (my $i = 1; $i < @a; $i++) {
+                $info.=$a[$i]."\t";
+        }
+        $info=~s/\s+$//;
+        $zebra{$id}=$info;
+}
+
+my %family;
+my $fam="/media/HDD/cleaner_fish/genome/gene_family_2/dump.blast_output.mci.I30";
+my $k;
+open FAMILY, "$fam" or die "There is no $fam\n";
+while (<FAMILY>) {
+        chomp;
+        $k++;
+        my @a=split;
+        next if ! /Zebrafish/i;
+        for (my $i = 0; $i < @a; $i++) {
+                if ($a[$i]=~/Zebrafish/i) {
+                        $family{$k}=$zebra{$a[$i]};
+#                       print "$k\t$family{$k}\n";
+                        last;
+                }
+        }
+}
+
+my @txts=<*.txt>;
+foreach my $txt (@txts) {
+        (my $id)=$txt=~/Ldim-psg-Family_(\d+)\.txt/;
+        my $ano=$family{$id};
+        print "Family_$id\t$ano\n";
+}
+```
+
+```bash
+# Kang@fishlab3 Wed Jan 12 11:40:04 /media/HDD/cleaner_fish/genome/gene_family_2/paml_input/postively_selected_genes
+perl temp1.pl >psg.txt
+```
+**psg.txt: 234 positively selected gene family**     
