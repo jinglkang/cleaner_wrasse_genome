@@ -216,3 +216,45 @@ foreach my $txt (@txts) {
 perl temp1.pl >psg.txt
 ```
 **psg.txt: 234 positively selected gene family**     
+## Check the one-to-one gene family in the positively selected genes
+extract the one-to-one gene family    
+1210 one-to-one gene families   
+```bash
+# Kang@fishlab3 Wed Jan 12 11:53:05 /media/HDD/cleaner_fish/genome/gene_family_2
+less filtered_cafe_input_zebra.txt|perl -alne 'my @a;for($i=2;$i<@F;$i++){push @a, $F[$i] if $F[$i]==1};$fa="Family_".$F[1];print "$fa" if @a==12' >single_copy_fm_id.txt
+```
+
+vi add_dup_info_psg.pl    
+```perl
+#!/usr/bin/perl -w
+use strict;
+use warnings;
+
+# figure out which gene family is one-to-one in psg
+# single_copy_fm_id.txt
+# psg.txt: /media/HDD/cleaner_fish/genome/gene_family_2/paml_input/postively_selected_genes/psg.txt
+
+my $single="single_copy_fm_id.txt";
+my %single;
+open SINGLE, $single or die "can not open $single\n";
+while (<SINGLE>) {
+	chomp; $single{$_}++;
+}
+
+my $psg="/media/HDD/cleaner_fish/genome/gene_family_2/paml_input/postively_selected_genes/psg.txt";
+open PSG, $psg or die "can not open $psg\n";
+while (<PSG>) {
+	chomp; my @a=split /\t/;
+	if ($single{$a[0]}) {
+		print "$a[0]\tSingle_copy\t$a[1]\t$a[2]\n";
+	} else {
+		print "$a[0]\tMulti_copy\t$a[1]\t$a[2]\n";
+	}
+}
+```
+
+```bash
+# Kang@fishlab3 Wed Jan 12 12:09:23 /media/HDD/cleaner_fish/genome/gene_family_2
+perl add_dup_info_psg.pl >psg_add_dup_info.txt
+```
+**29 one-to-one gene family; 205 multi copy gene families**    
