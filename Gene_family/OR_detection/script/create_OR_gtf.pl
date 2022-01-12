@@ -39,7 +39,7 @@ while (<OR_ANO>) {
 $/ = "\/\/";
 # parse the gff file: putative_OR.gff
 my $GFF="putative_OR.gff";
-my $gene;
+my $gene; my %hash;
 open GFF, $GFF or die "can not open $GFF\n";
 while (<GFF>) {
     chomp;
@@ -54,8 +54,18 @@ while (<GFF>) {
                 $strand=$b[6];
                 ($strand eq "+")?($id=$b[0]."\t".$b[3]):($id=$b[0]."\t".$b[4]);
                 last if ! $info{$id}->{'gene'} || $info{$id}->{'str'} ne "C";
-                my $gene_id=$info{$id}->{'gene'};
-                my $tran_id=$info{$id}->{'gene'}.".t1";
+                my ($gene_id, $tran_id);
+                $gene_id=$info{$id}->{'gene'};
+                $hash{$gene_id}++;
+                if ($hash{$gene_id}==1) {
+                    $gene_id=$info{$id}->{'gene'};
+                    $tran_id=$info{$id}->{'gene'}.".t1";
+                } else {
+                    my $nb=$hash{$gene_id};
+                    $gene_id=$gene_id."_".$nb;
+                    $tran_id=$gene_id."_".$nb.".t1";
+                }
+                
                 my $anno      =$info{$id}->{'anno'};
                 my $gene_info="gene_id \"$gene_id\"\; gene_description \"$anno\"\; gene_source \"Swiss-Prot\"\;";
                 my $tran_info="transcript_id \"$tran_id\"\; gene_id \"$gene_id\"\;";
