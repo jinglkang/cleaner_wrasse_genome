@@ -151,3 +151,13 @@ Opsin gene info in gtf or not: Opsin_in_gtf.txt
 # (base) kang1234@celia-PowerEdge-T640 Tue Jan 11 19:59:13 ~/genome/Gene_annotation/combined
 perl add_Opsin_gtf.pl >Opsin.gtf
 ```
+## Some predicted genes by genewise might have same start position with the genes in original gtf file
+```bash
+(base) kang1234@celia-PowerEdge-T640 Thu Jan 13 01:49:42 ~/genome/Gene_annotation/combined
+$perl check_Opsin_in_gtf_2.pl
+In_gtf	C	6
+No_gtf	C	2
+
+# (base) kang1234@celia-PowerEdge-T640 Thu Jan 13 01:45:24 ~/genome/Gene_annotation/combined
+perl create_Opsin_gtf.pl >Opsin_genewise.gtf
+```
