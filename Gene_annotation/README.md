@@ -533,3 +533,51 @@ perl Update_gtf.pl >braker2+3_combined_renamed.final.gtf
 # (base) kang1234@celia-PowerEdge-T640 Sun Jan 02 15:47:26 ~/genome/Gene_annotation/combined
 perl extract_gene_location.pl >Ldim_gene_location.txt
 ```
+***
+## Add the annotation info into the gtf
+### For the "OR" or "Opsin" gene; use the anno info afterwards
+OR_in_gtf.txt;    
+Opsin_in_gtf.txt;   
+braker2+3_combined_renamed.gtf;    
+braker2+3_combined_renamed.aa.long.anno.final.txt    
+```bash
+perl add_anno_gtf.pl > braker2+3_combined_renamed.gtf.1
+cat braker2+3_combined_renamed.gtf.1 OR.gtf Opsin.gtf > Ldim_original_name.gtf
+rm braker2+3_combined_renamed.gtf.1
+```
+**Ldim_original_name.gtf**: add OR and Opsin genes that are not detected at the first time, this file can be used to extract the mapped reads nb per gene     
+#### Change the scaffold name to a new name as the final gtf file
+vi Update_gtf.pl   
+```perl
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+my %hash;
+open FIL, "../Ldim_genome.info.change.txt" or die "can not open ../Ldim_genome.info.change.txt\n";
+while (<FIL>) {
+        chomp;
+        my @a=split;
+        $hash{$a[0]}=$a[1];
+}
+
+open FIL2, $ARGV[0] or die "can not open $ARGV[0]\n"; # open the gtf file
+while (<FIL2>) {
+        chomp;
+        my @a=split;
+        s/$a[0]/$hash{$a[0]}/;
+        print "$_\n";
+}
+```
+
+```bash
+# (base) kang1234@celia-PowerEdge-T640 Wed Jan 12 10:54:16 ~/genome/Gene_annotation/combined
+perl Update_gtf.pl Ldim_original_name.gtf >Ldim_chr_name.gtf
+
+```
+**Ldim_chr_name.gtf**: add OR and Opsin genes that are not detected at the first time, and change the scaffold name   
+```bash
+# (base) kang1234@celia-PowerEdge-T640 Wed Jan 12 11:09:36 ~/genome/Gene_annotation/combined
+less Ldim_chr_name.gtf|perl -alne '@F=split /\t/;if ($F[2] eq "gene") {($id, $name, $ano, $source)=$F[-1]=~/gene_id \"(.*)\"\; gene_name \"(.*)\"\; gene_description \"(.*)\"\; gene_source \"(.*)\"\;/;print "$id\t$source\t$name\t$ano"}' >Gene_annotation.final.txt
+```
+**Gene_annotation.final.txt**: the annotation file also including OR and Opsin genes    
