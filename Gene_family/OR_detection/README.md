@@ -165,3 +165,13 @@ OR gene info in gtf or not: OR_in_gtf.txt
 # (base) kang1234@celia-PowerEdge-T640 Tue Jan 11 11:56:27 ~/genome/Gene_annotation/combined
 perl add_OR_gtf.pl >OR.gtf
 ```
+## Some predicted genes by genewise might have same start position with the genes in original gtf file
+```bash
+# (base) kang1234@celia-PowerEdge-T640 Thu Jan 13 01:43:15 ~/genome/Gene_annotation/combined
+perl check_OR_in_gtf_2.pl
+# In_gtf	C	21
+# No_gtf	C	26
+
+# (base) kang1234@celia-PowerEdge-T640 Thu Jan 13 01:47:22 ~/genome/Gene_annotation/combined
+perl create_OR_gtf.pl >OR_genewise.gtf
+```
