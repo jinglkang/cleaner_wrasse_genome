@@ -155,7 +155,7 @@ nohup perl codeml_parallel.pl final_orth_input_paml.txt >codeml.process 2>&1 &
 # [1] 23132
 ```
 ## Result
-**working dir**: /media/HDD/cleaner_fish/genome/gene_family_2/paml_input/postively_selected_genes
+**working dir**: /media/HDD/cleaner_fish/genome/gene_family_2/paml_input/postively_selected_genes      
 vi temp1.pl    
 ```perl
 #!/usr/bin/perl -w
