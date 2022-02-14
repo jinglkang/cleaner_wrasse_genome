@@ -63,3 +63,12 @@ perl DEGs_in_Fm.pl gtf_FB_Interaction_Solo.DEGs.txt >FB_DEGs_in_Fm.txt # 381 Fms
 perl DEGs_in_Fm.pl gtf_MB_Interaction_Solo.DEGs.txt >MB_DEGs_in_Fm.txt # 47 Fms have DEGs
 perl DEGs_in_Fm.pl gtf_HB_Interaction_Solo.DEGs.txt >HB_DEGs_in_Fm.txt # 725 Fms have DEGs
 ```
+***
+## Get the reads nb matrix of all inds
+```bash
+# (base) kang1234@celia-PowerEdge-T640 Mon Feb 14 22:25:30 ~/genome/Gene_annotation/RNA-seq/RNA-align/read_matrix
+nohup featureCounts -a ../../combined/Ldim_original_name.gtf -o all_inds_read_nb.txt -T 24 *bam >featureCounts.process 2>&1 &
+mv all_inds_read_nb.txt read_matrix/
+cd read_matrix/
+perl Extract_ind_reads_nb_2.pl all_inds_read_nb.txt # outputs: all_inds_read_nb_FB.txt; all_inds_read_nb_HB.txt; all_inds_read_nb_MB.txt
+```
