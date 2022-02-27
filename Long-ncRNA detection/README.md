@@ -129,4 +129,5 @@ scp kang1234@147.8.76.155:~/genome/Gene_annotation/RNA-seq/RNA-align/read_matrix
 DESeq --matrix LncRNA_gene_read_nb_filtered_FB.txt --samples coldata_FB.txt --column Group --prefix LncRNA_FB # LncRNA_FB_Interaction_Solo.DEGs.txt: 171
 DESeq --matrix LncRNA_gene_read_nb_filtered_HB.txt --samples coldata_HB.txt --column Group --prefix LncRNA_HB # LncRNA_HB_Interaction_Solo.DEGs.txt: 138
 DESeq --matrix LncRNA_gene_read_nb_filtered_MB.txt --samples coldata_MB.txt --column Group --prefix LncRNA_MB # LncRNA_MB_Interaction_Solo.DEGs.txt: 19
+mv LncRNA_*_Interaction_Solo* ../../../2022/Ldim_genome/LncRNA/
 ```
