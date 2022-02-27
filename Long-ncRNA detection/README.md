@@ -113,4 +113,7 @@ perl filter_LncRNA_expression.pl >LncRNA_gene_read_nb_filtered.txt # 4160 LncRNA
 # Kang@fishlab3 Wed Feb 23 10:37:59 ~/Desktop/Ldim_LncRNA
 perl filter_intergenic_LncRNA.pl Ldim_LncRNA_gene_overlap_2_classifier.txt LncRNA_gene_read_nb_filtered.txt >LncRNA_gene_read_nb_filtered_intergenic.txt
 # 3543 LncRNA genes
+# LncRNA genes classification
+# Kang@fishlab3 Sun Feb 27 16:25:34 ~/Desktop/Ldim_LncRNA
+perl final_intergenic_LncRNA_classifier.pl LncRNA_gene_read_nb_filtered_intergenic.txt Gene_annotation.final.txt Ldim_LncRNA_gene_overlap_2_classifier.txt >final_intergenic_LncRNA_classifier.txt
 ```
