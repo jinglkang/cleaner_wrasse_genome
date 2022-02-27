@@ -117,3 +117,16 @@ perl filter_intergenic_LncRNA.pl Ldim_LncRNA_gene_overlap_2_classifier.txt LncRN
 # Kang@fishlab3 Sun Feb 27 16:25:34 ~/Desktop/Ldim_LncRNA
 perl final_intergenic_LncRNA_classifier.pl LncRNA_gene_read_nb_filtered_intergenic.txt Gene_annotation.final.txt Ldim_LncRNA_gene_overlap_2_classifier.txt >final_intergenic_LncRNA_classifier.txt
 ```
+## 6. Detect differential expressed LncRNA genes
+```bash
+#(base) kang1234@celia-PowerEdge-T640 Sun Feb 27 19:38:09 ~/genome/Gene_annotation/RNA-seq/RNA-align/read_matrix
+perl Extract_ind_reads_nb.pl LncRNA_gene_read_nb_filtered.txt
+# results: LncRNA_gene_read_nb_filtered_FB.txt; LncRNA_gene_read_nb_filtered_HB.txt; LncRNA_gene_read_nb_filtered_MB.txt
+
+# DEGs detection
+# kangjingliang@kangjingliangdeMacBook-Pro 日  2 27 19:43:24 ~/Documents/2021/Cleaner_wrasse/gene_expression
+scp kang1234@147.8.76.155:~/genome/Gene_annotation/RNA-seq/RNA-align/read_matrix/LncRNA_gene_read_nb_filtered_*.txt ./
+DESeq --matrix LncRNA_gene_read_nb_filtered_FB.txt --samples coldata_FB.txt --column Group --prefix LncRNA_FB # LncRNA_FB_Interaction_Solo.DEGs.txt: 171
+DESeq --matrix LncRNA_gene_read_nb_filtered_HB.txt --samples coldata_HB.txt --column Group --prefix LncRNA_HB # LncRNA_HB_Interaction_Solo.DEGs.txt: 138
+DESeq --matrix LncRNA_gene_read_nb_filtered_MB.txt --samples coldata_MB.txt --column Group --prefix LncRNA_MB # LncRNA_MB_Interaction_Solo.DEGs.txt: 19
+```
