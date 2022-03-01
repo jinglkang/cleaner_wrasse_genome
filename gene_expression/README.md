@@ -72,3 +72,9 @@ mv all_inds_read_nb.txt read_matrix/
 cd read_matrix/
 perl Extract_ind_reads_nb_2.pl all_inds_read_nb.txt # outputs: all_inds_read_nb_FB.txt; all_inds_read_nb_HB.txt; all_inds_read_nb_MB.txt
 ```
+***
+## Get the DEGs at least one tissue
+```bash
+# kangjingliang@kangjingliangdeMacBook-Pro 二  3 01 11:58:05 ~/Documents/2021/Cleaner_wrasse/gene_expression
+perl DEGs_Interaction_Solo.pl >DEGs_Interaction_Solo.txt
+```
