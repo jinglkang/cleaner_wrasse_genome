@@ -79,4 +79,6 @@ perl Extract_ind_reads_nb_2.pl all_inds_read_nb.txt # outputs: all_inds_read_nb_
 perl DEGs_Interaction_Solo.pl >DEGs_Interaction_Solo.txt
 # add the gene family information: extraction or contraction; positive selection or not
 perl DEGs_Interaction_Solo_Fm_info.pl >DEGs_Interaction_Solo_Fm_info.txt
+# add DE LncRNA info
+perl DEGs_Interaction_Solo_Fm_info_LncRNA.pl >DEGs_Interaction_Solo_Fm_info_LncRNA.txt
 ```
