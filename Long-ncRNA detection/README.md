@@ -130,4 +130,8 @@ DESeq --matrix LncRNA_gene_read_nb_filtered_FB.txt --samples coldata_FB.txt --co
 DESeq --matrix LncRNA_gene_read_nb_filtered_HB.txt --samples coldata_HB.txt --column Group --prefix LncRNA_HB # LncRNA_HB_Interaction_Solo.DEGs.txt: 138
 DESeq --matrix LncRNA_gene_read_nb_filtered_MB.txt --samples coldata_MB.txt --column Group --prefix LncRNA_MB # LncRNA_MB_Interaction_Solo.DEGs.txt: 19
 mv LncRNA_*_Interaction_Solo* ../../../2022/Ldim_genome/LncRNA/
+# kangjingliang@kangjingliangdeMacBook-Pro 三  3 02 14:02:33 ~/Documents/2022/Ldim_genome/LncRNA
+# gene which has differentially expressed LncRNA genes 
+perl gene_DELnc.pl >gene_DELnc.txt
+cp gene_DELnc.txt ~/Documents/2021/Cleaner_wrasse/gene_expression
 ```
