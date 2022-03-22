@@ -6,4 +6,8 @@ Extract a gene from each gene family
 # expasion_fm_Ldim.txt; contraction_fm_Ldim.txt
 perl extract_gene_fm.pl expasion_fm_Ldim.txt > expasion_fm_one_gene_Ldim.txt
 perl extract_gene_fm.pl contraction_fm_Ldim.txt > contraction_fm_one_gene_Ldim.txt
+
+# positive
+# Kang@fishlab3 Tue Mar 22 16:21:32 /media/HDD/cleaner_fish/genome/gene_family_2/paml_input
+perl extract_pos_Ldim_gene.pl >pos_Ldim_gene.txt
 ```
