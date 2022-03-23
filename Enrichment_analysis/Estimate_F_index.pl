@@ -11,7 +11,7 @@ my @nums;
 open FM, $fm or die "can not open $fm\n";
 while (<FM>) {
         chomp;
-        my @a=split;
+        my @a=split /\t/;
         my $total;
         if (/^Family/) {
                 $header="Family_ID\t";
