@@ -126,9 +126,9 @@ perl Extract_ind_reads_nb.pl LncRNA_gene_read_nb_filtered.txt
 # DEGs detection
 # kangjingliang@kangjingliangdeMacBook-Pro 日  2 27 19:43:24 ~/Documents/2021/Cleaner_wrasse/gene_expression
 scp kang1234@147.8.76.155:~/genome/Gene_annotation/RNA-seq/RNA-align/read_matrix/LncRNA_gene_read_nb_filtered_*.txt ./
-DESeq --matrix LncRNA_gene_read_nb_filtered_FB.txt --samples coldata_FB.txt --column Group --prefix LncRNA_FB # LncRNA_FB_Interaction_Solo.DEGs.txt: 171
-DESeq --matrix LncRNA_gene_read_nb_filtered_HB.txt --samples coldata_HB.txt --column Group --prefix LncRNA_HB # LncRNA_HB_Interaction_Solo.DEGs.txt: 138
-DESeq --matrix LncRNA_gene_read_nb_filtered_MB.txt --samples coldata_MB.txt --column Group --prefix LncRNA_MB # LncRNA_MB_Interaction_Solo.DEGs.txt: 19
+DESeq --matrix LncRNA_gene_read_nb_filtered_FB.txt --samples coldata_FB.txt --column Group --prefix LncRNA_FB # LncRNA_FB_Interaction_Solo.DEGs.txt: 290
+DESeq --matrix LncRNA_gene_read_nb_filtered_HB.txt --samples coldata_HB.txt --column Group --prefix LncRNA_HB # LncRNA_HB_Interaction_Solo.DEGs.txt: 165
+DESeq --matrix LncRNA_gene_read_nb_filtered_MB.txt --samples coldata_MB.txt --column Group --prefix LncRNA_MB # LncRNA_MB_Interaction_Solo.DEGs.txt: 43
 mv LncRNA_*_Interaction_Solo* ../../../2022/Ldim_genome/LncRNA/
 # kangjingliang@kangjingliangdeMacBook-Pro 三  3 02 14:02:33 ~/Documents/2022/Ldim_genome/LncRNA
 # gene which has differentially expressed LncRNA genes 
