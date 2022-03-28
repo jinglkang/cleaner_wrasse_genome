@@ -29,14 +29,14 @@ perl Extract_ind_reads_nb.pl Opsin_reads_nb.txt
 ## DEGs detection
 ```bash
 # kangjingliang@kangjingliangdeMacBook-Pro 四  1 13 16:16:31 ~/Documents/2021/Cleaner_wrasse/gene_expression
-# set "baseMean >= 10; abs(log2FoldChange)>=1; padj <= 0.05"
-# FB: 543 DEGs
+# set "baseMean >= 10; abs(log2FoldChange)>=0.3; padj <= 0.05"
+# FB: 2735 DEGs
 DESeq --matrix gtf_read_nb_FB.txt --samples coldata_FB.txt --column Group --prefix gtf_FB
 
-# MB: 63 DEGs
+# MB: 512 DEGs
 DESeq --matrix gtf_read_nb_MB.txt --samples coldata_MB.txt --column Group --prefix gtf_MB
 
-# HB: 937 DEGs
+# HB: 1582 DEGs
 DESeq --matrix gtf_read_nb_HB.txt --samples coldata_HB.txt --column Group --prefix gtf_HB
 
 ### OR
@@ -59,9 +59,9 @@ DESeq --matrix Opsin_reads_nb_HB.txt --samples coldata_HB.txt --column Group --p
 ## Get the annotation of DEGs and Connect the DEGs and gene family id
 ```bash
 # kangjingliang@kangjingliangdeMacBook-Pro 四  1 13 23:38:53 ~/Documents/2021/Cleaner_wrasse/gene_expression
-perl DEGs_in_Fm.pl gtf_FB_Interaction_Solo.DEGs.txt >FB_DEGs_in_Fm.txt # 381 Fms have DEGs
-perl DEGs_in_Fm.pl gtf_MB_Interaction_Solo.DEGs.txt >MB_DEGs_in_Fm.txt # 47 Fms have DEGs
-perl DEGs_in_Fm.pl gtf_HB_Interaction_Solo.DEGs.txt >HB_DEGs_in_Fm.txt # 725 Fms have DEGs
+perl DEGs_in_Fm.pl gtf_FB_Interaction_Solo.DEGs.txt >FB_DEGs_in_Fm.txt # 2092 Fms have DEGs
+perl DEGs_in_Fm.pl gtf_MB_Interaction_Solo.DEGs.txt >MB_DEGs_in_Fm.txt # 435 Fms have DEGs
+perl DEGs_in_Fm.pl gtf_HB_Interaction_Solo.DEGs.txt >HB_DEGs_in_Fm.txt # 1268 Fms have DEGs
 ```
 ***
 ## Get the reads nb matrix of all inds
