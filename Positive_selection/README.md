@@ -258,3 +258,12 @@ while (<PSG>) {
 perl add_dup_info_psg.pl >psg_add_dup_info.txt
 ```
 **29 one-to-one gene family; 205 multi copy gene families**    
+***
+## Restart the postively selected genes analysis based on the orthogous estimated by OrthoFinder
+based on the gene tree per orthogroups estimated by OrthoFinder to get one gene per species per orthogroup by possvm.py     
+```bash
+# Kang@fishlab3 Sun Apr 03 22:52:10 /media/HDD/cleaner_fish/genome/gene_family_2/longest_pep/OrthoFinder/Results_Jan01
+nohup perl get_orth_for_paml.pl >get_orth_for_paml.process 2>&1 &
+[1] 2713
+# The final orthologous genes (one per species): final_orth.txt
+```
