@@ -38,4 +38,8 @@ perl DEGs_regulation.pl
 # FB	968	1767
 # HB	475	1107
 # MB	202	310
+
+# The genes in gene family are DEGs
+# kangjingliang@kangjingliangdeMacBook-Pro 日  4 03 15:42:25 ~/Documents/2021/Cleaner_wrasse/gene_expression
+perl DEGs_fm_regulation.pl >DEGs_point_plot.txt
 ```
