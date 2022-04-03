@@ -264,6 +264,6 @@ based on the gene tree per orthogroups estimated by OrthoFinder to get one gene 
 ```bash
 # Kang@fishlab3 Sun Apr 03 22:52:10 /media/HDD/cleaner_fish/genome/gene_family_2/longest_pep/OrthoFinder/Results_Jan01
 nohup perl get_orth_for_paml.pl >get_orth_for_paml.process 2>&1 &
-[1] 2713
+[1] 2894
 # The final orthologous genes (one per species): final_orth.txt
 ```
