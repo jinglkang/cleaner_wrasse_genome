@@ -6,8 +6,11 @@ use File::Basename;
 # divide the orthogroups
 
 # /media/HDD/cleaner_fish/genome/gene_family_2/longest_pep/OrthoFinder/Results_Jan01
+####################################################################################
+# How to use "possvm"
 # conda activate possvm
 # python ~/software/possvm-orthology/possvm.py -i Gene_Trees/OG0007740_tree.txt
+####################################################################################
 
 my @spes=qw(Zebrafish Stickleback Spottedgar Platyfish Medaka Cund Fugu Lber Ncel Smel Tbif Ldim);
 
