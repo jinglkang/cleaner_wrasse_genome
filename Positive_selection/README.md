@@ -260,10 +260,23 @@ perl add_dup_info_psg.pl >psg_add_dup_info.txt
 **29 one-to-one gene family; 205 multi copy gene families**    
 ***
 ## Restart the postively selected genes analysis based on the orthogous estimated by OrthoFinder
-based on the gene tree per orthogroups estimated by OrthoFinder to get one gene per species per orthogroup by possvm.py     
+### based on the gene tree per orthogroups estimated by OrthoFinder to get one gene per species per orthogroup by possvm.py     
 ```bash
 # Kang@fishlab3 Sun Apr 03 22:52:10 /media/HDD/cleaner_fish/genome/gene_family_2/longest_pep/OrthoFinder/Results_Jan01
 nohup perl get_orth_for_paml.pl >get_orth_for_paml.process 2>&1 &
 [1] 2894
 # The final orthologous genes (one per species): final_orth.txt
+```
+### prepare the paml input
+```bash
+# Kang@fishlab3 Mon Apr 04 09:56:47 /media/HDD/cleaner_fish/genome/gene_family_2/longest_pep/OrthoFinder/Results_Jan01
+mkdir paml_input; mv Longest* paml_input
+cd paml_input
+cp /media/HDD/cleaner_fish/genome/gene_family_2/paml_input/correlation.txt ./
+cp /media/HDD/cleaner_fish/genome/gene_family_2/paml_input/prepare_input_paml_parallel.pl ./
+cp ../final_orth.txt ./
+less final_orth.txt|perl -alne 'my $info;for ($i=1;$i<@F;$i++){$F[$i]=~s/.*\_// if $F[$i]=~/\_EN/;$info.=$F[$i]."\t"};$info=~s/\s+$//;print"$F[0]\t$info"' >final_orth.txt.1
+nohup perl prepare_input_paml_parallel.pl final_orth.txt.1 >prepare_input_paml.process 2>&1 &
+# [1] 743
+cp /media/HDD/cleaner_fish/genome/gene_family_2/paml_input/spe_Ldim.tre ./
 ```
