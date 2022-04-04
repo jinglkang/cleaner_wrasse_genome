@@ -280,3 +280,9 @@ nohup perl prepare_input_paml_parallel.pl final_orth.txt.1 >prepare_input_paml.p
 # [1] 743
 cp /media/HDD/cleaner_fish/genome/gene_family_2/paml_input/spe_Ldim.tre ./
 ```
+### identify the lost genes
+```bash
+# Kang@fishlab3 Mon Apr 04 20:31:46 /media/HDD/cleaner_fish/genome/gene_family_2/longest_pep/OrthoFinder/Results_Jan01
+nohup perl do_possvm_left.pl >do_possvm_left.process 2>&1 &
+# [1] 29888
+```
