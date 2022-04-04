@@ -285,4 +285,6 @@ cp /media/HDD/cleaner_fish/genome/gene_family_2/paml_input/spe_Ldim.tre ./
 # Kang@fishlab3 Mon Apr 04 20:31:46 /media/HDD/cleaner_fish/genome/gene_family_2/longest_pep/OrthoFinder/Results_Jan01
 nohup perl do_possvm_left.pl >do_possvm_left.process 2>&1 &
 # [1] 29888
+# estimate the gene nb in each new orthogroup
+perl estimate_gene_nb_new_orth.pl|perl -alne 'my $nb;if (/^Orthogroup/){print}else{for($i=1;$i<=6;$i++){$nb++ if $F[$i]>=1};print if $nb==6}'|perl -alne 'print if $F[-1]==0'|less
 ```
