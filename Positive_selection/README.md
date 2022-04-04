@@ -286,5 +286,6 @@ cp /media/HDD/cleaner_fish/genome/gene_family_2/paml_input/spe_Ldim.tre ./
 nohup perl do_possvm_left.pl >do_possvm_left.process 2>&1 &
 # [1] 29888
 # estimate the gene nb in each new orthogroup
-perl estimate_gene_nb_new_orth.pl|perl -alne 'my $nb;if (/^Orthogroup/){print}else{for($i=1;$i<=6;$i++){$nb++ if $F[$i]>=1};print if $nb==6}'|perl -alne 'print if $F[-1]==0'|less
+perl estimate_gene_nb_new_orth.pl number >gene_nb_new_orth.txt
+perl estimate_gene_nb_new_orth.pl gene >gene_new_orth.txt
 ```
