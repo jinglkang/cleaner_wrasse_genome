@@ -15,7 +15,7 @@ foreach my $spe (@spes) {
 	$header.=$spe."\t";
 }
 $header=~s/\s+$//;
-print "$header\n";
+print "$header\n" if $ARGV[0] eq "number";
 
 my @csvs=<divid_orth/*ortholog_groups.csv>;
 foreach my $csv (@csvs) {
@@ -61,7 +61,7 @@ foreach my $csv (@csvs) {
 		}
 		$gene_info=~s/\s+$//;
 		$nb_info  =~s/\s+$//;
-#		print "$gene_info\n";
-		print "$nb_info\n";
+		print "$gene_info\n" if $ARGV[0] eq "gene";
+		print "$nb_info\n" if $ARGV[0] eq "number";
 	}
 }
