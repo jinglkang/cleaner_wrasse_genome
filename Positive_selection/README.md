@@ -278,12 +278,33 @@ cp ../final_orth.txt ./
 less final_orth.txt|perl -alne 'my $info;for ($i=1;$i<@F;$i++){$F[$i]=~s/.*\_// if $F[$i]=~/\_EN/;$info.=$F[$i]."\t"};$info=~s/\s+$//;print"$F[0]\t$info"' >final_orth.txt.1
 nohup perl prepare_input_paml_parallel.pl final_orth.txt.1 >prepare_input_paml.process 2>&1 &
 # [1] 743
+#################
+# Ldim
+#################
 cp /media/HDD/cleaner_fish/genome/gene_family_2/paml_input/spe_Ldim.tre ./
 cp /media/HDD/cleaner_fish/genome/gene_family_2/paml_input/codeml.pl ./
 cp /media/HDD/cleaner_fish/genome/gene_family_2/paml_input/codeml_parallel.pl ./
 # Kang@fishlab3 Tue Apr 05 19:43:07 /media/HDD/cleaner_fish/genome/gene_family_2/longest_pep/OrthoFinder/Results_Jan01/paml_input
 nohup perl codeml_parallel.pl final_orth_input_paml.txt >codeml.process 2>&1 &
 # [1] 31988
+
+#################
+# Tbif in SNORLAX
+#################
+# SNORLAX run paml
+# Kang@fishlab3 Tue Apr 05 21:22:20 /media/HDD/cleaner_fish/genome/gene_family_2/longest_pep/OrthoFinder/Results_Jan01
+nohup scp -r paml_input/ kang1234@147.8.76.155:~/genome
+# ctrl+z
+bg
+# [2]+ nohup scp -r paml_input/ kang1234@147.8.76.155:~/genome &
+# (base) kang1234@celia-PowerEdge-T640 Tue Apr 05 21:37:51 ~/genome/paml_input
+cp codeml_parallel.pl codeml_parallel_Tbif.pl
+vi codeml_parallel_Tbif.pl 
+# my $cmd="perl codeml.pl --input temp/$temp --model branch-site --dir . --output_suf Tbif --tree spe_Tbif.tre --icode 0 --omega 1.2";
+vi spe_Tbif.tre
+# ((Zebrafish,((Platyfish,Medaka),((Fugu,Stickleback),((Cund,(Smel,Lber)),(Ncel,(Tbif #1,Ldim)))))),Spottedgar);
+nohup perl codeml_parallel_Tbif.pl final_orth_input_paml.txt >codeml.process 2>&1 &
+# [1] 818
 ```
 ### identify the lost genes
 ```bash
