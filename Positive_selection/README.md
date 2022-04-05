@@ -279,6 +279,11 @@ less final_orth.txt|perl -alne 'my $info;for ($i=1;$i<@F;$i++){$F[$i]=~s/.*\_// 
 nohup perl prepare_input_paml_parallel.pl final_orth.txt.1 >prepare_input_paml.process 2>&1 &
 # [1] 743
 cp /media/HDD/cleaner_fish/genome/gene_family_2/paml_input/spe_Ldim.tre ./
+cp /media/HDD/cleaner_fish/genome/gene_family_2/paml_input/codeml.pl ./
+cp /media/HDD/cleaner_fish/genome/gene_family_2/paml_input/codeml_parallel.pl ./
+# Kang@fishlab3 Tue Apr 05 19:43:07 /media/HDD/cleaner_fish/genome/gene_family_2/longest_pep/OrthoFinder/Results_Jan01/paml_input
+nohup perl codeml_parallel.pl final_orth_input_paml.txt >codeml.process 2>&1 &
+# [1] 31988
 ```
 ### identify the lost genes
 ```bash
