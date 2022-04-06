@@ -46,4 +46,6 @@ perl DEGs_fm_regulation.pl >DEGs_point_plot.txt
 # kangjingliang@kangjingliangdeMacBook-Pro 三  4 06 10:56:22 ~/Documents/2021/Cleaner_wrasse/gene_expression
 perl DEGs_fm_regulation_read_nb.pl >DEGs_point_reads_nb_plot.txt
 perl DEGs_fm_regulation_read_nb_2.pl >DEGs_point_reads_nb_plot_2.txt
+# TPM value to represent the gene expression
+perl DEGs_fm_regulation_read_nb_3.pl >DEGs_point_reads_nb_plot_TPM.txt
 ```
