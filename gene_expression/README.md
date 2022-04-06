@@ -107,3 +107,4 @@ transform csv to txt seprated by tab
 less gtf_read_nb_tpm.csv|perl -alne 's/\.sorted\.bam//g;s/"//g;s/\,/\t/g;print'|perl -alne 'if (/^\s+/){s/^\s+/Geneid\t/;print}else{print}' >gtf_read_nb_tpm.txt
 perl Extract_ind_reads_nb_3.pl gtf_read_nb_tpm.txt
 ```
+**Results file**: gtf_read_nb_tpm_FB.txt; gtf_read_nb_tpm_HB.txt; gtf_read_nb_tpm_MB.txt      
