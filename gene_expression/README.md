@@ -104,5 +104,6 @@ Result file: gtf_read_nb_tpm.csv
 transform csv to txt seprated by tab    
 ```bash
 # (base) kang1234@celia-PowerEdge-T640 Wed Apr 06 13:44:40 ~/genome/Gene_annotation/RNA-seq/RNA-align/read_matrix
-less gtf_read_nb_tpm.csv|perl -alne 's/\.sorted\.bam//g;s/"//g;s/\,/\t/g;print'|perl -alne 'my $info;for($i=1;$i<@F;$i++){$info.=$F[$i]."\t"};$info=~s/\s+$//;if (/^\s+/){print "geneid\t$info"}else{print"$F[0]\t$info"}' >gtf_read_nb_tpm.txt
+less gtf_read_nb_tpm.csv|perl -alne 's/\.sorted\.bam//g;s/"//g;s/\,/\t/g;print'|perl -alne 'if (/^\s+/){s/^\s+/Geneid\t/;print}else{print}' >gtf_read_nb_tpm.txt
+perl Extract_ind_reads_nb_3.pl gtf_read_nb_tpm.txt
 ```
