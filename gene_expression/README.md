@@ -84,3 +84,20 @@ perl DEGs_Interaction_Solo_Fm_info_LncRNA.pl >DEGs_Interaction_Solo_Fm_info_LncR
 # add DEGs regulation info
 perl DEGs_Interaction_Solo_Fm_info_LncRNA_regulation.pl >DEGs_Interaction_Solo_Fm_info_LncRNA_regulation.txt
 ```
+***
+## Estimate the TPM per gene
+based on gtf_read_nb.txt in ~/genome/Gene_annotation/RNA-seq/RNA-align/read_matrix    
+```R
+# (base) kang1234@celia-PowerEdge-T640 Wed Apr 06 13:13:30 ~/genome/Gene_annotation/RNA-seq/RNA-align/read_matrix
+R
+countdata<-read.table("gtf_read_nb.txt",skip = 1,sep="\t",header = T,row.names = 1)
+metadata <- countdata[,1:5]
+countdata <- countdata[,6:ncol(countdata)]
+prefix<-"gtf_read_nb"
+kb <- metadata$Length / 1000
+rpk <- countdata / kb
+tpm <- t(t(rpk)/colSums(rpk) * 1000000)
+write.csv(tpm,paste0(prefix,"_tpm.csv"))
+q()
+```
+Result file: gtf_read_nb_tpm.csv     
