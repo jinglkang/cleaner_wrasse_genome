@@ -100,4 +100,9 @@ tpm <- t(t(rpk)/colSums(rpk) * 1000000)
 write.csv(tpm,paste0(prefix,"_tpm.csv"))
 q()
 ```
-Result file: gtf_read_nb_tpm.csv     
+Result file: gtf_read_nb_tpm.csv    
+transform csv to txt seprated by tab    
+```bash
+# (base) kang1234@celia-PowerEdge-T640 Wed Apr 06 13:44:40 ~/genome/Gene_annotation/RNA-seq/RNA-align/read_matrix
+less gtf_read_nb_tpm.csv|perl -alne 's/\.sorted\.bam//g;s/"//g;s/\,/\t/g;print'|perl -alne 'my $info;for($i=1;$i<@F;$i++){$info.=$F[$i]."\t"};$info=~s/\s+$//;if (/^\s+/){print "geneid\t$info"}else{print"$F[0]\t$info"}' >gtf_read_nb_tpm.txt
+```
