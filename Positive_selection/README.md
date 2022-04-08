@@ -287,6 +287,8 @@ cp /media/HDD/cleaner_fish/genome/gene_family_2/paml_input/codeml_parallel.pl ./
 # Kang@fishlab3 Tue Apr 05 19:43:07 /media/HDD/cleaner_fish/genome/gene_family_2/longest_pep/OrthoFinder/Results_Jan01/paml_input
 nohup perl codeml_parallel.pl final_orth_input_paml.txt >codeml.process 2>&1 &
 # [1] 31988
+# Kang@fishlab3 Fri Apr 08 17:38:03 /media/HDD/cleaner_fish/genome/gene_family_2/longest_pep/OrthoFinder/Results_Jan01/paml_input
+perl add_PSGs_info.pl /media/HDD/cleaner_fish/genome/gene_family_2/Ldim.anno.final.txt final_orth.txt.1|less
 
 #################
 # Tbif in SNORLAX
