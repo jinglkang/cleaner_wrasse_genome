@@ -288,7 +288,14 @@ cp /media/HDD/cleaner_fish/genome/gene_family_2/paml_input/codeml_parallel.pl ./
 nohup perl codeml_parallel.pl final_orth_input_paml.txt >codeml.process 2>&1 &
 # [1] 31988
 # Kang@fishlab3 Fri Apr 08 17:38:03 /media/HDD/cleaner_fish/genome/gene_family_2/longest_pep/OrthoFinder/Results_Jan01/paml_input
-perl add_PSGs_info.pl /media/HDD/cleaner_fish/genome/gene_family_2/Ldim.anno.final.txt final_orth.txt.1|less
+perl add_PSGs_info.pl /media/HDD/cleaner_fish/genome/gene_family_2/Ldim.anno.final.txt final_orth.txt.1 >Ldim_potential_psg.txt
+
+# Estimate FDR
+# R
+# p_apoly<-read.table(file="Ldim_potential_psg.txt", sep="\t", quote = "")
+# p_apoly$fdr<- p.adjust(p_apoly$V5,method="fdr",length(p_apoly$V5))
+# write.table(p_apoly, file="p_fdr_Ldim.txt",row.names=F,col.names=F,quote=F,sep="\t")
+less p_fdr_Ldim.txt|perl -alne 'print if $F[-1]<=0.05' >Ldim_final_psg.txt
 
 #################
 # Tbif in SNORLAX
