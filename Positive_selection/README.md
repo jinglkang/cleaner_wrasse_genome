@@ -325,6 +325,17 @@ cp spe_Tbif.tre spe_Smel.tre
 # ((Zebrafish,((Platyfish,Medaka),((Fugu,Stickleback),((Cund,(Smel #1,Lber)),(Ncel,(Tbif,Ldim)))))),Spottedgar);
 nohup perl codeml_parallel_Smel.pl final_orth_input_paml.txt >codeml.process 2>&1 &
 # [1] 9128
+
+#################
+# Lber in SNORLAX
+#################
+# (base) kang1234@celia-PowerEdge-T640 Sun Apr 10 10:31:52 ~/genome/paml_input
+# 20 threads
+cp codeml_parallel_Tbif.pl codeml_parallel_Lbel.pl
+cp spe_Tbif.tre spe_Lbel.tre
+# ((Zebrafish,((Platyfish,Medaka),((Fugu,Stickleback),((Cund,(Smel,Lber #1)),(Ncel,(Tbif,Ldim)))))),Spottedgar);
+nohup perl codeml_parallel_Lbel.pl final_orth_input_paml.txt >codeml.process 2>&1 &
+# [1] 3999
 ```
 ### identify the lost genes
 ```bash
