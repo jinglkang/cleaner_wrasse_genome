@@ -64,6 +64,6 @@ foreach my $old (@olds) {
 		chomp($len_new);
 		print ">$new\n$len_new\n";
 	} else {
-		print ">MT\t$mito_seq_new\n";
+		print ">MT\n$mito_seq_new\n";
 	}
 }
