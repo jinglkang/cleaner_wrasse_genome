@@ -336,6 +336,18 @@ cp spe_Tbif.tre spe_Lbel.tre
 # ((Zebrafish,((Platyfish,Medaka),((Fugu,Stickleback),((Cund,(Smel,Lber #1)),(Ncel,(Tbif,Ldim)))))),Spottedgar);
 nohup perl codeml_parallel_Lbel.pl final_orth_input_paml.txt >codeml.process 2>&1 &
 # [1] 3999
+
+##########################################
+# free-ratio to estimate evolutionary rate
+##########################################
+# (base) kang1234@celia-PowerEdge-T640 Tue Apr 12 21:19:53 ~/genome/paml_input
+# perl codeml.pl --input final_orth_input_paml.txt --model free-ratio --dir . --tree spe.tre --icode 0 --omega 1.2
+cp codeml_parallel_Lbel.pl codeml_parallel_free_ratio.pl
+vi codeml_parallel_free_ratio.pl
+cp spe_Tbif.tre spe.tre
+# spe.tre: ((Zebrafish,((Platyfish,Medaka),((Fugu,Stickleback),((Cund,(Smel,Lber)),(Ncel,(Tbif,Ldim)))))),Spottedgar);
+nohup perl codeml_parallel_free_ratio.pl final_orth_input_paml.txt >free_ratio.process 2>&1 &
+# [1] 31549
 ```
 ### identify the lost genes
 ```bash
