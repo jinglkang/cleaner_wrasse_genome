@@ -490,6 +490,9 @@ working dir: \~/genome/Gene_annotation
 # (base) kang1234@celia-PowerEdge-T640 Sun Jan 02 12:09:30 ~/genome/Gene_annotation
 less Ldim_genome.info.txt|perl -alne '$k++;if ($k>24 && $F[0]!~/scx22uw_26/i){$i++;$new_nm="scaffold".$i;print "$F[0]\t$new_nm\t$F[2]"}elsif ($F[0]=~/scx22uw_26/i){print "$F[0]\tMT\t$F[2]"}else{print};' >Ldim_genome.info.change.txt
 perl Change_header_mito.pl >Cleaner_wrasse_softmasked_ChaHeader_final.fasta
+# occurs an error in the script Change_header_mito.pl: print ">MT\t" should be changed to ">MT\n"
+# (base) kang1234@celia-PowerEdge-T640 Tue Apr 12 16:10:44 ~/genome/Gene_annotation
+perl Change_header_mito.pl >Cleaner_wrasse_softmasked_ChaHeader_final.fasta
 ```
 **Cleaner_wrasse_softmasked_ChaHeader_final.fasta** # Changed the new header (chr, scaffold), and the mito sequences   
 ***
