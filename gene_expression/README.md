@@ -83,6 +83,19 @@ perl DEGs_Interaction_Solo_Fm_info.pl >DEGs_Interaction_Solo_Fm_info.txt
 perl DEGs_Interaction_Solo_Fm_info_LncRNA.pl >DEGs_Interaction_Solo_Fm_info_LncRNA.txt
 # add DEGs regulation info
 perl DEGs_Interaction_Solo_Fm_info_LncRNA_regulation.pl >DEGs_Interaction_Solo_Fm_info_LncRNA_regulation.txt
+
+###########
+# connect gene family and sub-orthogroup
+# kangjingliang@kangjingliangdeMacBook-Pro 三  4 13 16:14:11 ~/Documents/2021/Cleaner_wrasse/gene_expression
+scp kang1234@147.8.76.155:~/genome/paml_input/final_orth.txt ./
+# check if all the genes in the same sub-orthogroup were in the same gene family
+vi Positive_sub_orth.txt # put in the sub-orth id that were detected with PSGs in Ldim
+# just keep the sub-orth that all gene inside were in the same gene family
+# kangjingliang@kangjingliangdeMacBook-Pro 三  4 13 17:08:51 ~/Documents/2021/Cleaner_wrasse/gene_expression
+perl connect_fm_suborth.pl >Positive_sub_orth_fm.txt # keep the corresponding gene fm id
+perl DEGs_Interaction_Solo_Fm_info_2.pl >DEGs_Interaction_Solo_Fm_info_2.txt
+perl DEGs_Interaction_Solo_Fm_info_LncRNA_2.pl >DEGs_Interaction_Solo_Fm_info_LncRNA_2.txt
+perl DEGs_Interaction_Solo_Fm_info_LncRNA_regulation_2.pl >DEGs_Interaction_Solo_Fm_info_LncRNA_regulation_2.txt
 ```
 ***
 ## Estimate the TPM per gene
