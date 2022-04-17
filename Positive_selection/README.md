@@ -352,6 +352,13 @@ nohup perl codeml_parallel_free_ratio.pl final_orth_input_paml.txt >free_ratio.p
 # (base) kang1234@celia-PowerEdge-T640 Fri Apr 15 09:40:22 ~/genome/paml_input
 perl extract_free_ratio.pl final_orth_input_paml.txt # output in the current dir: free_ratio_result.txt
 perl make_bin_plot_total.pl >free_ratio_bin_plot_total.txt
+
+# use the Ldim gene in final_orth.txt.1 to do the enrichment
+# Functional enrichment Result: Ldim_kaks_enrichment.txt
+# Kang@fishlab3 Sun Apr 17 11:58:53 ~/Desktop/KaKs_free/Ldim
+# GO: Wilcoxon_rank-sum Ldim sig. larger/smaller than other 5 Labridae fish species
+perl Wilcoxon_rank-sum_test_GO_ratio.pl >target.Ldim.go.larger5.txt
+perl Wilcoxon_rank-sum_test_GO_ratio.2.pl >target.Ldim.go.larger1.txt
 ```
 ### identify the lost genes
 ```bash
