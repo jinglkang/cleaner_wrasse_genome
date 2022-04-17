@@ -359,6 +359,12 @@ perl make_bin_plot_total.pl >free_ratio_bin_plot_total.txt
 # GO: Wilcoxon_rank-sum Ldim sig. larger/smaller than other 5 Labridae fish species
 perl Wilcoxon_rank-sum_test_GO_ratio.pl >target.Ldim.go.larger5.txt
 perl Wilcoxon_rank-sum_test_GO_ratio.2.pl >target.Ldim.go.larger1.txt
+
+# plot the evolutionary rate of certain GO functions
+# kangjingliang@kangjingliangdeMacBook-Pro 日  4 17 21:50:26 ~/Documents/2022/Ldim_genome/PSGs
+perl extract_gene_under_GO_in_free_ratio.pl olfactory_behavior.txt >olfactory_behavior_free_ratio.txt
+perl extract_gene_under_GO_in_free_ratio.pl visual_behavior.txt >visual_behavior_free_ratio.txt
+perl extract_gene_under_GO_in_free_ratio.pl social_behavior.txt >social_behavior_free_ratio.txt
 ```
 ### identify the lost genes
 ```bash
