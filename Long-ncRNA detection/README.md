@@ -135,3 +135,8 @@ mv LncRNA_*_Interaction_Solo* ../../../2022/Ldim_genome/LncRNA/
 perl gene_DELnc.pl >gene_DELnc.txt
 cp gene_DELnc.txt ~/Documents/2021/Cleaner_wrasse/gene_expression
 ```
+## check the DE lincRNAs and other infomations (neigbouring gene, gene family, positive selective genes)
+```bash
+# kangjingliang@kangjingliangdeMacBook-Pro 一  4 18 02:25:02 ~/Documents/2022/Ldim_genome/LncRNA
+perl DElincRNAs.pl >DElincRNAs.txt
+```
