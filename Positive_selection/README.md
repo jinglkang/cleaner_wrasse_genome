@@ -348,6 +348,10 @@ cp spe_Tbif.tre spe.tre
 # spe.tre: ((Zebrafish,((Platyfish,Medaka),((Fugu,Stickleback),((Cund,(Smel,Lber)),(Ncel,(Tbif,Ldim)))))),Spottedgar);
 nohup perl codeml_parallel_free_ratio.pl final_orth_input_paml.txt >free_ratio.process 2>&1 &
 # [1] 31549
+# get the free ratio results
+# (base) kang1234@celia-PowerEdge-T640 Fri Apr 15 09:40:22 ~/genome/paml_input
+perl extract_free_ratio.pl final_orth_input_paml.txt # output in the current dir: free_ratio_result.txt
+perl make_bin_plot_total.pl >free_ratio_bin_plot_total.txt
 ```
 ### identify the lost genes
 ```bash
