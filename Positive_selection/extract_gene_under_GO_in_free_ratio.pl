@@ -51,7 +51,7 @@ open "fil3", "/Users/kangjingliang/Documents/2022/Ldim_genome/PSGs/free_ratio_re
 while (<fil3>) {
         chomp;
         s/\r//g;
-        s/Ldim/1Ldim/g;s/Tbif/2bTif/g;s/Smel/3Smel/g;s/Lber/4Lber/g;s/Cund/5Cund/g;s/Ncel/6Ncel/g;
+        s/Ldim/1Ldim/g;s/Tbif/2Tbif/g;s/Smel/3Smel/g;s/Lber/4Lber/g;s/Cund/5Cund/g;s/Ncel/6Ncel/g;
         print "$_\tGene_name\tGene_description\n" if /^Orth_id/;
         next if /^Orth_id/;
         my @a=split;
