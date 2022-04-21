@@ -337,6 +337,16 @@ cp spe_Tbif.tre spe_Lbel.tre
 nohup perl codeml_parallel_Lbel.pl final_orth_input_paml.txt >codeml.process 2>&1 &
 # [1] 3999
 
+###################################################
+# the ancestal branch of Tbif and Ldim in SNORLAX
+###################################################
+# (base) kang1234@celia-PowerEdge-T640 Thu Apr 21 13:16:47 ~/genome/paml_input
+vi Ancestor_Ldim_Tbif.tre 
+# tree: ((Zebrafish,((Platyfish,Medaka),((Fugu,Stickleback),((Cund,(Smel,Lber)),(Ncel,(Tbif,Ldim) #1))))),Spottedgar);
+cp codeml_parallel_Lbel.pl codeml_parallel_Ancestor_Ldim_Tbif.pl
+nohup perl codeml_parallel_Ancestor_Ldim_Tbif.pl final_orth_input_paml.txt >codeml.process 2>&1 &
+# [1] 10651
+
 ##########################################
 # free-ratio to estimate evolutionary rate
 ##########################################
