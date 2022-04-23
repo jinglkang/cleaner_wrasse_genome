@@ -161,3 +161,9 @@ No_gtf	C	2
 # (base) kang1234@celia-PowerEdge-T640 Thu Jan 13 01:45:24 ~/genome/Gene_annotation/combined
 perl create_Opsin_gtf.pl >Opsin_genewise.gtf
 ```
+***
+## Build a gene tree using the genewise results before blast
+```bash
+# Kang@fishlab3 Sat Apr 23 09:26:45 /media/HDD/cleaner_fish/genome/Opsin_detection
+perl gene_tree.pl
+```
