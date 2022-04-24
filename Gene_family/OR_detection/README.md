@@ -175,3 +175,11 @@ perl check_OR_in_gtf_2.pl
 # (base) kang1234@celia-PowerEdge-T640 Thu Jan 13 01:47:22 ~/genome/Gene_annotation/combined
 perl create_OR_gtf.pl >OR_genewise.gtf
 ```
+***
+## class once again (using the query.fa.bla.solar.besthit.lt250.wise.best.1.aa, combine with the class fasta file, and then contruct phylogenetic tree, then check manual)
+```bash
+# Extract the OR sequences of Zebrafish and the OR (Alpha, thet) sequences of L.oculatus for the class
+# Kang@fishlab3 Sun Apr 24 20:02:25 /media/HDD/cleaner_fish/genome/OR_detection
+perl extract_OR_class.pl >OR_class_zebrafish_L.oculatus.fasta
+perl gene_tree.pl
+```
