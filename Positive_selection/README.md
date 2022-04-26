@@ -354,6 +354,16 @@ perl add_PSGs_info_2.pl clearner_fish_anno.final.txt final_orth.txt.1 >Ancestor_
 # write.table(p_apoly, file="p_fdr_Ancestor_Ldim_Tbif.txt",row.names=F,col.names=F,quote=F,sep="\t")
 less p_fdr_Ancestor_Ldim_Tbif.txt|perl -alne 'print if $F[-1]<=0.05' >Ancestor_Ldim_Tbif_final_psg.txt
 
+###################################################
+# the ancestal branch of Smel and Lber in SNORLAX
+###################################################
+(base) kang1234@celia-PowerEdge-T640 Tue Apr 26 11:46:13 ~/genome/paml_input
+$vi Ancestor_Smel_Lber.tre 
+# tree: ((Zebrafish,((Platyfish,Medaka),((Fugu,Stickleback),((Cund,(Smel,Lber) #1),(Ncel,(Tbif,Ldim)))))),Spottedgar);
+cp codeml_parallel_Ancestor_Ldim_Tbif.pl codeml_parallel_Ancestor_Smel_Lber.pl
+nohup perl codeml_parallel_Ancestor_Smel_Lber.pl final_orth_input_paml.txt >codeml.process 2>&1 &
+# [1] 7581
+
 ##########################################
 # free-ratio to estimate evolutionary rate
 ##########################################
