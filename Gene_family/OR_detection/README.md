@@ -183,3 +183,10 @@ perl create_OR_gtf.pl >OR_genewise.gtf
 perl extract_OR_class.pl >OR_class_zebrafish_L.oculatus.fasta
 perl gene_tree.pl
 ```
+***
+## Redo the detection
+```bash
+# Kang@fishlab3 Tue Apr 26 10:46:32 /media/HDD/cleaner_fish/genome/OR_detection
+mkdir previous_results/
+cp -r Cheilinus_undulatus Cleaner_wrasse Fugu Labrus_bergylta Medaka Notolabrus_celidotus Platyfish Spottedgar Stickleback Symphodus_melops Thalassoma_bifasciatum Zebrafish previous_results/
+```
