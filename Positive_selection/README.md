@@ -363,6 +363,13 @@ $vi Ancestor_Smel_Lber.tre
 cp codeml_parallel_Ancestor_Ldim_Tbif.pl codeml_parallel_Ancestor_Smel_Lber.pl
 nohup perl codeml_parallel_Ancestor_Smel_Lber.pl final_orth_input_paml.txt >codeml.process 2>&1 &
 # [1] 7581
+perl add_PSGs_info_2.pl clearner_fish_anno.final.txt final_orth.txt.1 >Ancestor_Smel_Lber_potential_psg.txt
+# Estimate FDR
+# R
+# p_apoly<-read.table(file="Ancestor_Smel_Lber_potential_psg.txt", sep="\t", quote = "")
+# p_apoly$fdr<- p.adjust(p_apoly$V5,method="fdr",length(p_apoly$V5))
+# write.table(p_apoly, file="p_fdr_Ancestor_Smel_Lber.txt",row.names=F,col.names=F,quote=F,sep="\t")
+less p_fdr_Ancestor_Smel_Lber.txt|perl -alne 'print if $F[-1]<=0.05' >Ancestor_Smel_Lber_final_psg.txt
 
 ##########################################
 # free-ratio to estimate evolutionary rate
