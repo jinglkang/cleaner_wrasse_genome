@@ -190,3 +190,49 @@ perl gene_tree.pl
 mkdir previous_results/
 cp -r Cheilinus_undulatus Cleaner_wrasse Fugu Labrus_bergylta Medaka Notolabrus_celidotus Platyfish Spottedgar Stickleback Symphodus_melops Thalassoma_bifasciatum Zebrafish previous_results/
 ```
+***
+## filter OR genes (did not finished)
+sort_len.pl    
+```perl
+#!/usr/bin/perl -w
+use strict;
+use warnings;
+
+# genome scaffold length file: /media/HDD/cleaner_fish/genome/OR_detection/Zebrafish_scaffold_length.txt
+my $len=$ARGV[0];
+my %length;
+open LEN, $len or die "can not open $len\n";
+while (<LEN>) {
+	chomp;
+	my @a=split;
+	$length{$a[0]}=$a[1];
+}
+
+# filter.self.bla.similar.pair.txt
+my $file="filter.self.bla.similar.pair.txt";
+open FIL, $file or die "can not open $file\n";
+while (<FIL>) {
+	chomp;
+	my @a=split;
+	my ($len0, $len1)=($length{$a[0]}, $length{$a[1]});
+	if ($len1 > $len0) {
+		print "$a[1]\t$a[0]\n";
+	} else {
+		print "$a[0]\t$a[1]\n";
+	}
+}
+```
+
+```bash
+# query id, subject id, percent identity, alignment length, mismatches, gap openings, query start, query end, subject start, subject end, e-value, bit score
+# the filtered protein blastp to itself
+# Kang@fishlab3 Tue Apr 26 22:54:39 /media/HDD/cleaner_fish/genome/OR_detection
+falen Zebrafish_genome.ncbi.fa | sort -k2,2nr  >Zebrafish_scaffold_length.txt
+# Kang@fishlab3 Tue Apr 26 22:49:06 /media/HDD/cleaner_fish/genome/OR_detection/previous_results/Zebrafish/group
+makeblastdb -in filter.out.1.info.fasta -dbtype prot -parse_seqids -out filter
+blastp -outfmt 6 -query filter.out.1.info.fasta -out filter.self.bla -db filter -num_threads 30
+# filter the OR gene pairs with a > 99% amino acid sequence identity without any gaps
+less filter.self.bla|perl -alne 'print if $F[2]>99 && $F[5]==0 && $F[0] ne $F[1]'|perl -alne '@a=split /\:/, $F[0];@b=split /\:/, $F[1];print "$a[0]\t$b[0]"'|sort -u|perl -alne 'print if $F[0] ne $F[1]' >filter.self.bla.similar.pair.txt
+perl sort_len.pl /media/HDD/cleaner_fish/genome/OR_detection/Zebrafish_scaffold_length.txt|sort -u >filter.self.bla.similar.pair.uniq.txt
+# extract the sequence of first column in filter.self.bla.similar.pair.uniq.txt as blastdb, and the second blastp to first
+```
