@@ -93,6 +93,7 @@ vi Positive_sub_orth.txt # put in the sub-orth id that were detected with PSGs i
 # just keep the sub-orth that all gene inside were in the same gene family
 # kangjingliang@kangjingliangdeMacBook-Pro 三  4 13 17:08:51 ~/Documents/2021/Cleaner_wrasse/gene_expression
 perl connect_fm_suborth.pl >Positive_sub_orth_fm.txt # keep the corresponding gene fm id
+perl connect_fm_suborth_2.pl >all_suborth_fm.txt # all suborth with its corresponding fm
 perl DEGs_Interaction_Solo_Fm_info_2.pl >DEGs_Interaction_Solo_Fm_info_2.txt
 perl DEGs_Interaction_Solo_Fm_info_LncRNA_2.pl >DEGs_Interaction_Solo_Fm_info_LncRNA_2.txt
 perl DEGs_Interaction_Solo_Fm_info_LncRNA_regulation_2.pl >DEGs_Interaction_Solo_Fm_info_LncRNA_regulation_2.txt
