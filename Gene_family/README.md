@@ -703,3 +703,18 @@ scp -r kang1234@147.8.76.155:~/genome/gene_family/reports_2 ./
 less summary_run2_fams.txt|perl -alne 'next if /^#/;next if $F[0]!~/</;@a=split /\,/,$F[1];$nb=@a;my ($ex,$co);foreach my $a(@a){$ex++ if $a=~/\+/;$co++ if $a=~/\-/;}$ex?($ex=$ex):($ex=0);$co?($co=$co):($co=0);print "$F[0]\t$nb\t$ex\t$co"'
 perl extract_sig_fm.pl
 ```
+## Bone
+# kangjingliang@kangjingliangdeMacBook-Pro 日  5 01 09:16:33 ~/Documents/2022/Ldim_genome/Enrichment
+less contraction_fm_no_filter_enrichment.txt|grep -i 'bone'|perl -alne 'next if ! /^\[OVER\]/;print'|perl -alne '@a=split /\t/;print $a[2]' >bone_go_function.txt
+extract_gene_functions -i contraction_fm_no_filter_enrichment.txt -a Gene_annotation.final.txt --gene_column 1 --func_column 3 --functions bone_go_function.txt --output bone_func_genes_Ldim_contract
+less bone_func_genes_Ldim_contract.txt|perl -alne '@a=split /\t/;print "$a[2]\t$a[-2]\t$a[-1]"'|sort -u >bone_genes_Ldim_contract.txt
+***
+## Olfactory
+less contraction_fm_no_filter_enrichment.txt|grep -iE 'olfactory|Odorant'|perl -alne 'next if ! /^\[OVER\]/;print'|perl -alne '@a=split /\t/;print $a[2]' >olfactory_go_function.txt
+extract_gene_functions -i contraction_fm_no_filter_enrichment.txt -a Gene_annotation.final.txt --gene_column 1 --func_column 3 --functions olfactory_go_function.txt --output olfactory_func_genes_Ldim_contract
+less olfactory_func_genes_Ldim_contract.txt|perl -alne '@a=split /\t/;print "$a[2]\t$a[-2]\t$a[-1]"'|sort -u >olfactory_genes_Ldim_contract.txt
+***
+## vision
+less contraction_fm_no_filter_enrichment.txt|grep -iE 'vision'|perl -alne 'next if ! /^\[OVER\]/;print'|perl -alne '@a=split /\t/;print $a[2]' >vision_go_function.txt
+extract_gene_functions -i contraction_fm_no_filter_enrichment.txt -a Gene_annotation.final.txt --gene_column 1 --func_column 3 --functions olfactory_go_function.txt --output vision_func_genes_Ldim_contract
+less vision_func_genes_Ldim_contract.txt|perl -alne '@a=split /\t/;print "$a[2]\t$a[-2]\t$a[-1]"'|sort -u >vision_genes_Ldim_contract.txt
