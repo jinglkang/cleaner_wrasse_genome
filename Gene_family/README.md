@@ -720,7 +720,7 @@ less olfactory_func_genes_Ldim_contract.txt|perl -alne '@a=split /\t/;print "$a[
 ***
 ## vision
 ```bash
-less contraction_fm_no_filter_enrichment.txt|grep -iE 'vision'|perl -alne 'next if ! /^\[OVER\]/;print'|perl -alne '@a=split /\t/;print $a[2]' >vision_go_function.txt
+less contraction_fm_no_filter_enrichment.txt|grep -iE 'visual'|perl -alne 'next if ! /^\[OVER\]/;print'|perl -alne '@a=split /\t/;print $a[2]' >vision_go_function.txt
 extract_gene_functions -i contraction_fm_no_filter_enrichment.txt -a Gene_annotation.final.txt --gene_column 1 --func_column 3 --functions olfactory_go_function.txt --output vision_func_genes_Ldim_contract
 less vision_func_genes_Ldim_contract.txt|perl -alne '@a=split /\t/;print "$a[2]\t$a[-2]\t$a[-1]"'|sort -u >vision_genes_Ldim_contract.txt
 ```
