@@ -149,3 +149,79 @@ python ~/software/Busco/scripts/run_BUSCO.py -m prot -i Cheilinus_undulatus.pep.
 nohup sh run_busco.sh > Busco.process 2>&1 &
 # [1] 26627
 ```
+## Semicossyphus_pulcher   
+### Using OrthoDB as basis for protein.fa to predict genes   
+check if the module was installed in certain python version
+```bash
+# kang1234@celia-PowerEdge-T640 Wed May 04 22:44:26 ~
+/usr/bin/python3.6
+# Python 3.6.9 (default, Mar 15 2022, 13:55:28)
+# [GCC 8.4.0] on linux
+# Type "help", "copyright", "credits" or "license" for more information.
+# >>> import sqlite3
+# >>> exit()
+```
+***
+```bash
+# error: Can't locate Scalar/Util/Numeric.pm in @INC
+# set conda to false
+# conda config --set auto_activate_base False
+# source ~/.bashrc
+# reactivate set conda to True
+conda config --set auto_activate_base True
+source ~/.bashrc
+# install biopython
+# install the dependency package in conda environment
+
+# sudo apt-get install python3-pip
+# error: Could not fetch URL ... There was a problem confirming the ssl certificate
+# sudo pip3 install biopython -i http://pypi.douban.com/simple/ --trusted-host pypi.douban.com
+
+# update gmes_linux_64 and gm_key_64: download a new one
+# kang1234@celia-PowerEdge-T640 Wed May 04 01:30:31 ~/software
+mv gmes_linux_64 gmes_linux_64_before
+mv gmes_linux_64_4 gmes_linux_64
+
+less Semicossyphus_pulcher_genomic.fna|perl -alne 'if (/>/ && ! />.*mtDNA/){print "$F[0]"}elsif (/>.*mtDNA/){print ">mtDNA"}else{print}' >Semicossyphus_pulcher_softmasked_ChaHeader.fasta
+
+# run BRAKER in conda environment
+nohup braker.pl --softmasking --AUGUSTUS_ab_initio --gff3 \
+--species Semicossyphus_pulcher \
+--cores 20 \
+--genome=Semicossyphus_pulcher_softmasked_ChaHeader.fasta \
+--prot_seq=OrthoDB_Vertebrata/proteins.fasta \
+--workingdir ./Semicossyphus_pulcher > Semicossyphus_pulcher.process 2>&1 &
+# 25207
+```
+### Annotation
+```bash
+# kang1234@celia-PowerEdge-T640 Sun May 08 09:20:43 ~/genome/Gene_annotation/Semicossyphus_pulcher
+rename_gtf.py --gtf braker.gtf --prefix Spul --out braker_renamed.gtf
+~/software/gffread/gffread -y Semicossyphus_pulcher.pep.all.fasta -g ../Semicossyphus_pulcher_softmasked_ChaHeader.fasta braker_renamed.gtf
+less Semicossyphus_pulcher.pep.all.fasta|perl -alne 'if (/>/){my ($gene)=$_=~/>(.*)\./;print "$_ gene=$gene"}else{print}' >Semicossyphus_pulcher.pep.all.1.fasta
+perl ../Symphodus_melops/extract_long_transcript.pl Semicossyphus_pulcher.pep.all.1.fasta
+nohup annotate --fasta Semicossyphus_pulcher.pep.all.1.conca.long.fasta >Spul.process 2>&1 &
+# [1] 6346
+```
+***
+## Tautogolabrus_adspersus
+```bash
+less Tautogolabrus_adspersus_genomic.fna|perl -alne 'if (/>.*chromosome\s+(\d+)\,/){print ">Chr$1"}elsif (/.*(scaffold.*)\,/){print ">$1"}elsif(/mito/i){print ">mtDNA"}else{print}' >Tautogolabrus_adspersus_softmasked_ChaHeader.fasta
+
+nohup braker.pl --softmasking --AUGUSTUS_ab_initio --gff3 \
+--species Tautogolabrus_adspersus \
+--cores 20 \
+--genome=Tautogolabrus_adspersus_softmasked_ChaHeader.fasta \
+--prot_seq=OrthoDB_Vertebrata/proteins.fasta \
+--workingdir ./Tautogolabrus_adspersus > Tautogolabrus_adspersus.process 2>&1 &
+```
+### Annotation
+```bash
+# kang1234@celia-PowerEdge-T640 Sun May 08 11:46:58 ~/genome/Gene_annotation/Tautogolabrus_adspersus
+rename_gtf.py --gtf braker.gtf --prefix Tads --out braker_renamed.gtf
+~/software/gffread/gffread -y Tautogolabrus_adspersus.pep.all.fasta -g ../Tautogolabrus_adspersus_softmasked_ChaHeader.fasta braker_renamed.gtf
+less Tautogolabrus_adspersus.pep.all.fasta|perl -alne 'if (/>/){my ($gene)=$_=~/>(.*)\./;print "$_ gene=$gene"}else{print}' >Tautogolabrus_adspersus.pep.all.1.fasta
+perl ../Symphodus_melops/extract_long_transcript.pl Tautogolabrus_adspersus.pep.all.1.fasta
+nohup annotate --fasta Tautogolabrus_adspersus.pep.all.1.conca.long.fasta >Tads.process 2>&1 &
+# [2] 30201
+```
