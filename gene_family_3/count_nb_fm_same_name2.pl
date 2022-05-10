@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-my $header="Family_id\t";
+my $header="Desc\tFamily ID\t";
 my @spes=qw(Zebrafish Stickleback Spottedgar Platyfish Medaka Fugu Cund Lber Ncel Smel Spul Tads Tbif Ldim);
 foreach my $spe (@spes) {
         $header.=$spe."\t";
@@ -29,5 +29,5 @@ while (<FM>) {
                 $info.=$nm."\t";
         }
         $info=~s/\s+$//;
-        print "$fm\t$info\n";
+        print "(null)\t$fm\t$info\n";
 }
