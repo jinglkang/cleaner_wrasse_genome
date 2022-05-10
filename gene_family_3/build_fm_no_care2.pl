@@ -13,7 +13,7 @@ while (<ANO>) {
 
 my $i=-1;
 my @spes=qw(Zebrafish Stickleback Spottedgar Platyfish Medaka Fugu Cund Lber Ncel Smel Spul Tads Tbif Ldim);
-my $header="Family_id\t";
+my $header="Desc\tFamily ID\t";
 foreach my $spe (@spes) {
         $header.=$spe."\t";
 }
@@ -67,5 +67,5 @@ while (<ORTH>) {
 #               print "$fm\t$value\t$key\t$genes\n";
         }
         $info2=~s/\;\s+$//;
-        print "$fm\t$info1\n";
+        print "(null)\t$fm\t$info1\n";
 }
