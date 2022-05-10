@@ -176,13 +176,25 @@ nohup perl build_sub_orth.pl > build_sub_orth.process 2>&1 &
 # [1] 14800
 ```
 ***   
-## two method to detect the gene family  
+## two methods to detect the gene family  
 ### 1. keep the genes in each gene family with the same gene family
 ```bash
 # Kang@fishlab3 Tue May 10 11:11:01 /media/HDD/cleaner_fish/genome/gene_family_3/OrthoFinder/Results_May09/Orthogroups
 perl build_fm_same_name.pl >fm_same_name.txt # divid the orthogroup into gene family
 perl count_nb_fm_same_name1.pl >fm_same_name_nb_ano.txt
 perl count_nb_fm_same_name2.pl >fm_same_name_nb.txt
+python clade_and_size_filter.py -i fm_same_name_nb.txt -o fm_same_name_nb_filtered.txt -s
+# contract the phylogenetic tree based on one copy single genes; 2720 single copy genes
+# Kang@fishlab3 Tue May 10 13:24:42 /media/HDD/cleaner_fish/genome/gene_family_3
+cat *.fasta >all.fasta
+perl fm_same_name_single_copy.pl # put single copy genes into "fm_same_name_single_copy/" and align
+perl concatenate_single_copy.pl fm_same_name_single_copy >fm_same_name_single_copy_concatenated.fasta
+fasta2phy.pl fm_same_name_single_copy_concatenated.fasta >fm_same_name_single_copy_concatenated.phy
+# scp to SNORLAX for the phylogenetic tree
+# Kang@fishlab3 Tue May 10 14:36:31 /media/HDD/cleaner_fish/genome/gene_family_3/OrthoFinder/Results_May09/Orthogroups
+scp fm_same_name_single_copy_concatenated.phy kang1234@147.8.76.177:~/genome/gene_family
+nohup raxmlHPC -f a -m PROTGAMMAAUTO -p 12345 -x 12345 -# 1000 -s fm_same_name_single_copy_concatenated.phy -o Spottedgar -n fm_same_name_single_copy_concatenated > raxml.process 2>&1 &
+#[1] 15930
 ```
 ### 2. No care about gene families including genes with different name
 Resulted Orthogroups as the gene family   
@@ -190,7 +202,39 @@ Resulted Orthogroups as the gene family
 # Kang@fishlab3 Tue May 10 11:20:23 /media/HDD/cleaner_fish/genome/gene_family_3/OrthoFinder/Results_May09/Orthogroups
 perl build_fm_no_care1.pl >fm_no_care_nb_ano.txt
 perl build_fm_no_care2.pl >fm_no_care_nb.txt
+python clade_and_size_filter.py -i fm_no_care_nb.txt -o fm_no_care_nb_filtered.txt -s
+perl fm_no_care_single_copy.pl # put single copy genes into "fm_no_care_single_copy/" and align
+perl concatenate_single_copy.pl fm_no_care_single_copy > fm_no_care_single_copy_concatenated.fasta
+fasta2phy.pl fm_no_care_single_copy_concatenated.fasta > fm_no_care_single_copy_concatenated.phy
+# scp to HPC for the phylogenetic tree
+# Kang@fishlab3 Tue May 10 15:26:28 /media/HDD/cleaner_fish/genome/gene_family_3/OrthoFinder/Results_May09/Orthogroups
+scp fm_no_care_single_copy_concatenated.phy jlkang@hpc2021-io1.hku.hk:~/
+```
+**Run on HKU HPC**   
+```bash(script.cmd)
+#!/bin/bash
+#SBATCH --job-name=raxmlHPC        # 1. Job name
+#SBATCH --mail-type=BEGIN,END,FAIL    # 2. Send email upon events (Options: NONE, BEGIN, END, FAIL, ALL)
+#SBATCH --mail-user=jlkang@hku.hk     #    Email address to receive notification
+#SBATCH --partition=amd               # 3. Request a partition
+#SBATCH --qos=normal                  # 4. Request a QoS
+#SBATCH --nodes=1                     #    Request number of node(s)
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=128
+#SBATCH --mem-per-cpu=1G
+#SBATCH --time=1-10:00:00             # 7. Job execution duration limit day-hour:min:sec
+#SBATCH --output=%x_%j.out            # 8. Standard output log as $job_name_$job_id.out
+#SBATCH --error=%x_%j.err             #    Standard error log as $job_name_$job_id.err
+
+# print the start time
+date
+raxmlHPC -T 128 -f a -m PROTGAMMAAUTO -p 12345 -x 12345 -# 1000 -s fm_no_care_single_copy_concatenated.phy -o Spottedgar -n fm_no_care_single_copy_concatenated
+# print the end time
+date
 ```
 
-
-
+```bash
+# jlkang@hpc2021 Tue May 10 15:32:38 ~
+sbatch script.cmd
+# Submitted batch job 379735
+```
