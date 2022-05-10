@@ -13,7 +13,7 @@ while (<ANO>) {
 
 my $i=-1;
 my @spes=qw(Zebrafish Stickleback Spottedgar Platyfish Medaka Fugu Cund Lber Ncel Smel Spul Tads Tbif Ldim);
-my $header="Family_id\tOrthogroup_id\t";
+my $header="Family_id\t";
 foreach my $spe (@spes) {
         $header.=$spe."\t";
 }
