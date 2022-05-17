@@ -447,4 +447,29 @@ cp /media/HDD/cleaner_fish/genome/gene_family_2/paml_input/prepare_input_paml_pa
 nohup perl prepare_input_paml_parallel.pl single_copy_genes_list.txt >prepare_input_paml.process 2>&1 &
 # [1] 4569
 ```
+## Start to detect positive selected genes
+**2.1 Set Ldim as forebranch**   
+**species tree**   
+```bash
+vi spe_Ldim.tre
+# ((((Fugu,(Stickleback,(Spul,((Cund,((Smel,Tads),Lber)),(Ncel,(Ldim #1,Tbif)))))),(Platyfish,Medaka)),Zebrafish),Spottedgar);
+cp /media/HDD/cleaner_fish/genome/gene_family_2/paml_input/codeml.pl ./
+cp /media/HDD/cleaner_fish/genome/gene_family_2/paml_input/codeml_parallel.pl ./
+nohup perl codeml_parallel.pl final_orth_input_paml.txt >codeml.process 2>&1 &
+# [1] 10443
+```
+**2.2 Set all wrasses as forebranch**   
+in SNORLAX   
+```bash
+# Kang@fishlab3 Tue May 17 21:47:41 /media/HDD/cleaner_fish/genome/gene_family_3/OrthoFinder/Results_May09
+nohup scp -r paml_input/  kang1234@147.8.76.177:~/genome/gene_family/reports_gf3
+# ctrl+z
+bg
+# [2]+ nohup scp -r paml_input/ kang1234@147.8.76.177:~/genome/gene_family/reports_gf3 &
+# (base) kang1234@celia-PowerEdge-T640 Tue May 17 21:55:49 ~/genome/gene_family/reports_gf3/paml_input
+vi Ancestor_wrasses.tre
+# ((((Fugu,(Stickleback,(Spul,((Cund,((Smel,Tads),Lber)),(Ncel,(Ldim,Tbif)))) #1)),(Platyfish,Medaka)),Zebrafish),Spottedgar);
+nohup perl codeml_parallel_wrasses.pl final_orth_input_paml.txt >codeml.process 2>&1 &
+# [1] 30600
+```
 
