@@ -345,6 +345,75 @@ rm Semicossyphus_pulcher_cds.fasta Tautogolabrus_adspersus_cds.fasta
 cp /media/HDD/cleaner_fish/genome/gene_family_2/single_copy_id/Longest_*_cds.fasta ./
 # longest cds sequences per gene per species in "/media/HDD/cleaner_fish/genome/gene_family_3/longest_cds"
 ```
+### 1.1 concatenate the cds sequences of single copy genes (after align and trim)
+```perl1
+#!/usr/bin/perl -w
+use strict;
+use warnings;
+
+# concatenate the cds sequences
+my @fasta=<Family*/final_alignment.fa>;
+
+my %spes; my ($spe, $i); my @species;
+foreach my $fas (@fasta) {
+	$i++;
+	open FAS, "$fas" or die "can not open $fas\n";
+	while (<FAS>) {
+		chomp;
+		if (/>/) {
+			($spe)=$_=~/>(.*)/;
+			push @species, $spe if $i==1;
+		} else {
+			$spes{$spe}.=$_;
+		}
+	}
+}
+
+foreach my $spe (@species) {
+	my $seq=$spes{$spe};
+	print ">$spe\n$seq\n";
+}
+```
+```bash
+# Kang@fishlab3 Thu May 19 19:13:57 /media/HDD/cleaner_fish/genome/gene_family_3/OrthoFinder/Results_May09/paml_input
+perl temp1.pl >single_copy.cds.concatenated.fasta
+fasta2phy.pl single_copy.cds.concatenated.fasta >single_copy.cds.concatenated.phy
+```
+single_copy.cds.concatenated.phy (3,671,217) will be used as mcmctree input sequence file    
+### 1.2 Run MCMCtree
+```bash
+# Kang@fishlab3 Thu May 19 19:16:00 /media/HDD/cleaner_fish/genome/gene_family_3/OrthoFinder/Results_May09/paml_input
+mkdir mcmctree;cd mcmctree
+# add the time of fossil calibrations in mcmc.tree
+vi mcmc.tree
+# 14 2
+# ((((Fugu,(Stickleback,(Spul,((Cund,((Smel,Tads),Lber)),(Ncel,(Ldim,Tbif)))))),(Platyfish,Medaka))'B(.969,1.509)',Zebrafish)'B(1.4885,1.652)',Spottedgar);
+vi baseml.tree
+# 14 1
+#((((Fugu,(Stickleback,(Spul,((Cund,((Smel,Tads),Lber)),(Ncel,(Ldim,Tbif)))))),(Platyfish,Medaka))'@(.969,1.509)',Zebrafish)'@(1.4885,1.652)',Spottedgar);
+cp ../single_copy.cds.concatenated.phy ./
+mkdir baseml; cd baseml
+# Kang@fishlab3 Thu May 19 21:21:37 /media/HDD/cleaner_fish/genome/gene_family_3/OrthoFinder/Results_May09/paml_input/mcmctree/baseml
+cp /media/HDD/cleaner_fish/genome/gene_family_2/single_copy_id/mcmctree/baseml/baseml.ctl ./
+baseml
+# xmax = 0.0000e+00 close to zero at  12!
+# vi baseml.ctl: change "getSE = 1" to "getSE = 0"
+# Substitution rate is per time unit: 0.005424 (m=0.136038; s=0.136038)
+# a = (m/s)^2 and b = m/s^2
+# a = 1 && b = 7.35
+# mcmctree1.ctl: usedata = 3; ndata = 1; rgene_gamma = 1 7.35
+cp /media/HDD/cleaner_fish/genome/gene_family_2/single_copy_id/mcmctree/baseml/mcmctree*.ctl ./
+vi mcmctree1.ctl # rgene_gamma = 1 7.35
+nohup ~/software/paml4.9j/src/mcmctree mcmctree1.ctl > mcmctree1.process 2>&1 &
+# [1] 32473
+mv out.BV in.BV
+cat in.BV rst2 > 1.txt
+mv 1.txt in.BV
+# mcmctree2.ctl: usedata = 2; ndata = 1; rgene_gamma = 1 7.35
+# Kang@fishlab3 Fri May 20 08:56:02 /media/HDD/cleaner_fish/genome/gene_family_3/OrthoFinder/Results_May09/paml_input/mcmctree/baseml
+nohup ~/software/paml4.9j/src/mcmctree mcmctree2.ctl >mcmctree2.process 2>&1 &
+# [1] 11841
+```
 
 ***   
 ## Positive selection for single copy genes
