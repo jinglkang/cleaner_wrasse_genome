@@ -77,6 +77,30 @@ ORdetect --genome /media/HDD/cleaner_fish/genome/OR_detection/Gasterosteus_acule
 --class /media/HDD/cleaner_fish/genome/OR_detection/MBE_OR_class.fasta \
 --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
 ```
+### Semicossyphus_pulcher
+```bash
+# Kang@fishlab3 Fri May 27 11:10:54 /media/HDD/cleaner_fish/genome/OR_detection
+scp kang1234@147.8.76.177:~/genome/Gene_annotation/Semicossyphus_pulcher_softmasked_ChaHeader.fasta ./
+ORdetect --genome /media/HDD/cleaner_fish/genome/OR_detection/Semicossyphus_pulcher_softmasked_ChaHeader.fasta \
+--species Semicossyphus_pulcher \
+--query /media/HDD/cleaner_fish/genome/OR_detection/OR_query_MBE.fasta \
+--nonOR /media/HDD/cleaner_fish/genome/OR_detection/Non_OR_gene2.fasta \
+--class /media/HDD/cleaner_fish/genome/OR_detection/MBE_OR_class.fasta \
+--uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+```
+
+### Tautogolabrus_adspersus
+```bash
+# Kang@fishlab3 Fri May 27 11:13:10 /media/HDD/cleaner_fish/genome/OR_detection
+scp kang1234@147.8.76.177:~/genome/Gene_annotation/Tautogolabrus_adspersus_softmasked_ChaHeader.fasta ./
+ORdetect --genome /media/HDD/cleaner_fish/genome/OR_detection/Tautogolabrus_adspersus_softmasked_ChaHeader.fasta \
+--species Tautogolabrus_adspersus \
+--query /media/HDD/cleaner_fish/genome/OR_detection/OR_query_MBE.fasta \
+--nonOR /media/HDD/cleaner_fish/genome/OR_detection/Non_OR_gene2.fasta \
+--class /media/HDD/cleaner_fish/genome/OR_detection/MBE_OR_class.fasta \
+--uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+```
+***
 ## add strand inforation (+|-)   
 dir: /media/HDD/cleaner_fish/genome/OR_detection    
 vi temp4.pl     
