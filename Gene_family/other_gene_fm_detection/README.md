@@ -1,5 +1,5 @@
 # BLASTN for the details of some specific gene families
-## 1. Neurexin gene family   
+## 1. Neurexin gene family (aa >= 50)   
 ### 1.1 Find the protein sequences of Zebrafish as query   
 ```bash
 # Kang@fishlab3 Mon May 30 11:04:47 /media/HDD/cleaner_fish/genome/gene_family_2/all_annotation
