@@ -154,3 +154,7 @@ foreach my $spe (@new_spes) {
 	print "$spe\t$nums\n";
 }
 ```
+
+```bash
+perl temp2.pl > Crystallin_summary.txt
+```
