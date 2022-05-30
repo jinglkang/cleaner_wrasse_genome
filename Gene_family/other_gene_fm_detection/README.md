@@ -138,7 +138,7 @@ while (<TAR>) {
 --query /media/HDD/cleaner_fish/genome/Neurexin_detection/neurexin_query.fasta \
 --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
 ```
-## Summary   
+## Summary: only complete genes   
 ```temp2.pl
 #!/usr/bin/perl -w
 use strict;
@@ -154,10 +154,12 @@ foreach my $result (@results) {
 	while (<FIL>) {
 		chomp;
 		my @a=split /\t/;
-		my ($name)=$a[1]=~/(.*)\_/;
-		$hash1{$name}++;
-		push @names, $name if $hash1{$name}==1;
-		$hash2{$spe}->{$name}++;
+		if ($a[0]=~/\:C$/) {
+			my ($name)=$a[1]=~/(.*)\_/;
+			$hash1{$name}++;
+			push @names, $name if $hash1{$name}==1;
+			$hash2{$spe}->{$name}++;
+		}
 	}
 	close FIL;
 }
