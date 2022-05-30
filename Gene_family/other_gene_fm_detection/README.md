@@ -40,17 +40,101 @@ while (<TAR>) {
 }
 ```
 
-### 2.1 *L. dimidiatus*   
+### 2.1  *L. dimidiatus*   
 ```bash
 ./Neurexin_detect --genome /media/HDD/cleaner_fish/genome/OR_detection/Cleaner_wrasse_softmasked_ChaHeader.fasta \
 --species Cleaner_wrasse \
 --query /media/HDD/cleaner_fish/genome/Neurexin_detection/neurexin_query.fasta \
 --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
 ```
-### 2.2 *Thalassoma bifasciatum*   
+### 2.2 *Thalassoma_bifasciatum*   
 ```bash
 ./Neurexin_detect --genome /media/HDD/cleaner_fish/genome/Thalassoma_bifasciatum.fasta \
 --species Thalassoma_bifasciatum \
+--query /media/HDD/cleaner_fish/genome/Neurexin_detection/neurexin_query.fasta \
+--uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+```
+### 2.3 *Notolabrus_celidotus*   
+```bash
+./Neurexin_detect --genome /media/HDD/cleaner_fish/genome/Notolabrus_celidotus.fasta \
+--species Notolabrus_celidotus \
+--query /media/HDD/cleaner_fish/genome/Neurexin_detection/neurexin_query.fasta \
+--uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+```
+### 2.4 *Cheilinus_undulatus*   
+```bash
+./Neurexin_detect --genome /media/HDD/cleaner_fish/genome/cheilinus_undulatus.fasta \
+--species Cheilinus_undulatus \
+--query /media/HDD/cleaner_fish/genome/Neurexin_detection/neurexin_query.fasta \
+--uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+```
+### 2.5 *Symphodus_melops*   
+```bash
+./Neurexin_detect --genome /media/HDD/cleaner_fish/genome/smel_genome/Symphodus_melops_softmasked.fasta \
+--species Symphodus_melops \
+--query /media/HDD/cleaner_fish/genome/Neurexin_detection/neurexin_query.fasta \
+--uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+```
+### 2.6 *emicossyphus_pulcher*    
+```bash
+./Neurexin_detect --genome /media/HDD/cleaner_fish/genome/OR_detection/Semicossyphus_pulcher_softmasked_ChaHeader.fasta \
+--species Semicossyphus_pulcher \
+--query /media/HDD/cleaner_fish/genome/Neurexin_detection/neurexin_query.fasta \
+--uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+```
+### 2.7 *Tautogolabrus_adspersus*
+```bash
+./Neurexin_detect --genome /media/HDD/cleaner_fish/genome/OR_detection/Tautogolabrus_adspersus_softmasked_ChaHeader.fasta \
+--species Tautogolabrus_adspersus \
+--query /media/HDD/cleaner_fish/genome/Neurexin_detection/neurexin_query.fasta \
+--uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+```
+### 2.8 *Labrus_bergylta*    
+```bash
+./Neurexin_detect --genome /media/HDD/cleaner_fish/genome/Labrus_bergylta.fasta \
+--species Labrus_bergylta \
+--query /media/HDD/cleaner_fish/genome/Neurexin_detection/neurexin_query.fasta \
+--uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+```
+### 2.9 Fugu   
+```bash
+./Neurexin_detect --genome /media/HDD/cleaner_fish/genome/OR_detection/Fugu.dna_sm.toplevel.fa \
+--species Fugu \
+--query /media/HDD/cleaner_fish/genome/Neurexin_detection/neurexin_query.fasta \
+--uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+```
+### 2.10 Japanese Medake    
+```bash
+./Neurexin_detect --genome /media/HDD/cleaner_fish/genome/OR_detection/Japanese_medaka_hsok.dna_sm.toplevel.fa \
+--species Medake \
+--query /media/HDD/cleaner_fish/genome/Neurexin_detection/neurexin_query.fasta \
+--uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+```
+### 2.11 Stickleback    
+```bash
+./Neurexin_detect --genome /media/HDD/cleaner_fish/genome/OR_detection/Gasterosteus_aculeatus.BROADS1.dna_sm.toplevel.fa \
+--species Stickleback \
+--query /media/HDD/cleaner_fish/genome/Neurexin_detection/neurexin_query.fasta \
+--uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+```
+### 2.12 Zebrafish    
+```bash
+./Neurexin_detect --genome /media/HDD/cleaner_fish/genome/OR_detection/Zebrafish_genome.ncbi.fa \
+--species Zebrafish \
+--query /media/HDD/cleaner_fish/genome/Neurexin_detection/neurexin_query.fasta \
+--uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+```
+### 2.13 Platyfish    
+```bash
+./Neurexin_detect --genome /media/HDD/cleaner_fish/genome/OR_detection/Platyfish-male.dna_sm.toplevel.fa \
+--species Platyfish \
+--query /media/HDD/cleaner_fish/genome/Neurexin_detection/neurexin_query.fasta \
+--uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+```
+### 2.14 Spottedgar    
+```bash
+./Neurexin_detect --genome /media/HDD/cleaner_fish/genome/OR_detection/Spottedgar.dna_sm.toplevel.fa \
+--species Spottedgar \
 --query /media/HDD/cleaner_fish/genome/Neurexin_detection/neurexin_query.fasta \
 --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
 ```
