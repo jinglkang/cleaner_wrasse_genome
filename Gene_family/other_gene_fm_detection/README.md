@@ -138,3 +138,49 @@ while (<TAR>) {
 --query /media/HDD/cleaner_fish/genome/Neurexin_detection/neurexin_query.fasta \
 --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
 ```
+## Summary   
+```temp2.pl
+#!/usr/bin/perl -w
+use strict;
+use warnings;
+
+
+my @results=<*/filtering/filter.out.1>;
+my (%hash1, %hash2); my (@spes, @names);
+foreach my $result (@results) {
+	my ($spe)=$result=~/(.*)\/filtering\/filter\.out\.1/;
+	push @spes, $spe;
+	open FIL, $result or die "$!\n";
+	while (<FIL>) {
+		chomp;
+		my @a=split /\t/;
+		my ($name)=$a[1]=~/(.*)\_/;
+		$hash1{$name}++;
+		push @names, $name if $hash1{$name}==1;
+		$hash2{$spe}->{$name}++;
+	}
+	close FIL;
+}
+
+my $i;
+my @new_spes=qw(Cleaner_wrasse Thalassoma_bifasciatum Symphodus_melops Tautogolabrus_adspersus Labrus_bergylta Semicossyphus_pulcher Notolabrus_celidotus Cheilinus_undulatus Stickleback Fugu Platyfish Medake Zebrafish Spottedgar);
+foreach my $spe (@new_spes) {
+	$i++;
+	my ($head, $nums);
+	foreach my $name (@names) {
+		$head.=$name."\t";
+		my $num;
+		$hash2{$spe}->{$name}?($num=$hash2{$spe}->{$name}):($num=0);
+		$nums.=$num."\t";
+	}
+	$head=~s/\s+$//;
+	$nums=~s/\s+$//;
+	$head="Species\t".$head;
+	print "$head\n" if $i==1;
+	print "$spe\t$nums\n";
+}
+```
+```bash
+# Kang@fishlab3 Mon May 30 14:58:39 /media/HDD/cleaner_fish/genome/Neurexin_detection
+perl temp2.pl >Neurexin_summary.txt
+```
