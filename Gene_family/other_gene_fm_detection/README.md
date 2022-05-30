@@ -47,3 +47,10 @@ while (<TAR>) {
 --query /media/HDD/cleaner_fish/genome/Neurexin_detection/neurexin_query.fasta \
 --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
 ```
+### 2.2 *Thalassoma bifasciatum*   
+```bash
+./Neurexin_detect --genome /media/HDD/cleaner_fish/genome/Thalassoma_bifasciatum.fasta \
+--species Thalassoma_bifasciatum \
+--query /media/HDD/cleaner_fish/genome/Neurexin_detection/neurexin_query.fasta \
+--uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+```
