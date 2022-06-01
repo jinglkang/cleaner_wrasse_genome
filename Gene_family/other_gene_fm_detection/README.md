@@ -16,27 +16,26 @@ perl temp1.pl /media/HDD/cleaner_fish/genome/gene_family_2/all_annotation/Zebraf
 use strict;
 use warnings;
 
-my $pepseq="/media/HDD/cleaner_fish/genome/gene_family_2/Zebrafish_pep.fasta";
+my $pepseq="/media/HDD/cleaner_fish/genome/gene_family_2/longest_pep/Zebrafish.fasta";
 my %pep; my $pro;
 open PEP, $pepseq or die "can not open $pepseq\n";
 while (<PEP>) {
-	chomp;
-	if (/>/) {
-		s/>//;
-		s/\|\d+$//;
-		$pro=$_;
-	} else {
-		$pep{$pro}.=$_;
-	}
+        chomp;
+        if (/>/) {
+                s/>Zebrafish_//;
+                $pro=$_;
+        } else {
+                $pep{$pro}.=$_;
+        }
 }
 
 open TAR, $ARGV[0] or die "can not open $ARGV[0]\n";
 while (<TAR>) {
-	chomp;
-	my @a=split /\t/;
-	my ($gene, $name)=($a[0], $a[1]);
-	my $len=length($pep{$a[0]});
-	print ">$gene|$name|$len\n$pep{$a[0]}\n";
+        chomp;
+        my @a=split /\t/;
+        my ($gene, $name)=($a[0], $a[1]);
+        my $len=length($pep{$a[0]});
+        print ">$gene|$name|$len\n$pep{$a[0]}\n" unless $pep{$a[0]}=~/Sequence/i;
 }
 ```
 
