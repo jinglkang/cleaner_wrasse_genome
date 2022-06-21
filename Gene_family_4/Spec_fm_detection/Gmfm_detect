@@ -1,0 +1,260 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use File::Basename;
+use Cwd qw(cwd);
+use Getopt::Long 'HelpMessage';
+
+my $usage=<<_EOH_;;
+----------------------------------------------------------------------------------------
+This script is used to identify the Opsin genes of the input genome
+Note: please use the absolute directory for each input file.
+Usage:
+Gmfm_detect --genome /media/HDD/cleaner_fish/genome/OR_detection/Cleaner_wrasse_softmasked_ChaHeader_final.fasta
+                 --species Cleaner_wrasse
+                 --keyword Crystallin
+                 --query /media/HDD/cleaner_fish/genome/Opsin_detection/query.fasta
+                 --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+Example:
+1. --genome: the input genome
+2. --species: the species name
+3. --query:  the Known Opsin genes as query
+4. --uniport: uniprot database
+                                                Kang 2021-11-21
+------------------------------------------------------------------------------------------
+_EOH_
+;
+
+GetOptions(
+	'genome:s', \my $genome,
+    'species:s', \my $species,
+    'query:s', \my $query,
+    'uniprot:s', \ my $uniprot,
+    'keyword:s', \ my $key
+	);
+
+unless ($genome && $species && $query && $uniprot && $key) {
+	die $usage;
+}
+
+mkdir $species; # make the directory in the current directory for the output result
+chdir $species;
+my $dir0 = cwd;
+&tblastn($query, "1e-5", "1");
+&genewise($query, "1");
+&filtering("1");
+
+########################################
+# 1. tblastn # the first time of tblastn
+########################################
+sub tblastn {
+        my ($fasta, $evalue, $time)=@_;
+        my %hash; my $name;
+        open FASTA, $fasta or die "can not open $fasta\n";
+        while (<FASTA>) {
+        	chomp;
+        	if (/>/) {
+        		s/>//;
+        		$name=$_;
+        	} else {
+        		$hash{$name}.=$_;
+        	}
+        }
+        close FASTA;
+
+        mkdir "tblastn" unless -d "tblastn"; chdir "tblastn";
+        my $dir = cwd;
+        print "Now i'm in $dir\n";
+        system("makeblastdb -in $genome -dbtype nucl -parse_seqids -out $species") unless -e "$species.nhr";
+        print "Now it's doing the $time time tblastn ... ...\n";
+
+        # start tblastn
+        system("tblastn -outfmt 6 -query $fasta -out 1_bla -db $species -evalue $evalue -num_threads 30");
+        print "The $time tblastn finish\n";
+        # result: 1_bla
+
+        # Ensure the alignment with high identity (>=40)
+        system("less 1_bla|perl -alne 'print if \$F[2]>=40' > 2_bla_iden40");
+        # result: 2_bla_iden40
+
+        # The length of maximum intron set to 100000, and combine the alignment
+        system("solar.pl -f m8 -cCn 100000 -d -1 2_bla_iden40 > 3_iden40_solar");
+        # result: 3_iden40_solar
+
+        # Ensure the alignment length more than 0.7
+        open SOLAR_HIGH, ">4_solar_align70";
+        open SOLAR, "3_iden40_solar" or die "can not open 3_iden40_solar\n";
+        while (<SOLAR>) {
+        	chomp;
+        	my @F=split /\t/;
+        	my $b=length($hash{$F[0]});
+        	my $a=$F[3]-$F[2];
+        	my $r=$a/$b;
+        	print SOLAR_HIGH "$_\n" if $r>=0.7;
+        }
+        close SOLAR;
+        close SOLAR_HIGH;
+        # Result: 4_solar_align70
+
+        # Ensure no overlap in subject region between connected alignments
+        system("best_solar_finder.pl 4_solar_align70 > 5_align70_no_overlap");
+        
+        die "5_align70_no_overlap is empty\n" if (-z "5_align70_no_overlap");
+        chdir "../";
+        # 5_align70_no_overlap is the final file for the input of genewise
+}
+
+########################################
+
+########################################
+# 2. genewise # the first time of genewise
+########################################
+sub genewise {
+        my ($fasta, $time)=@_;
+        mkdir "genewise" unless -d "genewise"; chdir "genewise";
+        my $dir = cwd;
+        print "Now i'm in $dir\n";
+        system("cat $fasta $genome >pool.fa");
+        print "Now it's going to do the $time time genewise ... ...\n";
+        # Extend the upstream [2*3*length(pep)] and downstream [2*3*length(pep)] of the alignment for genewise
+        system("/media/HDD/cleaner_fish/genome/Crystallin_detection_2/genewise_after_solar.pl pool.fa ../tblastn/5_align70_no_overlap");
+        # result:5_align70_no_overlap.wise
+        
+        # change the name "5_align70_no_overlap.wise" to "1_wise";
+        die "5_align70_no_overlap.wise is empty\n" if (-z "5_align70_no_overlap.wise");
+        system("mv 5_align70_no_overlap.wise 1_wise");
+        print "The $time genewise is finished\n";
+
+        # make sure the genomic regions are not overlapped, if overlapped with a hit with higher score, throw this hit
+        system("best_genewise_finder.pl 1_wise >2_wise_no_overlap");
+        die "2_wise_no_overlap is empty\n" if (-z "2_wise_no_overlap");
+
+        # extend from both forward and downstream to detect the start and stop codon
+        system("wise_parser.pl $genome 2_wise_no_overlap");
+        # result: 2_wise_no_overlap.aa, 2_wise_no_overlap.cds, 2_wise_no_overlap.dna, 2_wise_no_overlap.gff
+
+        die "2_wise_no_overlap.aa is empty\n" if (-z "2_wise_no_overlap.aa");
+        chdir "../";
+}
+
+########################################
+
+########################################
+# 3. filtering: the first time of blastp to uniprot
+########################################
+sub filtering {
+        my ($time)=@_;
+        mkdir "filtering" unless -d "filtering"; chdir "filtering";
+        my $dir = cwd;
+        print "Now i'm in $dir\n";
+        print "Now it's doing the $time filtering\n";
+        print "blastp to uniprot ... ...\n";
+
+        # align the resulted protein sequences to swissprot
+        system("blastp -outfmt 6 -query ../genewise/2_wise_no_overlap.aa -out 1_bla -db $uniprot -num_threads 30");
+        my (%hash1, %hash2);
+        my ($name1, $name2);
+        open AA, "../genewise/2_wise_no_overlap.aa\n" or die "can not open ../genewise/2_wise_no_overlap.aa\n";
+        while (<AA>) {
+        	chomp;
+        	if (/>/) {
+        		s/>//;
+        		$name1=$_;
+        	} else {
+        		$hash1{$name1}.=$_;
+        	}
+        }
+        close AA;
+
+        open GFF, "../genewise/2_wise_no_overlap.gff\n" or die "can not open ../genewise/2_wise_no_overlap.gff\n";
+        while (<GFF>) {
+        	chomp;
+        	my @a=split;
+        	my @b=split /\-/, $a[-1];
+        	$hash2{$b[0]}.=$_."\n//\n";
+        }
+        # result: 1_bla
+        close GFF;
+
+        # Get best blast
+        print "The $time blastp to uniprot is finished\n";
+        system("cat 1_bla |perl -lane 'print if \$F[0] ne \$flag; \$flag=\$F[0]'|perl -aF'\\t' -lne '\$F[1]=~/\\\|\.\*\\\|\(\.\*\)/;\$F[1]=\$1;\$h=join \"\\t\", \@F;print \$h' |sort -k2 >2_bestBla");
+        # result: 2_bestBla
+        die "2_bestBla is empty\n" if (-z "2_bestBla");
+
+        # Filter the hit with "keyword" in annotation
+        my $SWIS_ano="/home/Kang/Desktop/Annotation_database/swiss-prot/unprot_name_description.txt";
+        my %SWIS_ANO;
+        open SWIS_ANO, $SWIS_ano or die "There is no $SWIS_ano\n$!\n";
+        while (<SWIS_ANO>) {
+                chomp;
+                my @a=split /\t/;
+                my @b=split /\|/, $a[0];
+                $SWIS_ANO{$b[-1]}=$a[1];
+        }
+        close SWIS_ANO;
+
+        open BESTBLA, "$dir/2_bestBla" or die "can not open 2_bestBla\n$!\n";
+        open POTEN, ">$dir/3_poten" or die "can not create 3_poten$!\n"; # result: 3_poten
+        while (<BESTBLA>) {
+                chomp;
+                my @a=split /\t/;
+                my $info=$SWIS_ANO{$a[1]};
+                if ($info=~/$key/i) {
+                	my $align=($a[7]-$a[6])/($a[9]-$a[8])*100;
+                	$align=sprintf("%.3f", $align);
+                	my $iden =$a[2];
+                    print POTEN "$a[0]\t$iden\t$align\t$a[1]\t$info\n";
+                }
+        }
+        chdir "../";
+        close BESTBLA;
+        close POTEN;
+
+		open POTEN, "$dir/3_poten" or die "can not open 3_poten\n$!\n";
+        open SORT, ">$dir/4_sort.1" or die "can not create 4_sort.1\n$!\n";
+        while (<POTEN>) {
+        	chomp;
+        	my @a=split /\t/;
+        	my $info;
+        	for (my $i = 1; $i < @a; $i++) {
+        		$info.=$a[$i]."\t";
+        	}
+        	$info=~s/\s+$//;
+        	my @F=split /\:/, $a[0];
+        	if ($a[0]=~/\+/) {
+        		print SORT "$F[0]\t$F[1]\t$F[2]\t$F[3]\t$F[4]\t$info\n";
+        	} elsif ($a[0]=~/\-/) {
+        		print SORT "$F[0]\t$F[2]\t$F[1]\t$F[3]\t$F[4]\t$info\n";
+        	}
+        }
+        close POTEN;
+        close SORT;
+
+        open SORTA, ">$dir/4_sort" or die "can not create 4_sort\n$!\n";
+        print SORTA "Chr\tStart/Stop\tStart/Stop\tStructure\tIdentity\tAlign_ratio\tGene_name\tGene_info\n";
+        system("sort -k1,2n $dir/4_sort.1 >> $dir/4_sort");
+        system("rm $dir/4_sort.1");
+        close SORTA;
+
+        open SORTA, "$dir/4_sort" or die "can not open 4_sort\n$!\n";
+        open SORTA_AA, ">$dir/4_sort_aa.fa" or die "can not create 4_sort_aa.fa\n$!\n";
+        open SORTA_GTF, ">$dir/4_sort.gtf" or die "can not create 4_sort.gtf\n$!\n";
+        # create the fasta and gff
+        while (<SORTA>) {
+        	chomp;
+        	my @a=split /\t/;
+        	my $name;
+        	for (my $i = 0; $i <= 4; $i++) {
+        		$name.=$a[$i].":";
+        	}
+        	$name=~s/\:$//;
+        	print SORTA_AA ">$name\n$hash1{$name}\n" if $hash1{$name};
+        	print SORTA_GTF "$hash2{$name}" if $hash2{$name};
+        }
+
+        close SORTA;
+        close SORTA_AA;
+        close SORTA_GTF;
+}
+########################################
