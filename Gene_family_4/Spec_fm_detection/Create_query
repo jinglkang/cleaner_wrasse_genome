@@ -1,0 +1,90 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use Getopt::Long 'HelpMessage';
+
+# create the query fasta file
+# provide the siwss-prot identity id of the specific gene group
+# 1. read the identity id of the specific gene group
+my $usage=<<_EOH_;
+----------------------------------------------------------------------------------------
+This script is used to create the query file
+Note: please use the absolute directory for each input file.
+Usage:
+Create_query --ide ~/Desktop/Annotation_database/swiss-prot/CDH_type1.id
+             --keyword Cadherin
+             --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+Example:
+1. --ide: the file with unique identity id of swiss-prot
+~/Desktop/Annotation_database/swiss-prot/CDH_type1.id
+P12830
+P19022
+P22223
+P55283
+P55291
+
+2. --keyword: the keyword to extract the alignments
+3. --uniport: uniprot database
+                                                Kang 2021-11-21
+------------------------------------------------------------------------------------------
+_EOH_
+;
+
+GetOptions(
+    'ide:s', \my $ide,
+    'keyword:s', \my $keyword,
+    'uniprot:s', \my $uni
+        );
+
+unless ($ide && $keyword && $uni) {
+        die $usage;
+}
+
+&read_iden;
+
+sub read_iden {
+        my %iden;
+
+        my $SWIS_ano="/home/Kang/Desktop/Annotation_database/swiss-prot/unprot_name_description.txt";
+        my %SWIS_ANO;
+        open SWIS_ANO, $SWIS_ano or die "There is no $SWIS_ano\n$!\n";
+        while (<SWIS_ANO>) {
+        chomp;
+        my @a=split /\t/;
+        (my $name)=$a[0]=~/sp\|.*\|(.*)\_.*/;
+        (my $iden)=$a[0]=~/sp\|(.*)\|.*\_.*/;
+        $SWIS_ANO{$iden}=$name;
+        }
+        close SWIS_ANO;
+
+        open IDE, $ide or die "can not open $ide\n$!\n";
+        while (<IDE>) {
+                chomp;
+                my $name=$SWIS_ANO{$_};
+                $iden{$name}++;
+        }
+        close IDE;
+
+        my %unip;
+        my $header;
+        open UNI, $uni or die "can not open $uni\n$!\n";
+        while (<UNI>) {
+                chomp;
+                if (/>/) {
+                        s/^\>//;
+                        $header=$_;
+                } else {
+                        $unip{$header}.=$_;
+                }
+        }
+        close UNI;
+
+        open QUERY, ">query_protein.fasta";
+        foreach my $key (keys %unip) {
+                (my $name)=$key=~/sp\|.*\|(.*)\_.*/;
+                if ($iden{$name} && $key=~/$keyword/) {
+                        print QUERY ">$key\n$unip{$key}\n";
+                }
+        }
+        close QUERY;
+}
