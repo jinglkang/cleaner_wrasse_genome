@@ -1,0 +1,486 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use File::Basename;
+use Cwd qw(cwd);
+use Getopt::Long 'HelpMessage';
+
+my $usage=<<_EOH_;
+-----------------------------------------------------------------------------------------------------------------
+This script is used to identify the specific gene family of the input genome
+Note: please use the absolute directory for each input file.
+Usage:
+Gmfm_detect --genome /media/HDD/cleaner_fish/genome/All_genomes/Labroides_dimidiatus.fasta
+            --species Labroides_dimidiatus
+            --intron 1000
+            --query /media/HDD/cleaner_fish/genome/Cadherin_detection/query_protein.fasta
+            --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+            --gtf /media/HDD/cleaner_fish/genome/All_genomes/Labroides_dimidiatus.gtf
+            --pep /media/HDD/cleaner_fish/genome/All_genomes/longest_pep/Labroides_dimidiatus.fasta
+Example:
+1. --genome: the input genome
+2. --species: the species name
+3. --query:  the query fasta
+4. --intron: the maximum length of intron
+5. --uniport: uniprot database
+6. --gtf: the gtf file of the input genome
+7. --pep: the protein fasta of genome
+                                                Kang 2021-11-21
+----------------------------------------------------------------------------------------------------------------
+_EOH_
+;
+
+GetOptions(
+    'genome:s', \my $genome,
+    'species:s', \my $species,
+    'query:s', \my $query,
+    'intron:i', \ my $intron,
+    'uniprot:s', \ my $uniprot,
+    'gtf:s', \ my $gtf,
+    'pep:s', \ my $pep
+        );
+
+unless ($genome && $species && $query && $uniprot && $intron && $pep && $gtf) {
+        die $usage;
+}
+
+my (%gene_coord, %coord_gene, %pep, %query, %query_seq);
+mkdir $species; # make the directory in the current directory for the output result
+chdir $species;
+&extract_identity_query;
+&tblastn($query, "1e-10", "1");
+&genewise($query, "1");
+&filtering("1");
+
+
+########################################
+# 1. tblastn # the first time of tblastn
+########################################
+sub tblastn {
+        my ($fasta, $evalue, $time)=@_;
+        my %hash; my $name;
+        open FASTA, $fasta or die "can not open $fasta\n";
+        while (<FASTA>) {
+                chomp;
+                if (/>/) {
+                        s/>//;
+                        $name=$_;
+                } else {
+                        $hash{$name}.=$_;
+                }
+        }
+        close FASTA;
+
+        mkdir "tblastn" unless -d "tblastn"; chdir "tblastn";
+        my $dir = cwd;
+        print "Now i'm in $dir\n";
+        system("makeblastdb -in $genome -dbtype nucl -parse_seqids -out $species") unless -e "$species.nhr";
+        print "Now it's doing the $time time tblastn ... ...\n";
+
+        # start tblastn
+        system("tblastn -outfmt 6 -query $fasta -out 1_bla -db $species -evalue $evalue -num_threads 30");
+        system("rm $species.nhr $species.nin $species.nog $species.nsd $species.nsi $species.nsq");
+        print "The $time tblastn finish\n";
+        # result: 1_bla
+
+        # filter the tblastn result
+        # Remove the blast hit with identity < 35
+        system("less 1_bla|perl -alne 'print if \$F[2]>=35' > 2_bla_iden35"); # 2_bla_iden35
+
+        # remove the hit with genomic region in coding gene region of the inout gtf
+        &read_gtf; # %gene_coord; %coord_gene; Gene_region_gtf.bed
+        &overlap_bla_gtf("2_bla_iden35", "Gene_region_gtf.bed"); # bla.bed; bla_no_overlap.bed; bla_overlap.bed
+        &build_pep_hash; # %pep
+        &extract_pep_overlap($dir); # bla_overlap.fasta
+        &extract_blast_hit("2_bla_iden35"); # bla_no_overlap.result
+
+        if (-z "bla_no_overlap.result") {
+                die "bla_no_overlap.result is empty, the gene family already in the gtf\n";
+        } else {
+                # The length of maximum intron set to 100000, and combine the alignment without overlap
+                system("solar.pl -f m8 -cCn $intron -d -1 bla_no_overlap.result > 3_iden35_solar"); # 3_iden35_solar
+                # Ensure no overlap in subject region between connected alignments
+                system("best_solar_finder.pl 3_iden35_solar > 4_solar_no_overlap");
+        }
+        chdir "../";
+        # 4_solar_no_overlap is the final file for the input of genewise
+}
+
+
+########################################
+# 2. genewise # the first time of genewise
+########################################
+sub genewise {
+        my ($fasta, $time)=@_;
+        mkdir "genewise" unless -d "genewise"; chdir "genewise";
+        my $dir = cwd;
+        print "Now i'm in $dir\n";
+        system("cat $fasta $genome >pool.fa");
+        print "Now it's going to do the $time time genewise ... ...\n";
+        # Extend the upstream [2*3*length(pep)] and downstream [2*3*length(pep)] of the alignment for genewise
+        system("genewise_after_solar_2.pl pool.fa ../tblastn/4_solar_no_overlap");
+        # result:4_solar_no_overlap.wise
+
+        # change the name "4_solar_no_overlap.wise" to "1_wise";
+        die "4_solar_no_overlap.wise is empty\n" if (-z "4_solar_no_overlap.wise");
+        system("mv 4_solar_no_overlap.wise 1_wise");
+        print "The $time genewise is finished\n";
+
+        # make sure the genomic regions are not overlapped, if overlapped with a hit with higher score, throw this hit
+        system("best_genewise_finder.pl 1_wise >2_wise_no_overlap");
+        die "2_wise_no_overlap is empty\n" if (-z "2_wise_no_overlap");
+
+        # extend from both forward and downstream to detect the start and stop codon
+        system("wise_parser.pl $genome 2_wise_no_overlap");
+        # result: 2_wise_no_overlap.aa, 2_wise_no_overlap.cds, 2_wise_no_overlap.dna, 2_wise_no_overlap.gff
+
+        die "2_wise_no_overlap.aa is empty\n" if (-z "2_wise_no_overlap.aa");
+        chdir "../";
+}
+
+######################################################################################################################
+# 3. filtering: the first time of blastp to uniprot, Have to map to the certain swiss-prot identity in the query fasta
+######################################################################################################################
+sub filtering {
+        my ($time, $bed)=@_; # $bed="../tblastn/Gene_region_gtf.bed"
+        mkdir "filtering" unless -d "filtering"; chdir "filtering";
+        my $dir = cwd;
+        print "Now i'm in $dir\n";
+        print "Now it's doing the $time filtering\n";
+        print "blastp to uniprot ... ...\n";
+
+        # align the resulted protein sequences to swissprot
+        system("blastp -outfmt 6 -query ../genewise/2_wise_no_overlap.aa -out 1_bla -db $uniprot -num_threads 30");
+        my (%hash1, %hash2);
+        my ($name1, $name2);
+        open AA, "../genewise/2_wise_no_overlap.aa\n" or die "can not open ../genewise/2_wise_no_overlap.aa\n";
+        while (<AA>) {
+                chomp;
+                if (/>/) {
+                        s/>//;
+                        $name1=$_;
+                } else {
+                        $hash1{$name1}.=$_;
+                }
+        }
+        close AA;
+
+        open GFF, "../genewise/2_wise_no_overlap.gff\n" or die "can not open ../genewise/2_wise_no_overlap.gff\n";
+        while (<GFF>) {
+                chomp;
+                my @a=split;
+                my @b=split /\-/, $a[-1];
+                $hash2{$b[0]}.=$_."\n";
+        }
+        # result: 1_bla
+        close GFF;
+
+        print "The $time blastp to uniprot is finished\n";
+        # Get best blast
+        system("cat 1_bla |perl -lane 'print if \$F[0] ne \$flag; \$flag=\$F[0]' > 2_bestBla");
+        # result: 2_bestBla
+        die "2_bestBla is empty, the gene family already in the gtf\n" if (-z "2_bestBla");
+
+        # Filter the swiss-prot certain identity
+        my $j;
+        open BESTBLA, "$dir/2_bestBla" or die "can not open 2_bestBla\n$!\n";
+        open POTEN, ">$dir/3_poteBla" or die "can not create 3_poteBla$!\n"; # result: 3_poteBla
+        while (<BESTBLA>) {
+                chomp;
+                my @a=split /\t/;
+                if ($query{$a[1]}) {
+                        $j++;
+                        print POTEN "$_\n";
+                }
+        }
+        chdir "../";
+        close BESTBLA;
+        close POTEN;
+
+        if (! $j) {
+                print "3_poteBla is empty, the gene family already in the gtf\n";
+                # use bla_overlap.fasta in tblastn/ as target to detect gene family
+                # diamond blastp to swiss-prot
+                &diamond_to_swiss("$dir/../tblastn/bla_overlap.fasta", $dir); # output: 4_tblastn_gmfm_blastp
+                # extract target the protein sequences
+                &print_from_blast("$dir/4_tblastn_gmfm_blastp", "$dir/5_final_gmfm");
+
+        } else {
+                # examinate the overlap between 3_poteBla and gtf
+                &overlap_bla_gtf("$dir/3_poteBla", "$dir/$bed"); # bla.bed; bla_no_overlap.bed; bla_overlap.bed
+                # extract the pep seq of genes in overlapped genomic regions
+                &extract_pep_overlap($dir); # bla_overlap.fasta
+                # extract the blast hit without overlap
+                &extract_blast_hit("$dir/3_poteBla"); # bla_no_overlap.result
+                # extract the pep file in "3_poteBla"
+                open POTEN, "$dir/bla_no_overlap.result" or die "can not open $dir/bla_no_overlap.result\n$!\n";
+                open NOVER, "> $dir/bla_no_overlap.fasta" or die "can not create $dir/bla_no_overlap.fasta\n$!\n";
+                while (<POTEN>) {
+                        chomp;
+                        my @a=split;
+                        print NOVER ">$a[0]\n$hash1{$a[0]}\n";
+                }
+                close POTEN;
+                close NOVER;
+
+                # combine the result of bla_overlap.fasta in blastn/ && filtering/ && bla_no_overlap.fasta
+                system("mv ../blastn/bla_overlap.fasta bla_overlap.fasta bla_no_overlap.fasta > 4_poten.fasta");
+                open POTENFASTA, "$dir/4_poten.fasta" or die "can not open $dir/4_poten.fasta\n$!\n";
+                open NOREDFASTA, "$dir/5_norepoten.fasta" or die "can not open $dir/5_norepoten.fasta\n$!\n";
+                my (%pepid, %pepseq); my $id;
+                while (<POTENFASTA>) {
+                        chomp;
+                        if (/>/) {
+                                s/\>//;
+                                $id=$_;
+                                $pepid{$id}++;
+                                print NOREDFASTA ">$id" if $pepid{$id}==1;
+                        } else {
+                                print NOREDFASTA "$_\n" if $pepid{$id}==1;
+                                $pepseq{$id}.=$_ if $pepid{$id}==1;
+                        }
+                }
+
+                # blast to swiss-prot again
+                system("blastp -outfmt 6 -query 5_norepoten.fasta -out 6_bla -db $uniprot -num_threads 30");
+                # Extract the best blast results
+                system("cat 6_bla |perl -lane 'print if \$F[0] ne \$flag; \$flag=\$F[0]' > 7_bestBla");
+
+                open BESTBLA, "$dir/7_bestBla" or die "can not open $dir/7_bestBla\n$!\n";
+                open FINABLA, "$dir/8_finalBla" or die "can not open $dir/8_finalBla\n$!\n";
+                while (<BESTBLA>) {
+                        chomp;
+                        my @a=split;
+                        if ($query{$a[1]}) {
+                                print FINABLA "$_\n";
+                        }
+                }
+                close BESTBLA;
+                close FINABLA;
+
+                open POTEN, "$dir/8_finalBla" or die "can not open $dir/8_finalBla\n$!\n";
+                open SORT, ">$dir/9_finalBla" or die "can not create $dir/9_finalBla\n$!\n";
+                my $seq="9_finalBla.fasta";
+                open SEQ, ">$dir/$seq" or die "can not create $dir/$seq\n$!\n";
+                while (<POTEN>) {
+                        chomp;
+                        my @a=split /\t/;
+                        my @b=split /\:/, $a[0];
+                        (my $id)=$b[0];
+                        my $qu_len=length($pepseq{$id});
+                        print SEQ ">$a[0]\n$pepseq{$id}\n";
+                        my $iden=$a[1];
+                        my $su_len=length($query_seq{$iden});
+                        my $ratio=$qu_len/$su_len;
+                        $ratio=sprintf("%.3f", $ratio);
+                        print SORT "$a[0]\t$a[1]\t$a[2]\t$qu_len\t$su_len\t$ratio\n";
+                }
+                close POTEN;
+                close SORT;
+                close SEQ;
+                print "Finish, we can go next step, go go go ...\n";
+        }
+}
+
+###########################################################
+# Extract the swiss-prot identity from the query fasta file
+###########################################################
+sub extract_identity_query {
+        open QUERY, "$query" or die "can not open $query\n$!\n";
+        my $iden;
+        while (<QUERY>) {
+                chomp;
+                if (/>/) {
+                        s/>//;
+                        my @a=split;
+                        (my $anno)=$_=~/sp\|.*\|\S+\s+(.*?)\s+OS\=/;
+                        $iden=$a[0];
+                        $query{$iden}=$anno;
+                } else {
+                        $query_seq{$iden}.=$_;
+                }
+        }
+}
+
+##########################################################################
+# Read the gtf file, create bed file which records the coordinate per gene
+# Build two hashes: %gene_coord and %coord_gene
+##########################################################################
+sub read_gtf {
+        open BED, ">Gene_region_gtf.bed" or die "can not create Gene_region_gtf.bed\n$!\n";
+        open GTF, $gtf or die "can not open $gtf\n$!\n";
+        while (<GTF>) {
+                chomp;
+                my @a=split;
+                if ($a[2] eq "gene") {
+                        my ($gene, $coord, $ori);
+                        ($a[3] < $a[4])?($coord="$a[0]\t$a[3]\t$a[4]"):($coord="$a[0]\t$a[4]\t$a[3]");
+                        if (/gene_id\s+\"(.*?)\"\;/) {
+                                $gene=$1;
+                        } else {
+                                $gene=$a[-1];
+                        }
+                        print BED "$coord\n";
+                        $gene_coord{$gene} = {
+                                'coord'  => $coord,
+                                'orient' => $a[6]
+                        };
+                        $coord_gene{$coord}= {
+                                'gene'  => $gene,
+                                'orient' => $a[6]
+                        };
+                }
+        }
+        close GTF;
+        close BED;
+
+        system("sort -k1,1 -k2,2n Gene_region_gtf.bed > Gene_region_gtf.bed.sort");
+        system("mv Gene_region_gtf.bed.sort Gene_region_gtf.bed");
+}
+
+##########################################################################
+# 1. the blast result; 2. bed file which records the coordinate per gene
+# output: bla.bed; bla_no_overlap.bed; bla_overlap.bed
+##########################################################################
+sub overlap_bla_gtf {
+        my ($bla, $bed)=@_;
+        open BLA, $bla or die "can not open $bla\n$!\n";
+        open BED,">bla.bed" or die "can not create bla.bed\n$!\n";
+        while (<BLA>) {
+                chomp;
+                my @a=split;
+                my $coord;
+                ($a[-4] < $a[-3])?($coord="$a[1]\t$a[-4]\t$a[-3]"):($coord="$a[1]\t$a[-3]\t$a[-4]");
+                print BED "$coord\n";
+        }
+        close BLA;
+        close BED;
+
+        system("sort -k1,1 -k2,2n bla.bed >bla.bed.sort");
+        system("mv bla.bed.sort bla.bed");
+        system("bedtools intersect -wa -a bla.bed -b $bed -sorted -filenames -v > bla_no_overlap.bed");
+        system("bedtools intersect -wa -wb -a bla.bed -b $bed -sorted -filenames > bla_overlap.bed");
+}
+
+############################################################################
+# Input: the pep sequence of longest transcript; the header is gene id
+# Build the hash: %pep (whole genome)
+# The key is gene id, and value is longest pep sequences under this gene id)
+############################################################################
+sub build_pep_hash {
+        open PEP, $pep or die "can not open $pep\n$!\n";
+        my $gene;
+        while (<PEP>) {
+                chomp;
+                if (/>/) {
+                        s/\>//;
+                        $gene=$_;
+                } else {
+                        $pep{$gene}.=$_;
+                }
+        }
+        close PEP;
+}
+
+############################################################################
+# Extract the pep of genes in the overlapped genomic region
+# the header will be:gene_id|start|end|orientation
+# Input: the pep sequence of longest transcript; the header is gene id
+############################################################################
+sub extract_pep_overlap {
+        my ($dir)=@_;
+        open OVER, "$dir/bla_overlap.bed" or die "can not open $dir/bla_no_overlap.bed\n$!\n";
+        open SEQ, "> $dir/bla_overlap.fasta" or die "can not create $dir/bla_overlap.fasta\n$!\n";
+        my %hash;
+        while (<OVER>) {
+                chomp;
+                my @a=split;
+                my $coord="$a[3]\t$a[4]\t$a[5]";
+                my $gene=$coord_gene{$coord}->{'gene'};
+                my $orient=$coord_gene{$coord}->{'orient'};
+                my $pepseq=$pep{$gene};
+                my $header="$gene:$a[3]:$a[4]:$a[5]:$orient";
+                $hash{$header}++;
+                print SEQ ">$header\n$pepseq\n" if $hash{$header}==1;
+        }
+        close OVER;
+        close SEQ;
+}
+
+############################################################################
+# Extract the blast results without overlap
+# Input: 1. blast result; 2. the no overlap genomic regions
+############################################################################
+sub extract_blast_hit {
+        my ($bla)=@_;
+        my %NONOVER;
+        open NONOVER, "bla_no_overlap.bed" or die "can not open bla_no_overlap.bed\n$!\n";
+        while (<NONOVER>) {
+                chomp;
+                my @a=split;
+                my $coord;
+                ($a[1] < $a[2])?($coord="$a[0]\t$a[1]\t$a[2]"):($coord="$a[0]\t$a[2]\t$a[1]");
+                $NONOVER{$coord}++;
+        }
+        close NONOVER;
+        open BLANOOVER, "> bla_no_overlap.result" or die "can not create bla_no_overlap.result\n$!\n";
+        open BLA, $bla or die "can not open $bla\n$!\n";
+        while (<BLA>) {
+                chomp;
+                my @a=split;
+                my $coord;
+                ($a[-4] < $a[-3])?($coord="$a[1]\t$a[-4]\t$a[-3]"):($coord="$a[1]\t$a[-3]\t$a[-4]");
+                print BLANOOVER "$_\n" if $NONOVER{$coord};
+        }
+        close BLANOOVER;
+        close BLA;
+}
+
+############################################################################
+# blastp to diamond to find the target gene family
+############################################################################
+sub diamond_to_swiss {
+    my ($fasta, $dir)=@_;
+    system("diamond blastp -q $fasta -e 1e-5 --sensitive -k 1 -d $uniprot --out $dir/4_tblastn_blastp");
+    open SWISS, "$dir/4_tblastn_blastp" or die "can not open $dir/4_tblastn_blastp\n$!\n";
+    open POTEN, ">$dir/4_tblastn_gmfm_blastp" or die "can not create $dir/4_tblastn_gmfm_blastp\n$!\n";
+    while (<SWISS>) {
+        chomp;
+        my @a=split;
+        if ($query{$a[1]}) {
+            print POTEN "$_\n";
+        }
+    }
+    close POTEN;
+    if (-z "$dir/4_tblastn_gmfm_blastp") {
+        die "Some errors should happen, can not find any gene family in gtf\n";
+    }
+}
+
+############################################################################
+# print the final taget blast result and pep sequences
+############################################################################
+sub print_from_blast {
+    my ($bla, $output)=@_;
+    open POTEN, "$bla" or die "can not open $bla\n$!\n";
+    open SORT, ">$output" or die "can not create $output\n$!\n";
+    my $seq=$output.".fasta";
+    open SEQ, ">$seq" or die "can not create $seq\n$!\n";
+    while (<POTEN>) {
+        chomp;
+        my @a=split /\t/;
+        my @b=split /\:/, $a[0];
+        (my $id)=$b[0];
+        my $qu_len=length($pep{$id});
+        print SEQ ">$a[0]\n$pep{$id}\n";
+        my $iden=$a[1];
+        my $su_len=length($query_seq{$iden});
+        my $ratio=$qu_len/$su_len;
+        $ratio=sprintf("%.3f", $ratio);
+        print SORT "$a[0]\t$a[1]\t$a[2]\t$qu_len\t$su_len\t$ratio\n";
+    }
+    close POTEN;
+    close SORT;
+    close SEQ;
+    print "Finish, we can go next step, go go go ...\n";
+}
