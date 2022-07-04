@@ -9,8 +9,24 @@
 ## 3. Cadherin gene family
 ### 3.3 Type I classical cadherins   
 ```bash
+# Kang@fishlab3 Mon Jul 04 16:04:53 ~/Desktop/Annotation_database/swiss-prot
+less CDH_type1.id
+# P12830
+# P19022
+# P22223
+# P55283
+# P55291
 # Kang@fishlab3 Fri Jul 01 16:01:33 /media/HDD/cleaner_fish/genome/Cadherin_type1
-./Create_query --ide ~/Desktop/Annotation_database/swiss-prot/CDH_type1.id --keyword Cadherin --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+Create_query --ide ~/Desktop/Annotation_database/swiss-prot/CDH_type1.id --keyword Cadherin --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
 nohup perl run_Gmfm_detect.pl /media/HDD/cleaner_fish/genome/Cadherin_detection/query_protein.fasta >run_Gmfm_detect.process 2>&1 &
 # [1] 1340
 ```
+### 3.3 Type II classical cadherins   
+```bash
+# Kang@fishlab3 Mon Jul 04 16:07:14 /media/HDD/cleaner_fish/genome
+mkdir Cadherin_type2
+# Kang@fishlab3 Mon Jul 04 16:11:36 /media/HDD/cleaner_fish/genome/Cadherin_type2
+Create_query --ide ~/Desktop/Annotation_database/swiss-prot/CDH_type2.id --keyword Cadherin --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+nohup perl run_Gmfm_detect.pl /media/HDD/cleaner_fish/genome/Cadherin_detection/query_protein.fasta >run_Gmfm_detect.process 2>&1 &
+# [2] 5605
+``` 
