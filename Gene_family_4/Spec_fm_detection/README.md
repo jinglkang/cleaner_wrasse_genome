@@ -29,6 +29,7 @@ mkdir Cadherin_type2
 Create_query --ide ~/Desktop/Annotation_database/swiss-prot/CDH_type2.id --keyword Cadherin --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
 nohup perl run_Gmfm_detect.pl /media/HDD/cleaner_fish/genome/Cadherin_type2/query_protein.fasta >run_Gmfm_detect.process 2>&1 &
 # [2] 5605
+find . -name "*_final_gmfm"|perl -alne 'system("wc -l $_")'
 ``` 
 ### 3.3 7D cadherins   
 ```bash
