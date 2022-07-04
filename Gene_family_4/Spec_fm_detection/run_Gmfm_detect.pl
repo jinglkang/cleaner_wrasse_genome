@@ -1,3 +1,4 @@
+$cd ../
 #!/usr/bin/perl
 use strict;
 use warnings;
@@ -11,5 +12,5 @@ foreach my $spe (@species) {
         my $genom="$dir/$fasta";
         my $gtf  ="$dir/$spe.gtf";
         my $pep  ="$dir/longest_pep/$fasta";
-        system("perl Gmfm_detect --genome $genom --species $spe --intron 1000 --query $ARGV[0] --uniprot $swiss --gtf $gtf --pep $pep");
+        system("Gmfm_detect --genome $genom --species $spe --intron 1000 --query $ARGV[0] --uniprot $swiss --gtf $gtf --pep $pep");
 }
