@@ -71,3 +71,11 @@ Create_query --ide ~/Desktop/Annotation_database/swiss-prot/Protocadherin_gamma.
 nohup perl run_Gmfm_detect.pl /media/HDD/cleaner_fish/genome/Protocadherin_gamma/query_protein.fasta >run_Gmfm_detect.process 2>&1 &
 # [1] 11192
 ```
+### 3.8 Non-clustered protocadherins   
+```bash
+# Kang@fishlab3 Tue Jul 05 14:42:47 /media/HDD/cleaner_fish/genome/Protocadherin_non
+cp ../Cadherin_7D/run_Gmfm_detect.pl* ./
+Create_query --ide ~/Desktop/Annotation_database/swiss-prot/Protocadherin_non.id --keyword Protocadherin --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+nohup perl run_Gmfm_detect.pl /media/HDD/cleaner_fish/genome/Protocadherin_non/query_protein.fasta >run_Gmfm_detect.process 2>&1 &
+# [1] 10110
+```
