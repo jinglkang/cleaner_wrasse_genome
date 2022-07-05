@@ -38,3 +38,7 @@ Create_query --ide ~/Desktop/Annotation_database/swiss-prot/CDH_7D.id --keyword 
 nohup perl run_Gmfm_detect.pl /media/HDD/cleaner_fish/genome/Cadherin_7D/query_protein.fasta >run_Gmfm_detect.process 2>&1 &
 # [2] 1728
 ```
+### 3.4 Desmosomal cadherins   
+```bash
+
+```
