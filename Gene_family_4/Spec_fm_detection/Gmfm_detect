@@ -322,8 +322,8 @@ sub overlap_bla_gtf {
 
         system("sort -k1,1 -k2,2n $dir/bla.bed >$dir/bla.bed.sort");
         system("mv $dir/bla.bed.sort $dir/bla.bed");
-        system("bedtools intersect -wa -a $dir/bla.bed -b $bed -sorted -filenames -v > $dir/bla_no_overlap.bed");
-        system("bedtools intersect -wa -wb -a $dir/bla.bed -b $bed -sorted -filenames > $dir/bla_overlap.bed");
+        system("bedtools intersect -wa -a $dir/bla.bed -b $bed -filenames -v > $dir/bla_no_overlap.bed");
+        system("bedtools intersect -wa -wb -a $dir/bla.bed -b $bed -filenames > $dir/bla_overlap.bed");
 }
 
 ############################################################################
