@@ -55,3 +55,11 @@ Create_query --ide ~/Desktop/Annotation_database/swiss-prot/Protocadherin_alpha.
 nohup perl run_Gmfm_detect.pl /media/HDD/cleaner_fish/genome/Protocadherin_alpha/query_protein.fasta >run_Gmfm_detect.process 2>&1 &
 # [1] 14004
 ```
+### 3.6 protocadherin beta cluster   
+```bash
+# Kang@fishlab3 Tue Jul 05 11:31:36 /media/HDD/cleaner_fish/genome/Protocadherin_beta
+cp ../Cadherin_7D/run_Gmfm_detect.pl* ./
+Create_query --ide ~/Desktop/Annotation_database/swiss-prot/Protocadherin_beta.id --keyword Protocadherin --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+nohup perl run_Gmfm_detect.pl /media/HDD/cleaner_fish/genome/Protocadherin_beta/query_protein.fasta >run_Gmfm_detect.process 2>&1 &
+# [1] 12028
+```
