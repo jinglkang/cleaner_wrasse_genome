@@ -40,5 +40,18 @@ nohup perl run_Gmfm_detect.pl /media/HDD/cleaner_fish/genome/Cadherin_7D/query_p
 ```
 ### 3.4 Desmosomal cadherins   
 ```bash
-
+# Kang@fishlab3 Tue Jul 05 09:58:00 /media/HDD/cleaner_fish/genome/Cadherin_Desmo
+Create_query --ide ~/Desktop/Annotation_database/swiss-prot/CDH_Desmo.id --keyword Desmo --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+cp ../Cadherin_7D/run_Gmfm_detect.pl* ./
+# Kang@fishlab3 Tue Jul 05 09:59:24 /media/HDD/cleaner_fish/genome/Cadherin_Desmo
+nohup perl run_Gmfm_detect.pl /media/HDD/cleaner_fish/genome/Cadherin_Desmo/query_protein.fasta >run_Gmfm_detect.process 2>&1 &
+# [1] 18731
+```
+### 3.5 Protocadherin alpha cluster
+```bash
+# Kang@fishlab3 Tue Jul 05 10:40:13 /media/HDD/cleaner_fish/genome/Protocadherin_alpha
+cp ../Cadherin_7D/run_Gmfm_detect.pl* ./
+Create_query --ide ~/Desktop/Annotation_database/swiss-prot/Protocadherin_alpha.id --keyword Protocadherin --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+nohup perl run_Gmfm_detect.pl /media/HDD/cleaner_fish/genome/Protocadherin_alpha/query_protein.fasta >run_Gmfm_detect.process 2>&1 &
+# [1] 14004
 ```
