@@ -78,4 +78,5 @@ cp ../Cadherin_7D/run_Gmfm_detect.pl* ./
 Create_query --ide ~/Desktop/Annotation_database/swiss-prot/Protocadherin_non.id --keyword Protocadherin --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
 nohup perl run_Gmfm_detect.pl /media/HDD/cleaner_fish/genome/Protocadherin_non/query_protein.fasta >run_Gmfm_detect.process 2>&1 &
 # [1] 10110
+find . -name "*_final_gmfm"|perl -alne 'my $info=$_;open FIL, $_;my $i;while(<FIL>){chomp;@a=split;$i++ if $a[-1]>=0.7};close FIL;print "$i $info"'
 ```
