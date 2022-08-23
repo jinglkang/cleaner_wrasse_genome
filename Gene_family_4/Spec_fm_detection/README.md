@@ -80,3 +80,6 @@ nohup perl run_Gmfm_detect.pl /media/HDD/cleaner_fish/genome/Protocadherin_non/q
 # [1] 10110
 find . -name "*_final_gmfm"|perl -alne 'my $info=$_;open FIL, $_;my $i;while(<FIL>){chomp;@a=split;$i++ if $a[-1]>=0.7};close FIL;print "$i $info"'
 ```
+## Cadherin once again (use **Fmdetect**)  
+
+
