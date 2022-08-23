@@ -1,0 +1,201 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+use File::Basename;
+use Cwd qw(cwd);
+use Getopt::Long 'HelpMessage';
+
+my $usage=<<_EOH_;;
+----------------------------------------------------------------------------------------
+This script is used to identify the OR genes of the input genome, and classify them
+Note: please use the absolute directory for each input file.
+Usage:
+Fmdetect --genome /media/HDD/cleaner_fish/genome/All_genomes/Labroides_dimidiatus.fasta
+         --species Labroides_dimidiatus
+         --shortnm Ldim
+         --query query_protein.fasta
+         --len 540
+         --uniprot ~/Desktop/Annotation_database/swiss-prot/uniprot-filtered-reviewed_yes.fasta
+Example:
+1. --genome: the input genome
+2. --species: the species name
+3. --shortnm: short name of the species
+4. --query:  the Known genes in swiss-prot as query
+5. --len:  Non-OR genes
+6. --uniport: uniprot database
+                                                    Kang 2022-8-23
+------------------------------------------------------------------------------------------
+_EOH_
+;
+
+GetOptions(
+    'genome:s', \my $genome,
+    'species:s', \my $species,
+    'shortnm:s', \my $short,
+    'query:s', \my $query,
+    'len:s', \my $length,
+    'uniprot:s', \ my $uniprot
+    );
+
+unless ($genome && $species && $short && $query && $length && $uniprot) {
+    die $usage;
+}
+
+mkdir $species; # make the directory in the current directory for the output result
+chdir $species;
+my $dir0 = cwd;
+#&tblastn($query, "1e-5", "1");
+#&genewise($query, "1");
+&filtering("1");
+#&tblastn("$dir0/filtering/filter.out.1.fasta", "1e-20", "2");
+#&genewise("$dir0/filtering/filter.out.1.fasta", "2");
+#&filtering("2");
+#&group("2");
+
+########################################
+# 1. tblastn # the first time of tblastn
+########################################
+sub tblastn {
+    my ($fasta, $evalue, $time)=@_;
+    mkdir "tblastn" unless -d "tblastn"; chdir "tblastn";
+    my $dir = cwd;
+    print "Now i'm in $dir\n";
+    system("makeblastdb -in $genome -dbtype nucl -parse_seqids -out $species") unless -e "$species.nhr";
+    print "Now it's doing the $time time tblastn ... ...\n";
+    system("tblastn -outfmt 6 -query $fasta -out 1_query.bla -db $species -evalue $evalue -num_threads 30");
+    print "The $time tblastn finish\n";
+    system("solar.pl -f m8 -cCn 2000 -d -1 1_query.bla >2_bla.solar");
+    system("best_solar_finder.pl 2_bla.solar >3_solar.besthit");
+    system("cat 3_solar.besthit|perl -lane '\$alength=\$F[3]-\$F[2]+1;print unless \$alength<$length' >4_besthit.lt$length");
+    die "4_besthit.lt$length is empty\n" if (-z "4_besthit.lt$length");
+    chdir "../";
+}
+
+########################################
+
+########################################
+# 2. genewise # the first time of genewise
+########################################
+sub genewise {
+    my ($fasta, $time)=@_;
+    mkdir "genewise" unless -d "genewise"; chdir "genewise";
+    my $dir = cwd;
+    print "Now i'm in $dir\n";
+    system("cat $fasta $genome >pool.fa");
+    print "Now it's going to do the $time time genewise ... ...\n";
+    system("genewise_after_solar_2.pl pool.fa ../tblastn/4_besthit.lt$length"); # output: 4_besthit.lt$length.wise
+    print "The $time genewise is finished\n";
+    system("mv 4_besthit.lt$length.wise 1_besthit.lt$length.wise");
+    die "1_besthit.lt$length.wise is empty\n" if (-z "1_besthit.lt$length.wise");
+    system("best_genewise_finder.pl 1_besthit.lt$length.wise >2_wise.best.$time");
+    system("wise_parser.pl $genome 2_wise.best.$time");
+    die "2_wise.best.$time.aa is empty\n" if (-z "2_wise.best.$time.aa");
+    # output: 2_wise.best.$time.aa; 2_wise.best.$time.cds;
+    # output: 2_wise.best.$time.dna; 2_wise.best.$time.best.gff;
+    system("rm pool.fa tmp20171006 tmp20171007");
+    chdir "../";
+}
+
+########################################
+
+########################################
+# 3. filtering: the first time of blastp to uniprot
+########################################
+sub filtering {
+    my ($time)=@_;
+    mkdir "filtering" unless -d "filtering"; chdir "filtering";
+    my $dir = cwd;
+    print "Now i'm in $dir\n";
+    print "Now it's doing the $time filtering\n";
+    print "blastp to uniprot ... ...\n";
+    &blast_to_swiss("../genewise/2_wise.best.$time.aa", $dir, "1_bla.out", "2_potential.bla", "3_phy.bla");
+    chdir "../";
+}
+
+############################################################################
+# blastp to diamond to find the target gene family
+############################################################################
+sub blast_to_swiss {
+    my ($fasta, $dir, $output, $output2, $output3)=@_;
+    my %genewise_seq; my $genewise_nm;
+    open GWSEQ, $fasta or die "can not open $fasta\n$!\n";
+    while (<GWSEQ>) {
+    	chomp;
+    	if (/\>/) {
+    		s/\>//;
+    		$genewise_nm=$_;
+    	} else {
+    		$genewise_seq{$genewise_nm}.=$_;
+    	}
+    }
+
+    system("blastp -outfmt 6 -query $fasta -out $dir/$output -db $uniprot -num_threads 30");
+#    system("diamond blastp -q $fasta -e 1e-5 --sensitive -k 1 -d $uniprot --out $dir/$output");
+    system("cat $output |perl -lane 'print if \$F[0] ne \$flag; \$flag=\$F[0]'|perl -aF'\\t' -lne '\$h=join \"\\t\", \@F;print \$h' |sort -k2 >$output.best");
+    die "$output.best is empty\n" if (-z "$output.best");
+    my %query; my $name;
+    open QUERY, $query or die "can not open $query\n$!\n";
+    while (<QUERY>) {
+    	chomp;
+    	if (/>/) {
+    		s/\>//;
+    		my @a=split;
+    		$name=$a[0];
+    	} else {
+    		$query{$name}.=$_;
+    	}
+    }
+
+    open BLA, "$dir/$output.best" or die "can not open $dir/$output.best\n$!\n";
+    open POTEN, ">$dir/$output2" or die "can not create $output2$!\n"; # result: $output2
+    while (<BLA>) {
+        chomp;
+        my @a=split;
+        if ($query{$a[1]}) {
+            print POTEN "$_\n";
+        }
+    }
+    close POTEN;
+
+    my %swis; my ($name2, $ano);
+    open SWIS, $uniprot or die "can not open $uniprot\n$!\n";
+    while (<SWIS>) {
+    	chomp;
+    	if (/>/) {
+    		s/\>//;
+    		my @a=split;
+    		$name2=$a[0];
+    		($ano)=$_=~/sp\|.*\|.*_.*?\s+(.*)\s+OS\=/;
+    		$swis{$name2}={
+    			'ANO' => $ano,
+    		};
+    	} else {
+    		$swis{$name2}->{'seq'}.=$_;
+    	}
+    }
+
+    open POTEN, "$dir/$output2" or die "can not open $output2$!\n";
+    open PHY, ">$dir/$output3" or die "can not creat $dir/$output3$!\n";
+    open PHYFA, ">$dir/$output3.fa" or die "can not creat $dir/$output3.fa$!\n";
+    my %phyfa;
+    while (<POTEN>) {
+    	chomp;
+    	my @a=split;
+    	my $swis_name=$a[1];
+    	my @b=split /\:/, $a[0];
+    	(my $str)=$b[-1];
+    	my ($swis_gene_name)=$swis_name=~/sp\|.*\|(.*?)\_.*/;
+    	my $iden=$a[2];
+    	my $ano=$swis{$swis_name}->{'ANO'};
+    	my $swis_len=length($swis{$swis_name}->{'seq'});
+    	my $evalue=$a[-2];
+    	my $cov=($a[-3]-$a[-4])/$swis_len;
+    	$cov=sprintf("%.3f",$cov);
+    	if ($iden>=40 && $cov>=0.7 && $evalue <= 1e-20) {
+    		$phyfa{$swis_gene_name}++;
+    		my $gene=$short."_".$swis_gene_name."_".$phyfa{$swis_gene_name}.$str;
+    		print PHY "$a[0]\t$a[1]\t$iden\t$cov\t$evalue\t$ano\n";
+    		print PHYFA ">$gene $a[0]\n$genewise_seq{$a[0]}\n";
+    	}
+    }
+}
