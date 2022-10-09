@@ -210,13 +210,13 @@ braker.pl --softmasking --AUGUSTUS_ab_initio --gff3 \
 ```
 **Finished (~/genome/Gene_annotation/braker_3)
 ```bash
-less braker.gtf|perl -alne '($na)=$_=~/gene_id\s\"(.*)?\"\;/ if /gene_id/;print $na if /gene_id/'|sort -u|wc -l
+less braker.gtf|perl -alne '($na)=$_=~/gene_id\s\"(.*?)\"\;/ if /gene_id/;print $na if /gene_id/'|sort -u|wc -l
 less braker_utr.gtf|perl -alne '($na)=$_=~/gene_id\s\"(.*)?\"\;/ if /gene_id/;print $na if /gene_id/'|sort -u|wc -l
 ```
 |**File Name**|**Gene Nub**|
 |:---:|:---:|
-|braker.gtf|61565 genes|
-|braker_utr.gtf|126576 genes|
+|braker.gtf|37266 genes|
+|braker_utr.gtf|88831 genes|
 |augustus.ab_initio.gtf|38761 genes|
 |augustus.ab_initio_utr.gtf|21678 genes|
 ***
